@@ -6,6 +6,10 @@ export default [
 		ignores: ["node_modules", "dist", ".husky"],
 	},
 	{
+		env: {
+			browser: true,
+			es2021: true,
+		},
 		languageOptions: {
 			ecmaVersion: "latest",
 			sourceType: "module",
