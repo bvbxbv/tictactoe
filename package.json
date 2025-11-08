@@ -12,6 +12,8 @@
 		"@commitlint/cli": "^20.1.0",
 		"@commitlint/config-conventional": "^20.0.0",
 		"@tailwindcss/vite": "^4.1.17",
+		"eslint": "^9.39.1",
+		"eslint-plugin-import": "^2.32.0",
 		"tailwindcss": "^4.1.17",
 		"vite": "^7.1.7"
 	}
