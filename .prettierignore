@@ -1,0 +1,16 @@
+# dependencies
+node_modules
+
+# build output
+dist
+
+# lock files
+package-lock.json
+
+# config
+.husky
+.gitignore
+tailwind.config.js
+
+# misc
+*.log
