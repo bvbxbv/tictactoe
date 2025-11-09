@@ -1,4 +1,4 @@
-const player = Object.freeze({
+export const player = Object.freeze({
 	Cross: "X",
 	Zero: "O",
 });
