@@ -17,7 +17,7 @@ export const checkWinnerResult = Object.freeze({
 
 export class Game {
 	#board = Array(9).fill(cellState.Empty);
-	#currentPlayer = this.#getRandomPlayer();
+	#currentPlayer = player.Cross;
 
 	get whoseMove() {
 		return this.#currentPlayer;
@@ -25,12 +25,6 @@ export class Game {
 
 	get board() {
 		return [...this.#board];
-	}
-
-	#getRandomPlayer() {
-		const values = Object.values(player);
-		const random = values[Math.floor(Math.random() * values.length)];
-		return random;
 	}
 
 	makeMove(index) {
@@ -83,6 +77,6 @@ export class Game {
 
 	reset() {
 		this.#board = Array(9).fill(cellState.Empty);
-		this.#currentPlayer = this.#getRandomPlayer();
+		this.#currentPlayer = player.Cross;
 	}
 }
