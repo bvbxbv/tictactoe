@@ -1,4 +1,5 @@
 import "./index.css";
+import fanfareUrl from "./assets/fanfare.wav";
 
 import JSConfetti from "js-confetti";
 import { Game, cellState, checkWinnerResult, player } from "./Game.js";
@@ -35,6 +36,8 @@ function showModal(message, board, winCombo, onClose) {
 	modal.classList.remove("hidden");
 	if (winCombo) {
 		jsConfetti.addConfetti();
+		const audio = new Audio(fanfareUrl);
+		audio.play();
 	}
 	modalBtn.onclick = () => {
 		modal.classList.add("hidden");
