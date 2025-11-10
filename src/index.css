@@ -46,4 +46,8 @@
 	.inactive-score-item {
 		@apply border border-dashed text-dark;
 	}
+
+	.cell-win {
+		@apply text-blue-400;
+	}
 }
