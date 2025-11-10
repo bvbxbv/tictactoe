@@ -2,8 +2,8 @@ import "./index.css";
 import fanfareUrl from "./assets/fanfare.wav";
 
 import JSConfetti from "js-confetti";
-import { Game, cellState, checkWinnerResult, player } from "./Game.js";
-import { Timer } from "./Timer.js";
+import { Game, cellState, checkWinnerResult, player } from "./core/Game.js";
+import { Timer } from "./core/Timer.js";
 
 const gameManager = new Game();
 const cells = document.querySelectorAll(".cell");
