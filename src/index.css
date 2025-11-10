@@ -38,4 +38,12 @@
 	.grid > .cell:nth-child(n + 7) {
 		border-bottom: none;
 	}
+
+	.active-score-item {
+		@apply bg-blue-400 text-white shadow-lg;
+	}
+
+	.inactive-score-item {
+		@apply border border-dashed text-dark;
+	}
 }
