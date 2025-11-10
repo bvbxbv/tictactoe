@@ -56,6 +56,7 @@ export class Game {
 				return {
 					status: checkWinnerResult.win,
 					winner: this.#board[a],
+					combo: [a, b, c],
 				};
 			}
 		}
