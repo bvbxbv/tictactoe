@@ -1,5 +1,6 @@
 import "./index.css";
 
+import JSConfetti from "js-confetti";
 import { Game, cellState, checkWinnerResult, player } from "./Game.js";
 import { Timer } from "./Timer.js";
 
@@ -15,7 +16,7 @@ let timer = timerCross;
 const modal = document.getElementById("modal");
 const modalMessage = document.getElementById("modal-message");
 const modalBtn = document.getElementById("modal-btn");
-
+const jsConfetti = new JSConfetti();
 const score = {
 	cross: document.getElementById("score-cross-player"),
 	zero: document.getElementById("score-zero-player"),
@@ -32,6 +33,9 @@ function showModal(message, board, winCombo, onClose) {
 	});
 	modalMessage.innerText = message;
 	modal.classList.remove("hidden");
+	if (winCombo) {
+		jsConfetti.addConfetti();
+	}
 	modalBtn.onclick = () => {
 		modal.classList.add("hidden");
 		onClose?.();
