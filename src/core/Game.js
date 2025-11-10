@@ -1,3 +1,7 @@
+// FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
+// FIXME: вынести то, что внутри player в конфиги. Подумай над нэймингом.
+import { Board, gameState } from "./Board";
+
 export const player = Object.freeze({
 	Cross: "X",
 	Zero: "O",
@@ -9,67 +13,61 @@ export const cellState = Object.freeze({
 	Zero: player.Zero,
 });
 
-export const checkWinnerResult = Object.freeze({
-	win: "win",
-	draw: "draw",
-	playing: "playing",
-});
-
 export class Game {
-	#board = Array(9).fill(cellState.Empty);
+	#board = new Board();
 	#currentPlayer = player.Cross;
+	static #combos = [
+		[0, 1, 2],
+		[3, 4, 5],
+		[6, 7, 8],
+		[0, 3, 6],
+		[1, 4, 7],
+		[2, 5, 8],
+		[0, 4, 8],
+		[2, 4, 6],
+	];
+
+	static #ok = (v) => ({ ok: true, value: v });
+	static #err = (code, message) => ({ ok: false, value: null, error: { code, message } });
 
 	get whoseMove() {
 		return this.#currentPlayer;
 	}
 
 	get board() {
-		return [...this.#board];
+		return this.#board;
 	}
 
 	makeMove(index) {
-		if (this.#board[index] !== cellState.Empty) {
-			return {
-				success: false,
-			};
+		if (!this.#board.cellIs(cellState.Empty, index)) {
+			return Game.#err("CELL_OCCUPIED", "Клетка уже занята");
 		}
 		const current = this.#currentPlayer;
-		this.#board[index] = current;
+		this.#board.setCell(current, index);
+
 		this.#togglePlayer();
-		return { success: true, currentPlayer: current };
+		return Game.#ok(current);
 	}
 
 	checkWinner() {
-		const combos = [
-			[0, 1, 2],
-			[3, 4, 5],
-			[6, 7, 8],
-			[0, 3, 6],
-			[1, 4, 7],
-			[2, 5, 8],
-			[0, 4, 8],
-			[2, 4, 6],
-		];
+		const winnerCombo = Game.#combos.find(([a, b, c]) => {
+			const cell = this.#board.cells[a];
+			return cell !== cellState.Empty && cell === this.#board.cells[b] && cell === this.#board.cells[c];
+		});
 
-		for (const [a, b, c] of combos) {
-			if (this.#board[a] && this.#board[a] === this.#board[b] && this.#board[b] === this.#board[c]) {
-				return {
-					status: checkWinnerResult.win,
-					winner: this.#board[a],
-					combo: [a, b, c],
-				};
-			}
-		}
-
-		if (this.#board.every((cell) => cell !== cellState.Empty)) {
+		if (winnerCombo) {
 			return {
-				status: checkWinnerResult.draw,
+				status: gameState.win,
+				winner: this.#board.cells[winnerCombo[0]],
+				combo: winnerCombo,
 			};
 		}
 
-		return {
-			status: checkWinnerResult.playing,
-		};
+		if (this.#board.cells.every((cell) => cell !== cellState.Empty)) {
+			return { status: gameState.draw };
+		}
+
+		return { status: gameState.playing };
 	}
 
 	#togglePlayer() {
@@ -77,7 +75,7 @@ export class Game {
 	}
 
 	reset() {
-		this.#board = Array(9).fill(cellState.Empty);
+		this.#board.reset();
 		this.#currentPlayer = player.Cross;
 	}
 }

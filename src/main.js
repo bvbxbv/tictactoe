@@ -2,7 +2,8 @@ import "./index.css";
 import fanfareUrl from "./assets/fanfare.wav";
 
 import JSConfetti from "js-confetti";
-import { Game, cellState, checkWinnerResult, player } from "./core/Game.js";
+import { Game, cellState, player } from "./core/Game.js";
+import { gameState } from "./core/Board.js";
 import { Timer } from "./core/Timer.js";
 
 const gameManager = new Game();
@@ -72,7 +73,7 @@ function setActiveScoreItem(activeEl = null) {
 
 function cellClickHandler(cell, index) {
 	const result = gameManager.makeMove(index);
-	if (!result.success) {
+	if (!result.ok) {
 		return;
 	}
 	const scoreItemToHighlight = gameManager.whoseMove === player.Cross ? score.cross : score.zero;
@@ -80,12 +81,12 @@ function cellClickHandler(cell, index) {
 	timer?.stop();
 	timer = gameManager.whoseMove === player.Cross ? timerCross : timerZero;
 	timer.start();
-	cell.innerText = result.currentPlayer;
+	cell.innerText = result.value;
 
 	const outcome = gameManager.checkWinner();
-	if (outcome.status !== checkWinnerResult.playing) {
-		const message = outcome.status === checkWinnerResult.draw ? "Победила дружба!" : `Игра окончена. Победитель: ${outcome.winner}`;
-		showModal(message, gameManager.board, outcome.combo, resetGame);
+	if (outcome.status !== gameState.playing) {
+		const message = outcome.status === gameState.draw ? "Победила дружба!" : `Игра окончена. Победитель: ${outcome.winner}`;
+		showModal(message, gameManager.board.cells, outcome.combo, resetGame);
 	}
 }
 
