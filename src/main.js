@@ -1,9 +1,8 @@
 import "./index.css";
 import fanfareUrl from "./assets/fanfare.wav";
 
-import JSConfetti from "js-confetti";
 import { Game } from "./core/Game.js";
-import { CellState, PlayerMark } from "./configs/enums.js";
+import { PlayerMark } from "./configs/enums.js";
 import { Timer } from "./core/Timer.js";
 import { UI } from "./ui/elements.js";
 import { dispatcher } from "./core/events/Base/EventDispatcher.js";
@@ -11,20 +10,19 @@ import { GameDrawEvent, GameResetEvent, GameWinEvent } from "./core/events/GameE
 import { BoardView } from "./ui/views/BoardView.js";
 import { ModalView } from "./ui/views/ModalView.js";
 import { EffectsView } from "./ui/views/EffectsView.js";
+import { ScoreView } from "./ui/views/ScoreView.js";
 
 const gameManager = new Game();
-const SCORE_ITEM_ACTIVE = "active-score-item";
-const SCORE_ITEM_INACTIVE = "inactive-score-item";
 const MAX_GAME_TIME = 5000;
 const timerCross = new Timer(MAX_GAME_TIME, timerTickHandler);
 const timerZero = new Timer(MAX_GAME_TIME, timerTickHandler);
 let timer = timerCross;
-const jsConfetti = new JSConfetti();
 
 // FIXME: вьюхи в контроллер.
 const boardView = new BoardView({ onCellClick: cellClickHandler });
 const modalView = new ModalView({ onClose: resetGame });
 const effectsView = new EffectsView({ audio: fanfareUrl });
+const scoreView = new ScoreView();
 
 dispatcher.subscribe(GameWinEvent, (e) => {
 	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
@@ -56,17 +54,8 @@ function resetGame() {
 	timerCross.reset();
 	timerZero.reset();
 	timer = null;
-	setActiveScoreItem(UI.score.cross);
-
+	scoreView.update({ activePlayerMark: PlayerMark.Cross });
 	boardView.update({ board: gameManager.board.cells });
-}
-
-function setActiveScoreItem(activeEl = null) {
-	[UI.score.cross, UI.score.zero].forEach((item) => {
-		const isActive = item === activeEl;
-		item.classList.toggle(SCORE_ITEM_ACTIVE, isActive);
-		item.classList.toggle(SCORE_ITEM_INACTIVE, !isActive);
-	});
 }
 
 function cellClickHandler(index) {
@@ -74,8 +63,7 @@ function cellClickHandler(index) {
 	if (!result.ok) {
 		return;
 	}
-	const scoreItemToHighlight = gameManager.whoseMove === PlayerMark.Cross ? UI.score.cross : UI.score.zero;
-	setActiveScoreItem(scoreItemToHighlight);
+	scoreView.update({ activePlayerMark: gameManager.whoseMove });
 	timer?.stop();
 	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
