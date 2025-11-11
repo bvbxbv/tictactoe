@@ -1,5 +1,9 @@
 export const UI = (() => {
 	const ui = {
+		board: {
+			root: document.getElementById("board-content"),
+			cells: document.querySelectorAll(".cell"),
+		},
 		cells: document.querySelectorAll(".cell"),
 		timerDisplay: document.querySelector(".timer>.__content"),
 		modal: Object.freeze({

@@ -8,6 +8,7 @@ import { Timer } from "./core/Timer.js";
 import { UI } from "./ui/elements.js";
 import { dispatcher } from "./core/events/Base/EventDispatcher.js";
 import { GameDrawEvent, GameResetEvent, GameWinEvent } from "./core/events/GameEvents.js";
+import { BoardView } from "./ui/views/BoardView.js";
 
 const gameManager = new Game();
 const SCORE_ITEM_ACTIVE = "active-score-item";
@@ -17,6 +18,9 @@ const timerCross = new Timer(MAX_GAME_TIME, timerTickHandler);
 const timerZero = new Timer(MAX_GAME_TIME, timerTickHandler);
 let timer = timerCross;
 const jsConfetti = new JSConfetti();
+
+// FIXME: вьюхи в контроллер.
+const boardView = new BoardView({ onCellClick: cellClickHandler });
 
 dispatcher.subscribe(GameWinEvent, (e) => {
 	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
@@ -74,7 +78,7 @@ function setActiveScoreItem(activeEl = null) {
 	});
 }
 
-function cellClickHandler(cell, index) {
+function cellClickHandler(index) {
 	const result = gameManager.makeMove(index);
 	if (!result.ok) {
 		return;
@@ -84,12 +88,7 @@ function cellClickHandler(cell, index) {
 	timer?.stop();
 	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
-	cell.innerText = result.value;
+	boardView.update({ board: gameManager.board.cells });
 }
 
 timerTickHandler(MAX_GAME_TIME);
-UI.cells.forEach((cell, index) =>
-	cell.addEventListener("click", () => {
-		cellClickHandler(cell, index);
-	})
-);
