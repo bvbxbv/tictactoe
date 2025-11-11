@@ -1,17 +1,10 @@
-// FIXME: перенести gameState в отдельный файл.
-import { cellState } from "./Game";
-
-export const gameState = Object.freeze({
-	win: "win",
-	draw: "draw",
-	playing: "playing",
-});
+import { CellState } from "../configs/enums";
 
 export class Board {
 	#board;
 
 	constructor() {
-		this.#board = Array(9).fill(cellState.Empty);
+		this.#board = Array(9).fill(CellState.Empty);
 	}
 
 	get cells() {
@@ -27,6 +20,6 @@ export class Board {
 	}
 
 	reset() {
-		this.#board.fill(cellState.Empty);
+		this.#board.fill(CellState.Empty);
 	}
 }

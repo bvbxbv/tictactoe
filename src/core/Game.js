@@ -1,21 +1,10 @@
 // FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
-// FIXME: вынести то, что внутри player в конфиги. Подумай над нэймингом.
-import { Board, gameState } from "./Board";
-
-export const player = Object.freeze({
-	Cross: "X",
-	Zero: "O",
-});
-
-export const cellState = Object.freeze({
-	Empty: "",
-	Cross: player.Cross,
-	Zero: player.Zero,
-});
+import { Board } from "./Board";
+import { GameState, PlayerMark, CellState } from "../configs/enums";
 
 export class Game {
 	#board = new Board();
-	#currentPlayer = player.Cross;
+	#currentPlayer = PlayerMark.Cross;
 	static #combos = [
 		[0, 1, 2],
 		[3, 4, 5],
@@ -39,7 +28,7 @@ export class Game {
 	}
 
 	makeMove(index) {
-		if (!this.#board.cellIs(cellState.Empty, index)) {
+		if (!this.#board.cellIs(CellState.Empty, index)) {
 			return Game.#err("CELL_OCCUPIED", "Клетка уже занята");
 		}
 		const current = this.#currentPlayer;
@@ -52,30 +41,30 @@ export class Game {
 	checkWinner() {
 		const winnerCombo = Game.#combos.find(([a, b, c]) => {
 			const cell = this.#board.cells[a];
-			return cell !== cellState.Empty && cell === this.#board.cells[b] && cell === this.#board.cells[c];
+			return cell !== CellState.Empty && cell === this.#board.cells[b] && cell === this.#board.cells[c];
 		});
 
 		if (winnerCombo) {
 			return {
-				status: gameState.win,
+				status: GameState.Win,
 				winner: this.#board.cells[winnerCombo[0]],
 				combo: winnerCombo,
 			};
 		}
 
-		if (this.#board.cells.every((cell) => cell !== cellState.Empty)) {
-			return { status: gameState.draw };
+		if (this.#board.cells.every((cell) => cell !== CellState.Empty)) {
+			return { status: GameState.Draw };
 		}
 
-		return { status: gameState.playing };
+		return { status: GameState.Playing };
 	}
 
 	#togglePlayer() {
-		this.#currentPlayer = this.#currentPlayer === player.Cross ? player.Zero : player.Cross;
+		this.#currentPlayer = this.#currentPlayer === PlayerMark.Cross ? PlayerMark.Zero : PlayerMark.Cross;
 	}
 
 	reset() {
 		this.#board.reset();
-		this.#currentPlayer = player.Cross;
+		this.#currentPlayer = PlayerMark.Cross;
 	}
 }

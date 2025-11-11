@@ -2,8 +2,8 @@ import "./index.css";
 import fanfareUrl from "./assets/fanfare.wav";
 
 import JSConfetti from "js-confetti";
-import { Game, cellState, player } from "./core/Game.js";
-import { gameState } from "./core/Board.js";
+import { Game } from "./core/Game.js";
+import { GameState, CellState, PlayerMark } from "./configs/enums.js";
 import { Timer } from "./core/Timer.js";
 
 const gameManager = new Game();
@@ -58,7 +58,7 @@ function resetGame() {
 	timerZero.reset();
 	timer = null;
 	setActiveScoreItem(score.cross);
-	cells.forEach((cell) => (cell.innerHTML = cellState.Empty));
+	cells.forEach((cell) => (cell.innerHTML = CellState.Empty));
 }
 
 function setActiveScoreItem(activeEl = null) {
@@ -76,16 +76,16 @@ function cellClickHandler(cell, index) {
 	if (!result.ok) {
 		return;
 	}
-	const scoreItemToHighlight = gameManager.whoseMove === player.Cross ? score.cross : score.zero;
+	const scoreItemToHighlight = gameManager.whoseMove === PlayerMark.Cross ? score.cross : score.zero;
 	setActiveScoreItem(scoreItemToHighlight);
 	timer?.stop();
-	timer = gameManager.whoseMove === player.Cross ? timerCross : timerZero;
+	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
 	cell.innerText = result.value;
 
 	const outcome = gameManager.checkWinner();
-	if (outcome.status !== gameState.playing) {
-		const message = outcome.status === gameState.draw ? "Победила дружба!" : `Игра окончена. Победитель: ${outcome.winner}`;
+	if (outcome.status !== GameState.Playing) {
+		const message = outcome.status === GameState.Draw ? "Победила дружба!" : `Игра окончена. Победитель: ${outcome.winner}`;
 		showModal(message, gameManager.board.cells, outcome.combo, resetGame);
 	}
 }
