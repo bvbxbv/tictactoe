@@ -1,6 +1,8 @@
 // FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
 import { Board } from "./Board";
 import { GameState, PlayerMark, CellState } from "../configs/enums";
+import { dispatcher } from "./events/Base/EventDispatcher.js";
+import { GameDrawEvent, GameWinEvent } from "./events/GameEvents";
 
 export class Game {
 	#board = new Board();
@@ -33,7 +35,7 @@ export class Game {
 		}
 		const current = this.#currentPlayer;
 		this.#board.setCell(current, index);
-
+		this.checkWinner();
 		this.#togglePlayer();
 		return Game.#ok(current);
 	}
@@ -45,18 +47,16 @@ export class Game {
 		});
 
 		if (winnerCombo) {
-			return {
-				status: GameState.Win,
-				winner: this.#board.cells[winnerCombo[0]],
-				combo: winnerCombo,
-			};
+			dispatcher.dispatch(new GameWinEvent(this.#board.cells[winnerCombo[0]], winnerCombo));
+			return true;
 		}
 
 		if (this.#board.cells.every((cell) => cell !== CellState.Empty)) {
-			return { status: GameState.Draw };
+			dispatcher.dispatch(new GameDrawEvent());
+			return true;
 		}
 
-		return { status: GameState.Playing };
+		return false;
 	}
 
 	#togglePlayer() {

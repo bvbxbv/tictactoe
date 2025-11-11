@@ -3,9 +3,11 @@ import fanfareUrl from "./assets/fanfare.wav";
 
 import JSConfetti from "js-confetti";
 import { Game } from "./core/Game.js";
-import { GameState, CellState, PlayerMark } from "./configs/enums.js";
+import { CellState, PlayerMark } from "./configs/enums.js";
 import { Timer } from "./core/Timer.js";
 import { UI } from "./ui/elements.js";
+import { dispatcher } from "./core/events/Base/EventDispatcher.js";
+import { GameDrawEvent, GameResetEvent, GameWinEvent } from "./core/events/GameEvents.js";
 
 const gameManager = new Game();
 const SCORE_ITEM_ACTIVE = "active-score-item";
@@ -15,6 +17,18 @@ const timerCross = new Timer(MAX_GAME_TIME, timerTickHandler);
 const timerZero = new Timer(MAX_GAME_TIME, timerTickHandler);
 let timer = timerCross;
 const jsConfetti = new JSConfetti();
+
+dispatcher.subscribe(GameWinEvent, (e) => {
+	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
+});
+
+dispatcher.subscribe(GameDrawEvent, () => {
+	showModal("Победила дружба!", gameManager.board.cells, null, resetGame);
+});
+
+dispatcher.subscribe(GameResetEvent, () => {
+	resetGame();
+});
 
 function showModal(message, board, winCombo, onClose) {
 	UI.modal.board.innerHTML = "";
@@ -71,12 +85,6 @@ function cellClickHandler(cell, index) {
 	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
 	cell.innerText = result.value;
-
-	const outcome = gameManager.checkWinner();
-	if (outcome.status !== GameState.Playing) {
-		const message = outcome.status === GameState.Draw ? "Победила дружба!" : `Игра окончена. Победитель: ${outcome.winner}`;
-		showModal(message, gameManager.board.cells, outcome.combo, resetGame);
-	}
 }
 
 timerTickHandler(MAX_GAME_TIME);
