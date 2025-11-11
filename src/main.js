@@ -10,6 +10,7 @@ import { dispatcher } from "./core/events/Base/EventDispatcher.js";
 import { GameDrawEvent, GameResetEvent, GameWinEvent } from "./core/events/GameEvents.js";
 import { BoardView } from "./ui/views/BoardView.js";
 import { ModalView } from "./ui/views/ModalView.js";
+import { EffectsView } from "./ui/views/EffectsView.js";
 
 const gameManager = new Game();
 const SCORE_ITEM_ACTIVE = "active-score-item";
@@ -23,6 +24,7 @@ const jsConfetti = new JSConfetti();
 // FIXME: вьюхи в контроллер.
 const boardView = new BoardView({ onCellClick: cellClickHandler });
 const modalView = new ModalView({ onClose: resetGame });
+const effectsView = new EffectsView({ audio: fanfareUrl });
 
 dispatcher.subscribe(GameWinEvent, (e) => {
 	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
@@ -39,9 +41,7 @@ dispatcher.subscribe(GameResetEvent, () => {
 function showModal(message, board, winCombo) {
 	modalView.update({ message: message, board: board, winCombo: winCombo });
 	if (winCombo) {
-		jsConfetti.addConfetti();
-		const audio = new Audio(fanfareUrl);
-		audio.play();
+		effectsView.update();
 	}
 }
 
