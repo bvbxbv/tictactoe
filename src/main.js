@@ -9,6 +9,7 @@ import { UI } from "./ui/elements.js";
 import { dispatcher } from "./core/events/Base/EventDispatcher.js";
 import { GameDrawEvent, GameResetEvent, GameWinEvent } from "./core/events/GameEvents.js";
 import { BoardView } from "./ui/views/BoardView.js";
+import { ModalView } from "./ui/views/ModalView.js";
 
 const gameManager = new Game();
 const SCORE_ITEM_ACTIVE = "active-score-item";
@@ -21,6 +22,7 @@ const jsConfetti = new JSConfetti();
 
 // FIXME: вьюхи в контроллер.
 const boardView = new BoardView({ onCellClick: cellClickHandler });
+const modalView = new ModalView({ onClose: resetGame });
 
 dispatcher.subscribe(GameWinEvent, (e) => {
 	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
@@ -34,25 +36,13 @@ dispatcher.subscribe(GameResetEvent, () => {
 	resetGame();
 });
 
-function showModal(message, board, winCombo, onClose) {
-	UI.modal.board.innerHTML = "";
-	board.forEach((cell, index) => {
-		const htmlClass = winCombo?.includes(index) ? "cell-win" : "";
-		UI.modal.board.innerHTML += `
-			<div class="cell ${htmlClass}">${cell}</div>
-		`;
-	});
-	UI.modal.message.innerText = message;
-	UI.modal.body.classList.remove("hidden");
+function showModal(message, board, winCombo) {
+	modalView.update({ message: message, board: board, winCombo: winCombo });
 	if (winCombo) {
 		jsConfetti.addConfetti();
 		const audio = new Audio(fanfareUrl);
 		audio.play();
 	}
-	UI.modal.button.onclick = () => {
-		UI.modal.body.classList.add("hidden");
-		onClose?.();
-	};
 }
 
 function timerTickHandler(ms) {
@@ -67,7 +57,8 @@ function resetGame() {
 	timerZero.reset();
 	timer = null;
 	setActiveScoreItem(UI.score.cross);
-	UI.cells.forEach((cell) => (cell.innerHTML = CellState.Empty));
+
+	boardView.update({ board: gameManager.board.cells });
 }
 
 function setActiveScoreItem(activeEl = null) {

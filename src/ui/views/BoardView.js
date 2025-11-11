@@ -8,7 +8,7 @@ export class BoardView {
 
 	constructor({ onCellClick }) {
 		this.#onCellClick = onCellClick;
-		this.#cells = UI.cells;
+		this.#cells = UI.board.cells;
 		this.#cells.forEach((cell, index) => {
 			cell.dataset.index = index;
 		});
