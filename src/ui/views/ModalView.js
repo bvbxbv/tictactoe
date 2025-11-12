@@ -1,3 +1,4 @@
+import { logAction } from "../../utils/helpers";
 import { UI } from "../elements";
 
 export class ModalView {
@@ -27,6 +28,7 @@ export class ModalView {
 
 	#bindListeners() {
 		UI.modal.button.onclick = () => {
+			logAction(this, "ModalButtonClick");
 			UI.modal.body.classList.add("hidden");
 			this.#onClose?.();
 		};

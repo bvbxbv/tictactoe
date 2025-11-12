@@ -1,5 +1,6 @@
 import { UI } from "../elements";
 import { CellState } from "../../configs/enums";
+import { logAction } from "../../utils/helpers";
 
 export class BoardView {
 	#cells;
@@ -26,6 +27,7 @@ export class BoardView {
 			const cell = e.target.closest(".cell");
 			if (!cell) return;
 			const index = Number(cell.dataset.index);
+			logAction(this, { name: "CellClick" }, { index });
 			this.#onCellClick(index);
 		});
 	}

@@ -2,9 +2,7 @@ import { PlayerMark } from "../../configs/enums";
 import { UI } from "../elements";
 
 export class ScoreView {
-	constructor() {
-		this.#bindListeners();
-	}
+	constructor() {}
 
 	update({ activePlayerMark = PlayerMark.Cross }) {
 		const isCross = activePlayerMark === PlayerMark.Cross;
@@ -18,6 +16,4 @@ export class ScoreView {
 		inactiveScoreEl.classList.add("inactive-score-item");
 		inactiveScoreEl.classList.remove("active-score-item");
 	}
-
-	#bindListeners() {}
 }

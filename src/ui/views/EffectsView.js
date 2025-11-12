@@ -7,13 +7,10 @@ export class EffectsView {
 	constructor({ audio }) {
 		this.#audio = new Audio(audio);
 		this.#jsConfetti = new JSConfetti();
-		this.#bindListeners();
 	}
 
 	update() {
 		this.#jsConfetti.addConfetti();
 		this.#audio.play();
 	}
-
-	#bindListeners() {}
 }

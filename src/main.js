@@ -13,6 +13,9 @@ import { ScoreView } from "./ui/views/ScoreView.js";
 import { getBoardController } from "./controllers/BoardController.js";
 import { PlayerMovedEvent } from "./core/events/PlayerEvents.js";
 import { BoardResetEvent } from "./core/events/BoardEvents.js";
+import { logAction, logHandler } from "./utils/helpers.js";
+
+class MainContext {}
 
 const gameManager = new Game();
 const MAX_GAME_TIME = 5000;
@@ -27,24 +30,38 @@ const scoreView = new ScoreView();
 
 const boardController = getBoardController(gameManager, gameManager.board);
 
-dispatcher.subscribe(GameWinEvent, (e) => {
+const context = new MainContext();
+
+function subscribeEvent(event, handler) {
+	dispatcher.subscribe(event, (e) => {
+		logHandler(context, event, handler, e.detail);
+		handler(e);
+	});
+}
+
+function onGameWin(e) {
 	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
-});
+}
 
-dispatcher.subscribe(GameDrawEvent, () => {
+function onGameDraw() {
 	showModal("Победила дружба!", gameManager.board.cells, null, resetGame);
-});
+}
 
-dispatcher.subscribe(GameResetEvent, () => {
+function onGameReset() {
 	resetGame();
-});
+}
 
-dispatcher.subscribe(PlayerMovedEvent, () => {
+function onPlayerMove(e) {
 	scoreView.update({ activePlayerMark: gameManager.whoseMove });
 	timer?.stop();
 	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
-});
+}
+
+subscribeEvent(GameWinEvent, onGameWin);
+subscribeEvent(GameDrawEvent, onGameDraw);
+subscribeEvent(GameResetEvent, onGameReset);
+subscribeEvent(PlayerMovedEvent, onPlayerMove);
 
 function showModal(message, board, winCombo) {
 	modalView.update({ message: message, board: board, winCombo: winCombo });
@@ -65,6 +82,7 @@ function resetGame() {
 	timerZero.reset();
 	timer = null;
 	scoreView.update({ activePlayerMark: PlayerMark.Cross });
+	logAction(context, BoardResetEvent);
 	dispatcher.dispatch(new BoardResetEvent());
 }
 

@@ -3,6 +3,7 @@ import { Board } from "./Board";
 import { GameState, PlayerMark, CellState } from "../configs/enums";
 import { dispatcher } from "./events/Base/EventDispatcher.js";
 import { GameDrawEvent, GameWinEvent } from "./events/GameEvents";
+import { logAction } from "../utils/helpers.js";
 
 export class Game {
 	#board = new Board();
@@ -41,17 +42,20 @@ export class Game {
 	}
 
 	checkWinner() {
-		const winnerCombo = Game.#combos.find(([a, b, c]) => {
+		const winningCombo = Game.#combos.find(([a, b, c]) => {
 			const cell = this.#board.cells[a];
 			return cell !== CellState.Empty && cell === this.#board.cells[b] && cell === this.#board.cells[c];
 		});
 
-		if (winnerCombo) {
-			dispatcher.dispatch(new GameWinEvent(this.#board.cells[winnerCombo[0]], winnerCombo));
+		if (winningCombo) {
+			const winner = this.#board.cells[winningCombo[0]];
+			logAction(this, GameWinEvent, { winner, winnerCombo: winningCombo });
+			dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
 			return true;
 		}
 
 		if (this.#board.cells.every((cell) => cell !== CellState.Empty)) {
+			logAction(this, GameDrawEvent);
 			dispatcher.dispatch(new GameDrawEvent());
 			return true;
 		}
