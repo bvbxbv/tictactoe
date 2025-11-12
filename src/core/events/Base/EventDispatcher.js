@@ -1,3 +1,6 @@
+// FIXME: переделать хэш мапу на очередь
+// FIXME: переделать event dispatcher из глобального модуля в то, что будет пробрасываться через контроллеры
+
 import { GameEvent } from "./GameEvent.js";
 
 class EventDispatcher {

@@ -64,7 +64,6 @@ export class Game {
 	}
 
 	reset() {
-		this.#board.reset();
 		this.#currentPlayer = PlayerMark.Cross;
 	}
 }

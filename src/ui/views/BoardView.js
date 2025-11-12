@@ -1,14 +1,12 @@
-// рендер доски
 import { UI } from "../elements";
 import { CellState } from "../../configs/enums";
 
 export class BoardView {
 	#cells;
 	#onCellClick;
-
 	constructor({ onCellClick }) {
-		this.#onCellClick = onCellClick;
 		this.#cells = UI.board.cells;
+		this.#onCellClick = onCellClick;
 		this.#cells.forEach((cell, index) => {
 			cell.dataset.index = index;
 		});

@@ -22,4 +22,10 @@ export class Board {
 	reset() {
 		this.#board.fill(CellState.Empty);
 	}
+
+	serialize() {
+		return {
+			cells: this.#board,
+		};
+	}
 }
