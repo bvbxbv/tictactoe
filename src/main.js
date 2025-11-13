@@ -6,15 +6,12 @@ import { PlayerMark } from "./configs/enums.js";
 import { Timer } from "./core/Timer.js";
 import { UI } from "./ui/elements.js";
 import { dispatcher } from "./core/events/Base/EventDispatcher.js";
-import { GameDrawEvent, GameResetEvent, GameWinEvent } from "./core/events/GameEvents.js";
-import { ModalView } from "./ui/views/ModalView.js";
 import { EffectsView } from "./ui/views/EffectsView.js";
-import { ScoreView } from "./ui/views/ScoreView.js";
 import { getBoardController } from "./controllers/BoardController.js";
 import { PlayerMovedEvent } from "./core/events/PlayerEvents.js";
-import { BoardResetEvent } from "./core/events/BoardEvents.js";
-import { logAction, logHandler } from "./utils/helpers.js";
+import { logHandler } from "./utils/helpers.js";
 import { getScoreController } from "./controllers/ScoreController.js";
+import { getModalController } from "./controllers/ModalController.js";
 
 class MainContext {}
 
@@ -25,11 +22,11 @@ const timerZero = new Timer(MAX_GAME_TIME, timerTickHandler);
 let timer = timerCross;
 
 // FIXME: вьюхи в контроллер.
-const modalView = new ModalView({ onClose: resetGame });
 const effectsView = new EffectsView({ audio: fanfareUrl });
 
 const boardController = getBoardController(gameManager, gameManager.board);
 const scoreController = getScoreController(gameManager);
+const modalController = getModalController(gameManager);
 
 const context = new MainContext();
 
@@ -40,35 +37,13 @@ function subscribeEvent(event, handler) {
 	});
 }
 
-function onGameWin(e) {
-	showModal(`Игра окончена. Победитель: ${e.detail.winner}`, gameManager.board.cells, e.detail.combo, resetGame);
-}
-
-function onGameDraw() {
-	showModal("Победила дружба!", gameManager.board.cells, null, resetGame);
-}
-
-function onGameReset() {
-	resetGame();
-}
-
 function onPlayerMove(e) {
 	timer?.stop();
 	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
 }
 
-subscribeEvent(GameWinEvent, onGameWin);
-subscribeEvent(GameDrawEvent, onGameDraw);
-subscribeEvent(GameResetEvent, onGameReset);
 subscribeEvent(PlayerMovedEvent, onPlayerMove);
-
-function showModal(message, board, winCombo) {
-	modalView.update({ message: message, board: board, winCombo: winCombo });
-	if (winCombo) {
-		effectsView.update();
-	}
-}
 
 function timerTickHandler(ms) {
 	const seconds = Math.floor(ms / 1000);
@@ -76,13 +51,14 @@ function timerTickHandler(ms) {
 	UI.timerDisplay.innerText = `${String(seconds).padStart(2, "0")}:${String(milliseconds).padStart(3, "0")}`;
 }
 
-function resetGame() {
-	gameManager.reset();
-	timerCross.reset();
-	timerZero.reset();
-	timer = null;
-	logAction(context, BoardResetEvent);
-	dispatcher.dispatch(new BoardResetEvent());
-}
+// FIXME: вынести поведения таймера в контроллер.
+// function resetGame() {
+// 	gameManager.reset();
+// 	timerCross.reset();
+// 	timerZero.reset();
+// 	timer = null;
+// 	logAction(context, BoardResetEvent);
+// 	dispatcher.dispatch(new BoardResetEvent());
+// }
 
 timerTickHandler(MAX_GAME_TIME);

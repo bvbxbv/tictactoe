@@ -56,7 +56,7 @@ class BoardController {
 
 	onBoardResetHandler() {
 		logHandler(this, BoardResetEvent, this.onBoardResetHandler);
-		this.#board.reset();
+		this.#gameManager.reset();
 		this.#updateBoardAndDispatch();
 	}
 }

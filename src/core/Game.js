@@ -1,6 +1,6 @@
 // FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
 import { Board } from "./Board";
-import { GameState, PlayerMark, CellState } from "../configs/enums";
+import { PlayerMark, CellState } from "../configs/enums";
 import { dispatcher } from "./events/Base/EventDispatcher.js";
 import { GameDrawEvent, GameWinEvent } from "./events/GameEvents";
 import { logAction } from "../utils/helpers.js";
@@ -68,6 +68,7 @@ export class Game {
 	}
 
 	reset() {
+		this.#board.reset();
 		this.#currentPlayer = PlayerMark.Cross;
 	}
 }

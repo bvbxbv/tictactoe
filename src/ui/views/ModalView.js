@@ -1,18 +1,19 @@
 import { logAction } from "../../utils/helpers";
-import { UI } from "../elements";
 
 export class ModalView {
 	#onClose;
 	#cells;
+	#elements;
 
-	constructor({ onClose }) {
+	constructor({ elements, onClose }) {
+		this.#elements = elements;
 		this.#onClose = onClose;
-		this.#cells = UI.modal.board.querySelectorAll(".cell");
+		this.#cells = this.#elements.board.querySelectorAll(".cell");
 		this.#bindListeners();
 	}
 
 	update({ message, board, winCombo }) {
-		UI.modal.message.innerText = message;
+		this.#elements.message.innerText = message;
 
 		this.#cells.forEach((cell, index) => {
 			let cellClass = "cell";
@@ -23,16 +24,16 @@ export class ModalView {
 			cell.innerText = board[index];
 		});
 
-		UI.modal.body.classList.remove("hidden");
+		this.#elements.body.classList.remove("hidden");
 	}
 
 	#bindListeners() {
 		const modalResetButtonClick = () => {
 			logAction(this, modalResetButtonClick);
-			UI.modal.body.classList.add("hidden");
+			this.#elements.body.classList.add("hidden");
 			this.#onClose?.();
 		};
 
-		UI.modal.button.onclick = modalResetButtonClick;
+		this.#elements.button.onclick = modalResetButtonClick;
 	}
 }
