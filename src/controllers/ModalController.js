@@ -4,11 +4,6 @@ import { dispatcher } from "../core/events/Base/EventDispatcher";
 import { GameDrawEvent, GameResetEvent, GameWinEvent } from "../core/events/GameEvents";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { logAction, logHandler } from "../utils/helpers";
-import { log } from "../utils/consolawrapper";
-import { EffectsView } from "../ui/views/EffectsView";
-
-// DEV: фу, вынеси это отсюда. Ты же наш, сибирский. Почему такой выродок?
-import fanfareUrl from "../assets/fanfare.wav";
 
 class ModalController {
 	#view;
@@ -34,10 +29,6 @@ class ModalController {
 
 	#showModal(message, board, winCombo) {
 		this.#view.update({ message: message, board: board, winCombo: winCombo });
-		if (winCombo) {
-			// DEV: не возжелай вьюху ближнего. Реализовать контроллер который подпишется на GameWinEvent и воспроизведет звук.
-			new EffectsView({ audio: fanfareUrl }).update();
-		}
 	}
 
 	onWinHandler(e) {

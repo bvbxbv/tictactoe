@@ -1,17 +1,16 @@
 import "./index.css";
-import fanfareUrl from "./assets/fanfare.wav";
 
 import { Game } from "./core/Game.js";
 import { PlayerMark } from "./configs/enums.js";
 import { Timer } from "./core/Timer.js";
 import { UI } from "./ui/elements.js";
 import { dispatcher } from "./core/events/Base/EventDispatcher.js";
-import { EffectsView } from "./ui/views/EffectsView.js";
 import { getBoardController } from "./controllers/BoardController.js";
 import { PlayerMovedEvent } from "./core/events/PlayerEvents.js";
 import { logHandler } from "./utils/helpers.js";
 import { getScoreController } from "./controllers/ScoreController.js";
 import { getModalController } from "./controllers/ModalController.js";
+import { getEffectsController } from "./controllers/EffectsController.js";
 
 class MainContext {}
 
@@ -21,12 +20,10 @@ const timerCross = new Timer(MAX_GAME_TIME, timerTickHandler);
 const timerZero = new Timer(MAX_GAME_TIME, timerTickHandler);
 let timer = timerCross;
 
-// FIXME: вьюхи в контроллер.
-const effectsView = new EffectsView({ audio: fanfareUrl });
-
 const boardController = getBoardController(gameManager, gameManager.board);
 const scoreController = getScoreController(gameManager);
 const modalController = getModalController(gameManager);
+const effectsController = getEffectsController();
 
 const context = new MainContext();
 
