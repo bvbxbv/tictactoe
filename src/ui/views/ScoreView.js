@@ -1,14 +1,19 @@
 import { PlayerMark } from "../../configs/enums";
-import { UI } from "../elements";
 
 export class ScoreView {
-	constructor() {}
+	#crossEl;
+	#zeroEl;
+
+	constructor(crossEl, zeroEl) {
+		this.#crossEl = crossEl;
+		this.#zeroEl = zeroEl;
+	}
 
 	update({ activePlayerMark = PlayerMark.Cross }) {
 		const isCross = activePlayerMark === PlayerMark.Cross;
 
-		const activeScoreEl = isCross ? UI.score.cross : UI.score.zero;
-		const inactiveScoreEl = isCross ? UI.score.zero : UI.score.cross;
+		const activeScoreEl = isCross ? this.#crossEl : this.#zeroEl;
+		const inactiveScoreEl = isCross ? this.#zeroEl : this.#crossEl;
 
 		activeScoreEl.classList.add("active-score-item");
 		activeScoreEl.classList.remove("inactive-score-item");

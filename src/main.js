@@ -14,6 +14,7 @@ import { getBoardController } from "./controllers/BoardController.js";
 import { PlayerMovedEvent } from "./core/events/PlayerEvents.js";
 import { BoardResetEvent } from "./core/events/BoardEvents.js";
 import { logAction, logHandler } from "./utils/helpers.js";
+import { getScoreController } from "./controllers/ScoreController.js";
 
 class MainContext {}
 
@@ -26,9 +27,9 @@ let timer = timerCross;
 // FIXME: вьюхи в контроллер.
 const modalView = new ModalView({ onClose: resetGame });
 const effectsView = new EffectsView({ audio: fanfareUrl });
-const scoreView = new ScoreView();
 
 const boardController = getBoardController(gameManager, gameManager.board);
+const scoreController = getScoreController(gameManager);
 
 const context = new MainContext();
 
@@ -52,7 +53,6 @@ function onGameReset() {
 }
 
 function onPlayerMove(e) {
-	scoreView.update({ activePlayerMark: gameManager.whoseMove });
 	timer?.stop();
 	timer = gameManager.whoseMove === PlayerMark.Cross ? timerCross : timerZero;
 	timer.start();
@@ -81,7 +81,6 @@ function resetGame() {
 	timerCross.reset();
 	timerZero.reset();
 	timer = null;
-	scoreView.update({ activePlayerMark: PlayerMark.Cross });
 	logAction(context, BoardResetEvent);
 	dispatcher.dispatch(new BoardResetEvent());
 }

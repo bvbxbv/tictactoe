@@ -27,10 +27,12 @@ export class ModalView {
 	}
 
 	#bindListeners() {
-		UI.modal.button.onclick = () => {
-			logAction(this, "ModalButtonClick");
+		const modalResetButtonClick = () => {
+			logAction(this, modalResetButtonClick);
 			UI.modal.body.classList.add("hidden");
 			this.#onClose?.();
 		};
+
+		UI.modal.button.onclick = modalResetButtonClick;
 	}
 }
