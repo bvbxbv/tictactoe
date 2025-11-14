@@ -1,46 +1,19 @@
 export class Timer {
-	#intervalId;
-	#lastStart;
-	#remaining = 5 * 1000;
-	#startTime;
+	remaining = 0;
 
-	#onTick;
-
-	constructor(startTime = 5000, onTick = null) {
-		this.#startTime = startTime;
-		this.#remaining = this.#startTime;
-		this.#onTick = onTick;
+	constructor(startMs = 5000) {
+		this.remaining = startMs;
 	}
 
-	start() {
-		this.#lastStart = Date.now();
-		this.#intervalId = setInterval(() => {
-			const now = Date.now();
-			const elapsed = now - this.#lastStart;
-			this.#lastStart = now;
-			this.#remaining -= elapsed;
-
-			if (this.#remaining <= 0) {
-				this.#onTick?.(0);
-				this.stop();
-			}
-
-			if (this.#remaining > 0) {
-				this.#onTick?.(this.#remaining);
-			}
-		}, 10);
+	get time() {
+		return this.remaining;
 	}
-	stop() {
-		if (this.#intervalId) {
-			clearInterval(this.#intervalId);
-			this.#intervalId = null;
-		}
+
+	setTime(ms) {
+		this.remaining = Math.max(0, Math.trunc(ms));
 	}
-	reset() {
-		clearInterval(this.#intervalId);
-		this.#intervalId = null;
-		this.#remaining = this.#startTime;
-		this.#lastStart = null;
-		this.#onTick?.(this.#remaining);
+
+	reset(ms) {
+		this.remaining = ms;
 	}
 }

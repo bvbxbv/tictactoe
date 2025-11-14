@@ -45,7 +45,6 @@ class BoardController {
 			log.error(`${this.#gameManager.constructor.name}.${this.#gameManager.makeMove.name} вернул false. Payload: `, e.detail);
 			return;
 		}
-
 		this.#updateBoardAndDispatch();
 	}
 

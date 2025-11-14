@@ -1,6 +1,6 @@
 // FIXME: переделать хэш мапу на очередь
 // FIXME: переделать event dispatcher из глобального модуля в то, что будет пробрасываться через контроллеры
-
+// FIXME: сделать Laravel-like middleware, который будет логировать ивенты и их хэндлеры сам.
 import { GameEvent } from "./GameEvent.js";
 
 class EventDispatcher {

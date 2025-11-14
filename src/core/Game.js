@@ -1,3 +1,4 @@
+// FIXME: разнести этот класс. Перерефакторить. В общем больше не должно существовать такой штуки как класс Game.
 // FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
 import { Board } from "./Board";
 import { PlayerMark, CellState } from "../configs/enums";

@@ -1,3 +1,4 @@
+// FIXME: modal.message -> modal.title
 export const UI = (() => {
 	const ui = {
 		board: {

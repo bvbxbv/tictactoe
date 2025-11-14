@@ -1,9 +1,10 @@
 import { ModalView } from "../ui/views/ModalView";
 import { UI } from "../ui/elements";
 import { dispatcher } from "../core/events/Base/EventDispatcher";
-import { GameDrawEvent, GameResetEvent, GameWinEvent } from "../core/events/GameEvents";
+import { GameDrawEvent, GameLooseEvent, GameResetEvent, GameWinEvent } from "../core/events/GameEvents";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { logAction, logHandler } from "../utils/helpers";
+import { log } from "../utils/consolawrapper";
 
 class ModalController {
 	#view;
@@ -25,6 +26,7 @@ class ModalController {
 		dispatcher.subscribe(GameWinEvent, this.onWinHandler.bind(this));
 		dispatcher.subscribe(GameDrawEvent, this.onDrawHandler.bind(this));
 		dispatcher.subscribe(GameResetEvent, this.onResetHandler.bind(this));
+		dispatcher.subscribe(GameLooseEvent, this.onLooseHandler.bind(this));
 	}
 
 	#showModal(message, board, winCombo) {
@@ -46,6 +48,11 @@ class ModalController {
 		this.#gameManager.reset();
 		logAction(this, BoardResetEvent);
 		dispatcher.dispatch(new BoardResetEvent());
+	}
+
+	onLooseHandler(e) {
+		logHandler(this, GameLooseEvent, this.onLooseHandler, e.detail);
+		this.#showModal(`Игра окончена. Проигравший: ${e.detail.looser}`, this.#gameManager.board.serialize().cells, null);
 	}
 }
 
