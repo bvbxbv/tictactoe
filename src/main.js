@@ -1,17 +1,19 @@
 import "./index.css";
 
 import { Game } from "./core/Game.js";
-import { getBoardController } from "./controllers/BoardController.js";
 import { getScoreController } from "./controllers/ScoreController.js";
 import { getModalController } from "./controllers/ModalController.js";
 import { getEffectsController } from "./controllers/EffectsController.js";
 import { getTimerController } from "./controllers/TimerController.js";
+import { App } from "./core/App.js";
 
 class MainContext {}
 
 const gameManager = new Game();
 
-const boardController = getBoardController(gameManager, gameManager.board);
+const app = new App(gameManager);
+app.boot();
+
 const scoreController = getScoreController(gameManager);
 const modalController = getModalController(gameManager);
 const effectsController = getEffectsController();

@@ -1,45 +1,31 @@
 import { dispatcher } from "../core/events/Base/EventDispatcher";
 import { BoardResetEvent, BoardUpdatedEvent } from "../core/events/BoardEvents";
 import { PlayerMovedEvent } from "../core/events/PlayerEvents";
-import { BoardView } from "../ui/views/BoardView";
 import { log } from "../utils/consolawrapper";
 import { logAction, logHandler } from "../utils/helpers";
 
-class BoardController {
+export class BoardController {
 	#board;
 	#gameManager;
-	#boardView;
+	#view;
 
-	constructor(gameManager, boardLink) {
+	constructor({ gameManager, board, view }) {
 		this.#gameManager = gameManager;
-		this.#board = boardLink;
-		this.#boardView = new BoardView({
-			onCellClick: (index) => {
-				logAction(this, PlayerMovedEvent, index);
-				dispatcher.dispatch(new PlayerMovedEvent(index));
-			},
-		});
+		this.#board = board;
+		this.#view = view;
+	}
+
+	boot() {
 		this.#subscribe();
 	}
 
 	#subscribe() {
-		const _onCellClickHandler = this.onCellClickHandler.bind(this);
-		const _onBoardUpdatedHandler = this.onBoardUpdatedHandler.bind(this);
-		const _onBoardResetHandler = this.onBoardResetHandler.bind(this);
-
-		dispatcher.subscribe(PlayerMovedEvent, _onCellClickHandler);
-		dispatcher.subscribe(BoardUpdatedEvent, _onBoardUpdatedHandler);
-		dispatcher.subscribe(BoardResetEvent, _onBoardResetHandler);
+		dispatcher.subscribe(PlayerMovedEvent, this.cellClickHandler.bind(this));
+		dispatcher.subscribe(BoardUpdatedEvent, this.boardUpdatedHandler.bind(this));
+		dispatcher.subscribe(BoardResetEvent, this.boardResetHandler.bind(this));
 	}
 
-	#updateBoardAndDispatch() {
-		const payload = this.#board.serialize();
-		logAction(this, BoardUpdatedEvent, payload);
-		dispatcher.dispatch(new BoardUpdatedEvent(payload));
-	}
-
-	onCellClickHandler(e) {
-		logHandler(this, PlayerMovedEvent, this.onCellClickHandler, e.detail);
+	cellClickHandler(e) {
 		const result = this.#gameManager.makeMove(e.detail.index);
 		if (!result.ok) {
 			log.error(`${this.#gameManager.constructor.name}.${this.#gameManager.makeMove.name} вернул false. Payload: `, e.detail);
@@ -48,23 +34,20 @@ class BoardController {
 		this.#updateBoardAndDispatch();
 	}
 
-	onBoardUpdatedHandler(e) {
-		logHandler(this, BoardUpdatedEvent, this.onBoardUpdatedHandler, e.detail);
-		this.#boardView.update({ board: e.detail.board.cells });
+	#updateBoardAndDispatch() {
+		const payload = this.#board.serialize();
+		logAction(this, BoardUpdatedEvent, payload);
+		dispatcher.dispatch(new BoardUpdatedEvent(payload));
 	}
 
-	onBoardResetHandler() {
-		logHandler(this, BoardResetEvent, this.onBoardResetHandler);
+	boardUpdatedHandler(e) {
+		logHandler(this, BoardUpdatedEvent, this.boardUpdatedHandler, e.detail);
+		this.#view.update({ board: e.detail.board.cells });
+	}
+
+	boardResetHandler() {
+		logHandler(this, BoardResetEvent, this.boardResetHandler);
 		this.#gameManager.reset();
 		this.#updateBoardAndDispatch();
 	}
-}
-
-let instance = null;
-export function getBoardController(gameManager, boardLink) {
-	if (!instance) {
-		instance = new BoardController(gameManager, boardLink);
-	}
-
-	return instance;
 }
