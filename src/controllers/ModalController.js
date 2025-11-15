@@ -1,32 +1,32 @@
 import { ModalView } from "../ui/views/ModalView";
 import { UI } from "../ui/elements";
-import { dispatcher } from "../core/events/Base/EventDispatcher";
 import { GameDrawEvent, GameLooseEvent, GameResetEvent, GameWinEvent } from "../core/events/GameEvents";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { logAction, logHandler } from "../utils/helpers";
-import { log } from "../utils/consolawrapper";
 
 class ModalController {
 	#view;
 	#gameManager;
+	#dispatcher;
 
-	constructor(gameManager) {
+	constructor({ gameManager, dispatcher }) {
 		this.#view = new ModalView({
 			elements: UI.modal,
 			onClose: () => {
 				logAction(this, BoardResetEvent);
-				dispatcher.dispatch(new BoardResetEvent());
+				this.#dispatcher.dispatch(new BoardResetEvent());
 			},
 		});
+		this.#dispatcher = dispatcher;
 		this.#gameManager = gameManager;
 		this.#subscribe();
 	}
 
 	#subscribe() {
-		dispatcher.subscribe(GameWinEvent, this.onWinHandler.bind(this));
-		dispatcher.subscribe(GameDrawEvent, this.onDrawHandler.bind(this));
-		dispatcher.subscribe(GameResetEvent, this.onResetHandler.bind(this));
-		dispatcher.subscribe(GameLooseEvent, this.onLooseHandler.bind(this));
+		this.#dispatcher.subscribe(GameWinEvent, this.onWinHandler.bind(this));
+		this.#dispatcher.subscribe(GameDrawEvent, this.onDrawHandler.bind(this));
+		this.#dispatcher.subscribe(GameResetEvent, this.onResetHandler.bind(this));
+		this.#dispatcher.subscribe(GameLooseEvent, this.onLooseHandler.bind(this));
 	}
 
 	#showModal(message, board, winCombo) {
@@ -47,7 +47,7 @@ class ModalController {
 		logHandler(this, BoardResetEvent, this.onResetHandler);
 		this.#gameManager.reset();
 		logAction(this, BoardResetEvent);
-		dispatcher.dispatch(new BoardResetEvent());
+		this.#dispatcher.dispatch(new BoardResetEvent());
 	}
 
 	onLooseHandler(e) {
@@ -57,9 +57,9 @@ class ModalController {
 }
 
 let instance = null;
-export function getModalController(gameManager) {
+export function getModalController({ gameManager, dispatcher }) {
 	if (instance === null) {
-		instance = new ModalController(gameManager);
+		instance = new ModalController({ gameManager: gameManager, dispatcher: dispatcher });
 	}
 
 	return instance;

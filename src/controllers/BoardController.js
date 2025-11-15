@@ -1,4 +1,3 @@
-import { dispatcher } from "../core/events/Base/EventDispatcher";
 import { BoardResetEvent, BoardUpdatedEvent } from "../core/events/BoardEvents";
 import { PlayerMovedEvent } from "../core/events/PlayerEvents";
 import { log } from "../utils/consolawrapper";
@@ -8,8 +7,10 @@ export class BoardController {
 	#board;
 	#gameManager;
 	#view;
+	#dispatcher;
 
-	constructor({ gameManager, board, view }) {
+	constructor({ gameManager, dispatcher, board, view }) {
+		this.#dispatcher = dispatcher;
 		this.#gameManager = gameManager;
 		this.#board = board;
 		this.#view = view;
@@ -20,9 +21,9 @@ export class BoardController {
 	}
 
 	#subscribe() {
-		dispatcher.subscribe(PlayerMovedEvent, this.cellClickHandler.bind(this));
-		dispatcher.subscribe(BoardUpdatedEvent, this.boardUpdatedHandler.bind(this));
-		dispatcher.subscribe(BoardResetEvent, this.boardResetHandler.bind(this));
+		this.#dispatcher.subscribe(PlayerMovedEvent, this.cellClickHandler.bind(this));
+		this.#dispatcher.subscribe(BoardUpdatedEvent, this.boardUpdatedHandler.bind(this));
+		this.#dispatcher.subscribe(BoardResetEvent, this.boardResetHandler.bind(this));
 	}
 
 	cellClickHandler(e) {
@@ -37,7 +38,7 @@ export class BoardController {
 	#updateBoardAndDispatch() {
 		const payload = this.#board.serialize();
 		logAction(this, BoardUpdatedEvent, payload);
-		dispatcher.dispatch(new BoardUpdatedEvent(payload));
+		this.#dispatcher.dispatch(new BoardUpdatedEvent(payload));
 	}
 
 	boardUpdatedHandler(e) {

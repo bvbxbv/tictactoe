@@ -3,7 +3,7 @@
 // FIXME: сделать Laravel-like middleware, который будет логировать ивенты и их хэндлеры сам.
 import { GameEvent } from "./GameEvent.js";
 
-class EventDispatcher {
+export class EventDispatcher {
 	static #instance = null;
 	#listeners = new Map();
 
@@ -42,5 +42,3 @@ class EventDispatcher {
 		this.#listeners.delete(event);
 	}
 }
-
-export const dispatcher = new EventDispatcher();

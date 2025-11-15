@@ -2,11 +2,11 @@
 // FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
 import { Board } from "./Board";
 import { PlayerMark, CellState } from "../configs/enums";
-import { dispatcher } from "./events/Base/EventDispatcher.js";
 import { GameDrawEvent, GameWinEvent } from "./events/GameEvents";
 import { logAction } from "../utils/helpers.js";
 
 export class Game {
+	#dispatcher;
 	#board = new Board();
 	#currentPlayer = PlayerMark.Cross;
 	static #combos = [
@@ -19,6 +19,10 @@ export class Game {
 		[0, 4, 8],
 		[2, 4, 6],
 	];
+
+	constructor(dispatcher) {
+		this.#dispatcher = dispatcher;
+	}
 
 	static #ok = (v) => ({ ok: true, value: v });
 	static #err = (code, message) => ({ ok: false, value: null, error: { code, message } });
@@ -51,13 +55,13 @@ export class Game {
 		if (winningCombo) {
 			const winner = this.#board.cells[winningCombo[0]];
 			logAction(this, GameWinEvent, { winner, winnerCombo: winningCombo });
-			dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
+			this.#dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
 			return true;
 		}
 
 		if (this.#board.cells.every((cell) => cell !== CellState.Empty)) {
 			logAction(this, GameDrawEvent);
-			dispatcher.dispatch(new GameDrawEvent());
+			this.#dispatcher.dispatch(new GameDrawEvent());
 			return true;
 		}
 

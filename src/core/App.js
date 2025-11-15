@@ -2,15 +2,16 @@ import { BoardController } from "../controllers/BoardController";
 import { BoardView } from "../ui/views/BoardView";
 
 import { UI } from "../ui/elements";
-import { dispatcher } from "./events/Base/EventDispatcher";
 import { logAction } from "../utils/helpers";
 import { PlayerMovedEvent } from "./events/PlayerEvents";
 
 export class App {
 	#gameManager; // FIXME: костыль. Сделал, чтобы остальные контроллеры не поломались. Пофикси
+	#dispatcher; // FIXME: такой же костыль
 
-	constructor(gameManager) {
+	constructor(gameManager, dispatcher) {
 		this.#gameManager = gameManager;
+		this.#dispatcher = dispatcher;
 	}
 
 	boot() {
@@ -19,10 +20,15 @@ export class App {
 			boardDOM: UI.board,
 			onCellClick: (index) => {
 				logAction(this, PlayerMovedEvent, index);
-				dispatcher.dispatch(new PlayerMovedEvent(index));
+				this.#dispatcher.dispatch(new PlayerMovedEvent(index));
 			},
 		});
-		const boardController = new BoardController({ gameManager: this.#gameManager, board: this.#gameManager.board, view: boardView });
+		const boardController = new BoardController({
+			gameManager: this.#gameManager,
+			dispatcher: this.#dispatcher,
+			board: this.#gameManager.board,
+			view: boardView,
+		});
 		boardController.boot();
 	}
 }

@@ -1,5 +1,4 @@
 import { PlayerMark } from "../configs/enums";
-import { dispatcher } from "../core/events/Base/EventDispatcher";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "../core/events/GameEvents";
 import { PlayerMovedEvent } from "../core/events/PlayerEvents";
@@ -10,6 +9,7 @@ import { logAction } from "../utils/helpers";
 
 class TimerController {
 	#gameManager;
+	#dispatcher;
 	#timers = {
 		[PlayerMark.Cross]: new Timer(),
 		[PlayerMark.Zero]: new Timer(),
@@ -18,8 +18,9 @@ class TimerController {
 	#active = true;
 	#current;
 
-	constructor(gameManager) {
+	constructor({ gameManager, dispatcher }) {
 		this.#gameManager = gameManager;
+		this.#dispatcher = dispatcher;
 
 		// FIXME: долой магические числа. Создай конфиг файлы уже.
 		this.#view = new TimerView({
@@ -28,7 +29,7 @@ class TimerController {
 			onEnd: () => {
 				if (!this.#active) return;
 				logAction(this, GameLooseEvent, this.#gameManager.whoseMove);
-				dispatcher.dispatch(new GameLooseEvent(this.#gameManager.whoseMove));
+				this.#dispatcher.dispatch(new GameLooseEvent(this.#gameManager.whoseMove));
 			},
 		});
 		this.#current = this.#timers[PlayerMark.Cross];
@@ -38,10 +39,10 @@ class TimerController {
 	}
 
 	#subscribe() {
-		dispatcher.subscribe(PlayerMovedEvent, this.onPlayerMovedHandler.bind(this));
-		dispatcher.subscribe(GameWinEvent, this.onGameEndHandler.bind(this));
-		dispatcher.subscribe(GameDrawEvent, this.onGameEndHandler.bind(this));
-		dispatcher.subscribe(BoardResetEvent, this.onBoardResetHandler.bind(this));
+		this.#dispatcher.subscribe(PlayerMovedEvent, this.onPlayerMovedHandler.bind(this));
+		this.#dispatcher.subscribe(GameWinEvent, this.onGameEndHandler.bind(this));
+		this.#dispatcher.subscribe(GameDrawEvent, this.onGameEndHandler.bind(this));
+		this.#dispatcher.subscribe(BoardResetEvent, this.onBoardResetHandler.bind(this));
 	}
 
 	onPlayerMovedHandler() {
@@ -75,9 +76,9 @@ class TimerController {
 }
 
 let instance = null;
-export function getTimerController(gameManager) {
+export function getTimerController({ gameManager, dispatcher }) {
 	if (!instance) {
-		instance = new TimerController(gameManager);
+		instance = new TimerController({ gameManager: gameManager, dispatcher: dispatcher });
 	}
 
 	return instance;
