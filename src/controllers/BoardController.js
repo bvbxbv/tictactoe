@@ -29,7 +29,10 @@ export class BoardController {
 	cellClickHandler(e) {
 		const result = this.#gameManager.makeMove(e.detail.index);
 		if (!result.ok) {
-			log.error(`${this.#gameManager.constructor.name}.${this.#gameManager.makeMove.name} вернул false. Payload: `, e.detail);
+			log.error(
+				`${this.#gameManager.constructor.name}.${this.#gameManager.makeMove.name} вернул false. Payload: `,
+				e.detail,
+			);
 			return;
 		}
 		this.#updateBoardAndDispatch();

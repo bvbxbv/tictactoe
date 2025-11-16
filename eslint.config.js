@@ -1,5 +1,7 @@
 import js from "@eslint/js";
 import pluginImport from "eslint-plugin-import";
+import prettier from "eslint-config-prettier";
+import pluginPrettier from "eslint-plugin-prettier";
 
 export default [
 	{
@@ -21,11 +23,17 @@ export default [
 		},
 		plugins: {
 			import: pluginImport,
+			prettier: pluginPrettier,
 		},
+		extends: ["airbnb-base", prettier],
 		rules: {
 			...js.configs.recommended.rules,
+
+			"prettier/prettier": "error",
+
 			"no-unused-vars": "warn",
 			"no-console": "off",
+
 			"import/order": [
 				"warn",
 				{

@@ -7,7 +7,10 @@ export function logAction(context, event, payload = null) {
 
 export function logHandler(context, event, handler, payload = null) {
 	const contextName = context?.constructor?.name ?? context?.name ?? "UnknownContext";
-	log.info(`[Event] ${event.name} handled by ${contextName}.${handler?.name}`, format(contextName, payload));
+	log.info(
+		`[Event] ${event.name} handled by ${contextName}.${handler?.name}`,
+		format(contextName, payload),
+	);
 }
 
 function format(context, payload) {

@@ -4,14 +4,21 @@ import { logAction } from "../../utils/helpers";
 
 export class BoardView {
 	#cells;
-	#onCellClick;
-	constructor({ onCellClick }) {
-		this.#cells = UI.board.cells;
+	#onCellClick = null;
+	#boardDOM;
+
+	constructor({ boardDOM, onCellClick }) {
+		this.#boardDOM = boardDOM;
+		this.#cells = this.#boardDOM.cells;
 		this.#onCellClick = onCellClick;
 		this.#cells.forEach((cell, index) => {
 			cell.dataset.index = index;
 		});
 		this.#bindListeners();
+	}
+
+	setCellClickHandler(handler) {
+		this.#onCellClick = handler;
 	}
 
 	update({ board }) {
@@ -22,13 +29,13 @@ export class BoardView {
 	}
 
 	#bindListeners() {
-		const boardEl = UI.board.root;
+		const boardEl = this.#boardDOM.root;
 		boardEl.addEventListener("click", (e) => {
 			const cell = e.target.closest(".cell");
 			if (!cell) return;
 			const index = Number(cell.dataset.index);
 			logAction(this, { name: "CellClick" }, { index });
-			this.#onCellClick(index);
+			this.#onCellClick?.(index);
 		});
 	}
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -9,11 +9,18 @@
 	<body class="bg-[#f8f8f8]">
 		<div class="container h-auto mx-auto">
 			<div class="header">
-				<div class="text-5xl uppercase tracking-widest text-center py-8 md:py-12 text-dark font-extrabold">tic tac toe</div>
+				<div
+					class="text-5xl uppercase tracking-widest text-center py-8 md:py-12 text-dark font-extrabold"
+				>
+					tic tac toe
+				</div>
 			</div>
 
 			<div class="board w-full max-w-[600px] mx-auto p-2 bg-white rounded-lg shadow-md">
-				<div class="__content grid grid-cols-3 grid-rows-3 aspect-square" id="board-content">
+				<div
+					class="__content grid grid-cols-3 grid-rows-3 aspect-square"
+					id="board-content"
+				>
 					<div class="cell"></div>
 					<div class="cell"></div>
 					<div class="cell"></div>
@@ -26,29 +33,45 @@
 				</div>
 			</div>
 
-			<div class="timer max-w-[300px] mx-auto bg-blue-400 text-white p-4 flex items-center justify-center rounded-lg my-3">
+			<div
+				class="timer max-w-[300px] mx-auto bg-blue-400 text-white p-4 flex items-center justify-center rounded-lg my-3"
+			>
 				<div class="__content font-roboto text-3xl font-bold">00:15</div>
 			</div>
 
 			<div class="score w-full max-w-[600px] mx-auto flex tracking-widest">
-				<div class="col font-bold w-full mr-1 font-montserrat text-center p-2 rounded-lg active-score-item" id="score-cross-player">
+				<div
+					class="col font-bold w-full mr-1 font-montserrat text-center p-2 rounded-lg active-score-item"
+					id="score-cross-player"
+				>
 					<div class="__header text-3xl">Player X</div>
 					<div class="__content text-4xl">0</div>
 				</div>
 
-				<div class="col font-bold w-full ml-1 font-montserrat text-center p-2 rounded-lg inactive-score-item" id="score-zero-player">
+				<div
+					class="col font-bold w-full ml-1 font-montserrat text-center p-2 rounded-lg inactive-score-item"
+					id="score-zero-player"
+				>
 					<div class="__header text-3xl">Player O</div>
 					<div class="__content text-4xl">1</div>
 				</div>
 			</div>
 
-			<div id="modal" class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+			<div
+				id="modal"
+				class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+			>
 				<div class="bg-white rounded-lg shadow-lg p-6 text-center w-full max-w-[600px]">
-					<div class="text-2xl font-roboto mb-4 text-blue-400 font-bold text-3xl uppercase tracking-widest">
+					<div
+						class="text-2xl font-roboto mb-4 text-blue-400 font-bold text-3xl uppercase tracking-widest"
+					>
 						<span id="modal-message"> </span>
 					</div>
 
-					<div class="mini-board grid grid-cols-3 grid-rows-3 w-[70%] aspect-square mx-auto rounded-lg overflow-hidden" id="mini-board">
+					<div
+						class="mini-board grid grid-cols-3 grid-rows-3 w-[70%] aspect-square mx-auto rounded-lg overflow-hidden"
+						id="mini-board"
+					>
 						<div class="cell">X</div>
 						<div class="cell">X</div>
 						<div class="cell cell-win">X</div>
@@ -60,8 +83,15 @@
 						<div class="cell cell-win">X</div>
 					</div>
 
-					<button id="modal-btn" class="bg-blue-400 px-4 py-5 rounded-lg hover:bg-blue-500 transition w-[70%] mt-5">
-						<div class="__content text-4xl uppercase tracking-widest font-bold text-white">Rematch</div>
+					<button
+						id="modal-btn"
+						class="bg-blue-400 px-4 py-5 rounded-lg hover:bg-blue-500 transition w-[70%] mt-5"
+					>
+						<div
+							class="__content text-4xl uppercase tracking-widest font-bold text-white"
+						>
+							Rematch
+						</div>
 					</button>
 				</div>
 			</div>
