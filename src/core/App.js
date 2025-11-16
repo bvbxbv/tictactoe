@@ -22,7 +22,11 @@ export class App {
 				dispatcher.dispatch(new PlayerMovedEvent(index));
 			},
 		});
-		const boardController = new BoardController({ gameManager: this.#gameManager, board: this.#gameManager.board, view: boardView });
+		const boardController = new BoardController({
+			gameManager: this.#gameManager,
+			board: this.#gameManager.board,
+			view: boardView,
+		});
 		boardController.boot();
 	}
 }

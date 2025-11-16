@@ -1,7 +1,12 @@
 import { ModalView } from "../ui/views/ModalView";
 import { UI } from "../ui/elements";
 import { dispatcher } from "../core/events/Base/EventDispatcher";
-import { GameDrawEvent, GameLooseEvent, GameResetEvent, GameWinEvent } from "../core/events/GameEvents";
+import {
+	GameDrawEvent,
+	GameLooseEvent,
+	GameResetEvent,
+	GameWinEvent,
+} from "../core/events/GameEvents";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { logAction, logHandler } from "../utils/helpers";
 import { log } from "../utils/consolawrapper";
@@ -35,7 +40,11 @@ class ModalController {
 
 	onWinHandler(e) {
 		logHandler(this, GameWinEvent, this.onWinHandler, e.details);
-		this.#showModal(`Игра окончена. Победитель: ${e.detail.winner}`, this.#gameManager.board.serialize().cells, e.detail.combo);
+		this.#showModal(
+			`Игра окончена. Победитель: ${e.detail.winner}`,
+			this.#gameManager.board.serialize().cells,
+			e.detail.combo,
+		);
 	}
 
 	onDrawHandler() {
@@ -52,7 +61,11 @@ class ModalController {
 
 	onLooseHandler(e) {
 		logHandler(this, GameLooseEvent, this.onLooseHandler, e.detail);
-		this.#showModal(`Игра окончена. Проигравший: ${e.detail.looser}`, this.#gameManager.board.serialize().cells, null);
+		this.#showModal(
+			`Игра окончена. Проигравший: ${e.detail.looser}`,
+			this.#gameManager.board.serialize().cells,
+			null,
+		);
 	}
 }
 

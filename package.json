@@ -7,7 +7,10 @@
 		"dev": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
-		"test": "vitest"
+		"test": "vitest",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
@@ -15,8 +18,12 @@
 		"@tailwindcss/vite": "^4.1.17",
 		"dotenv": "^17.2.3",
 		"eslint": "^9.39.1",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-import": "^2.32.0",
+		"eslint-plugin-prettier": "^5.5.4",
 		"jsdom": "^27.2.0",
+		"prettier": "^3.6.2",
 		"tailwindcss": "^4.1.17",
 		"vite": "^7.1.7",
 		"vitest": "^4.0.9"

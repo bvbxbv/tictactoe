@@ -16,6 +16,9 @@ export const UI = {
 		};
 	},
 	get score() {
-		return { cross: document.getElementById("score-cross-player"), zero: document.getElementById("score-zero-player") };
+		return {
+			cross: document.getElementById("score-cross-player"),
+			zero: document.getElementById("score-zero-player"),
+		};
 	},
 };

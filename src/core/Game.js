@@ -45,7 +45,11 @@ export class Game {
 	checkWinner() {
 		const winningCombo = Game.#combos.find(([a, b, c]) => {
 			const cell = this.#board.cells[a];
-			return cell !== CellState.Empty && cell === this.#board.cells[b] && cell === this.#board.cells[c];
+			return (
+				cell !== CellState.Empty &&
+				cell === this.#board.cells[b] &&
+				cell === this.#board.cells[c]
+			);
 		});
 
 		if (winningCombo) {
@@ -65,7 +69,8 @@ export class Game {
 	}
 
 	#togglePlayer() {
-		this.#currentPlayer = this.#currentPlayer === PlayerMark.Cross ? PlayerMark.Zero : PlayerMark.Cross;
+		this.#currentPlayer =
+			this.#currentPlayer === PlayerMark.Cross ? PlayerMark.Zero : PlayerMark.Cross;
 	}
 
 	reset() {
