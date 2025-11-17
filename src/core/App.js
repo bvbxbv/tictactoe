@@ -11,21 +11,22 @@ import { ModalView } from "../ui/views/ModalView";
 import { ScoreView } from "../ui/views/ScoreView";
 import { TimerView } from "../ui/views/TimerView";
 import { logAction } from "../utils/helpers";
+import { EventDispatcher } from "./events/Base/EventDispatcher";
 import { BoardResetEvent } from "./events/BoardEvents";
 import { PlayerMovedEvent } from "./events/PlayerEvents";
 import { TimerEndEvent } from "./events/TimerEvents";
+import { Game } from "./Game";
 
 export class App {
-	#gameManager; // FIXME: костыль. Сделал, чтобы остальные контроллеры не поломались. Пофикси
-	#dispatcher; // FIXME: такой же костыль
+	#gameManager;
+	#dispatcher;
 
-	constructor(gameManager, dispatcher) {
-		this.#gameManager = gameManager;
-		this.#dispatcher = dispatcher;
+	constructor() {
+		this.#dispatcher = new EventDispatcher();
+		this.#gameManager = new Game(this.#dispatcher);
 	}
 
 	boot() {
-		// TODO: переделать EventDispatcher под DI
 		const boardView = new BoardView({
 			boardDOM: UI.board,
 			onCellClick: (index) => {
