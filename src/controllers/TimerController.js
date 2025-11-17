@@ -2,12 +2,11 @@ import { PlayerMark } from "../configs/enums";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "../core/events/GameEvents";
 import { PlayerMovedEvent } from "../core/events/PlayerEvents";
+import { TimerEndEvent } from "../core/events/TimerEvents";
 import { Timer } from "../core/Timer";
-import { UI } from "../ui/elements";
-import { TimerView } from "../ui/views/TimerView";
 import { logAction } from "../utils/helpers";
 
-class TimerController {
+export class TimerController {
 	#gameManager;
 	#dispatcher;
 	#timers = {
@@ -18,23 +17,15 @@ class TimerController {
 	#active = true;
 	#current;
 
-	constructor({ gameManager, dispatcher }) {
+	constructor({ gameManager, view, dispatcher }) {
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
-
-		// FIXME: долой магические числа. Создай конфиг файлы уже.
-		this.#view = new TimerView({
-			startTime: 5000,
-			timerEl: UI.timerDisplay,
-			onEnd: () => {
-				if (!this.#active) return;
-				logAction(this, GameLooseEvent, this.#gameManager.whoseMove);
-				this.#dispatcher.dispatch(new GameLooseEvent(this.#gameManager.whoseMove));
-			},
-		});
+		this.#view = view;
 		this.#current = this.#timers[PlayerMark.Cross];
 		this.#view.setTime(this.#current.time);
+	}
 
+	boot() {
 		this.#subscribe();
 	}
 
@@ -43,11 +34,19 @@ class TimerController {
 		this.#dispatcher.subscribe(GameWinEvent, this.onGameEndHandler.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.onGameEndHandler.bind(this));
 		this.#dispatcher.subscribe(BoardResetEvent, this.onBoardResetHandler.bind(this));
+		this.#dispatcher.subscribe(TimerEndEvent, this.onTimerEnd.bind(this));
+	}
+
+	onTimerEnd() {
+		if (!this.#active) {
+			return;
+		}
+		logAction(this, GameLooseEvent, this.#gameManager.whoseMove);
+		this.#dispatcher.dispatch(new GameLooseEvent(this.#gameManager.whoseMove));
 	}
 
 	onPlayerMovedHandler() {
 		if (!this.#active) return;
-
 		const next = this.#gameManager.whoseMove;
 		const prev = next === PlayerMark.Cross ? PlayerMark.Zero : PlayerMark.Cross;
 		const prevTime = this.#view.getRemainingTime?.() ?? this.#timers[prev].time;
@@ -73,13 +72,4 @@ class TimerController {
 		this.#current = this.#timers[PlayerMark.Cross];
 		this.#view.reset();
 	}
-}
-
-let instance = null;
-export function getTimerController({ gameManager, dispatcher }) {
-	if (!instance) {
-		instance = new TimerController({ gameManager: gameManager, dispatcher: dispatcher });
-	}
-
-	return instance;
 }

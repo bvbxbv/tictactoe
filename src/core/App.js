@@ -3,14 +3,17 @@ import { BoardController } from "../controllers/BoardController";
 import { EffectsController } from "../controllers/EffectsController";
 import { ModalController } from "../controllers/ModalController";
 import { ScoreController } from "../controllers/ScoreController";
+import { TimerController } from "../controllers/TimerController";
 import { UI } from "../ui/elements";
 import { BoardView } from "../ui/views/BoardView";
 import { EffectsView } from "../ui/views/EffectsView";
 import { ModalView } from "../ui/views/ModalView";
 import { ScoreView } from "../ui/views/ScoreView";
+import { TimerView } from "../ui/views/TimerView";
 import { logAction } from "../utils/helpers";
 import { BoardResetEvent } from "./events/BoardEvents";
 import { PlayerMovedEvent } from "./events/PlayerEvents";
+import { TimerEndEvent } from "./events/TimerEvents";
 
 export class App {
 	#gameManager; // FIXME: костыль. Сделал, чтобы остальные контроллеры не поломались. Пофикси
@@ -66,5 +69,21 @@ export class App {
 			dispatcher: this.#dispatcher,
 		});
 		modalController.boot();
+
+		// FIXME: долой магические числа. Создай конфиг файлы уже.
+		const timerView = new TimerView({
+			startTime: 5000,
+			timerEl: UI.timerDisplay,
+			onTimerEnd: () => {
+				logAction(this, TimerEndEvent);
+				this.#dispatcher.dispatch(new TimerEndEvent());
+			},
+		});
+		const timerController = new TimerController({
+			gameManager: this.#gameManager,
+			view: timerView,
+			dispatcher: this.#dispatcher,
+		});
+		timerController.boot();
 	}
 }
