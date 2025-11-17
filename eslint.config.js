@@ -1,6 +1,6 @@
 import js from "@eslint/js";
-import pluginImport from "eslint-plugin-import";
 import prettier from "eslint-config-prettier";
+import pluginImport from "eslint-plugin-import";
 import pluginPrettier from "eslint-plugin-prettier";
 
 export default [
@@ -8,32 +8,32 @@ export default [
 		ignores: ["node_modules", "dist", ".husky"],
 	},
 	{
-		env: {
-			browser: true,
-			es2021: true,
-		},
 		languageOptions: {
 			ecmaVersion: "latest",
 			sourceType: "module",
 			globals: {
+				Audio: "readonly",
+				Event: "readonly",
+				setInterval: "readonly",
+				clearInterval: "readonly",
+				TextEncoder: "readonly",
+				TextDecoder: "readonly",
+				global: "readonly",
 				console: "readonly",
 				document: "readonly",
 				window: "readonly",
+				__DEBUG__: "readonly",
 			},
 		},
 		plugins: {
 			import: pluginImport,
 			prettier: pluginPrettier,
 		},
-		extends: ["airbnb-base", prettier],
 		rules: {
 			...js.configs.recommended.rules,
-
 			"prettier/prettier": "error",
-
 			"no-unused-vars": "warn",
 			"no-console": "off",
-
 			"import/order": [
 				"warn",
 				{
@@ -43,4 +43,5 @@ export default [
 			],
 		},
 	},
+	prettier,
 ];

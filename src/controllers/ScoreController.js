@@ -1,7 +1,5 @@
-import { PlayerMovedEvent } from "../core/events/PlayerEvents";
-import { ScoreView } from "../ui/views/ScoreView";
-import { UI } from "../ui/elements";
 import { BoardResetEvent } from "../core/events/BoardEvents";
+import { PlayerMovedEvent } from "../core/events/PlayerEvents";
 import { logHandler } from "../utils/helpers";
 
 export class ScoreController {

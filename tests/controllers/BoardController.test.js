@@ -20,11 +20,11 @@ vi.mock("../../src/core/events/Base/EventDispatcher.js", () => {
 });
 
 import { describe, expect, test, vi, beforeEach } from "vitest";
-import { getDomFixture } from "../domFixture";
 import { BoardController } from "../../src/controllers/BoardController";
-import { PlayerMovedEvent } from "../../src/core/events/PlayerEvents.js";
 import { dispatcher } from "../../src/core/events/Base/EventDispatcher.js";
 import { BoardResetEvent } from "../../src/core/events/BoardEvents.js";
+import { PlayerMovedEvent } from "../../src/core/events/PlayerEvents.js";
+import { getDomFixture } from "../domFixture";
 
 describe("BoardController", () => {
 	let gameManager, view, board, controller;

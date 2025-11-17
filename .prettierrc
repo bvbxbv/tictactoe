@@ -6,7 +6,5 @@
 	"trailingComma": "all",
 	"printWidth": 100,
 	"bracketSpacing": true,
-	"arrowParens": "always",
-	"importOrderSeparation": true,
-	"importOrderSortSpecifiers": true
+	"arrowParens": "always"
 }

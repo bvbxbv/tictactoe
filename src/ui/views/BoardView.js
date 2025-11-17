@@ -1,4 +1,3 @@
-import { UI } from "../elements";
 import { CellState } from "../../configs/enums";
 import { logAction } from "../../utils/helpers";
 
