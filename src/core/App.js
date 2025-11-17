@@ -4,6 +4,10 @@ import { BoardView } from "../ui/views/BoardView";
 import { UI } from "../ui/elements";
 import { logAction } from "../utils/helpers";
 import { PlayerMovedEvent } from "./events/PlayerEvents";
+import { EffectsController } from "../controllers/EffectsController";
+import { EffectsView } from "../ui/views/EffectsView";
+
+import fanfareUrl from "../assets/fanfare.wav";
 
 export class App {
 	#gameManager; // FIXME: костыль. Сделал, чтобы остальные контроллеры не поломались. Пофикси
@@ -30,5 +34,12 @@ export class App {
 			view: boardView,
 		});
 		boardController.boot();
+
+		const effectsView = new EffectsView({ audio: fanfareUrl });
+		const effectsController = new EffectsController({
+			view: effectsView,
+			dispatcher: this.#dispatcher,
+		});
+		effectsController.boot();
 	}
 }

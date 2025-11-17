@@ -3,13 +3,16 @@ import { EffectsView } from "../ui/views/EffectsView";
 import fanfareUrl from "../assets/fanfare.wav";
 import { logHandler } from "../utils/helpers";
 
-class EffectsController {
+export class EffectsController {
 	#view;
 	#dispatcher;
 
-	constructor({ dispatcher }) {
+	constructor({ view, dispatcher }) {
 		this.#dispatcher = dispatcher;
-		this.#view = new EffectsView({ audio: fanfareUrl });
+		this.#view = view;
+	}
+
+	boot() {
 		this.#subscribe();
 	}
 
@@ -21,12 +24,4 @@ class EffectsController {
 		logHandler(this, GameWinEvent, this.onGameWinHandler);
 		this.#view.update();
 	}
-}
-
-let instance = null;
-export function getEffectsController({ dispatcher }) {
-	if (instance === null) {
-		instance = new EffectsController({ dispatcher: dispatcher });
-	}
-	return instance;
 }
