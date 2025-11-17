@@ -1,12 +1,15 @@
 import fanfareUrl from "../assets/fanfare.wav";
 import { BoardController } from "../controllers/BoardController";
 import { EffectsController } from "../controllers/EffectsController";
+import { ModalController } from "../controllers/ModalController";
 import { ScoreController } from "../controllers/ScoreController";
 import { UI } from "../ui/elements";
 import { BoardView } from "../ui/views/BoardView";
 import { EffectsView } from "../ui/views/EffectsView";
+import { ModalView } from "../ui/views/ModalView";
 import { ScoreView } from "../ui/views/ScoreView";
 import { logAction } from "../utils/helpers";
+import { BoardResetEvent } from "./events/BoardEvents";
 import { PlayerMovedEvent } from "./events/PlayerEvents";
 
 export class App {
@@ -49,5 +52,19 @@ export class App {
 			dispatcher: this.#dispatcher,
 		});
 		scoreController.boot();
+
+		const modalView = new ModalView({
+			elements: UI.modal,
+			onClose: () => {
+				logAction(this, BoardResetEvent);
+				this.#dispatcher.dispatch(new BoardResetEvent());
+			},
+		});
+		const modalController = new ModalController({
+			gameManager: this.#gameManager,
+			view: modalView,
+			dispatcher: this.#dispatcher,
+		});
+		modalController.boot();
 	}
 }
