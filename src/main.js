@@ -1,5 +1,4 @@
 import "./index.css";
-import { App } from "./core/App.js";
+import { AppComposer } from "./core/AppComposer";
 
-const app = new App();
-app.boot();
+new AppComposer().run();

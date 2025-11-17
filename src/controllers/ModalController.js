@@ -29,6 +29,11 @@ export class ModalController {
 		this.#dispatcher.subscribe(GameLooseEvent, this.onLooseHandler.bind(this));
 	}
 
+	handleModalClose() {
+		logAction(this, BoardResetEvent);
+		this.#dispatcher.dispatch(new BoardResetEvent());
+	}
+
 	#showModal(message, board, winCombo) {
 		this.#view.update({ message: message, board: board, winCombo: winCombo });
 	}

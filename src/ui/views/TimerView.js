@@ -14,6 +14,10 @@ export class TimerView {
 		this.update();
 	}
 
+	setOnTimerEnd(onTimerEnd) {
+		this.#onTimerEnd = onTimerEnd;
+	}
+
 	getRemainingTime() {
 		return this.#time;
 	}

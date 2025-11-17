@@ -20,6 +20,11 @@ export class BoardController {
 		this.#subscribe();
 	}
 
+	handleCellClick(index) {
+		logAction(this, PlayerMovedEvent, index);
+		this.#dispatcher.dispatch(new PlayerMovedEvent(index));
+	}
+
 	#subscribe() {
 		this.#dispatcher.subscribe(PlayerMovedEvent, this.cellClickHandler.bind(this));
 		this.#dispatcher.subscribe(BoardUpdatedEvent, this.boardUpdatedHandler.bind(this));

@@ -36,4 +36,8 @@ export class ModalView {
 
 		this.#elements.button.onclick = modalResetButtonClick;
 	}
+
+	setOnClose(onClose) {
+		this.#onClose = onClose;
+	}
 }

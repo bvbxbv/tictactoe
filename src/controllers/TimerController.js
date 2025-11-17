@@ -37,6 +37,11 @@ export class TimerController {
 		this.#dispatcher.subscribe(TimerEndEvent, this.onTimerEnd.bind(this));
 	}
 
+	handleTimerEnd() {
+		logAction(this, TimerEndEvent);
+		this.#dispatcher.dispatch(new TimerEndEvent());
+	}
+
 	onTimerEnd() {
 		if (!this.#active) {
 			return;

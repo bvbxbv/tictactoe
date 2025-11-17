@@ -16,7 +16,7 @@ export class BoardView {
 		this.#bindListeners();
 	}
 
-	setCellClickHandler(handler) {
+	setOnCellClick(handler) {
 		this.#onCellClick = handler;
 	}
 
