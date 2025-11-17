@@ -1,11 +1,12 @@
 import { BoardController } from "../controllers/BoardController";
 import { BoardView } from "../ui/views/BoardView";
-
 import { UI } from "../ui/elements";
 import { logAction } from "../utils/helpers";
 import { PlayerMovedEvent } from "./events/PlayerEvents";
 import { EffectsController } from "../controllers/EffectsController";
 import { EffectsView } from "../ui/views/EffectsView";
+import { ScoreView } from "../ui/views/ScoreView";
+import { ScoreController } from "../controllers/ScoreController";
 
 import fanfareUrl from "../assets/fanfare.wav";
 
@@ -41,5 +42,13 @@ export class App {
 			dispatcher: this.#dispatcher,
 		});
 		effectsController.boot();
+
+		const scoreView = new ScoreView({ crossEl: UI.score.cross, zeroEl: UI.score.zero });
+		const scoreController = new ScoreController({
+			gameManager: this.#gameManager,
+			view: scoreView,
+			dispatcher: this.#dispatcher,
+		});
+		scoreController.boot();
 	}
 }

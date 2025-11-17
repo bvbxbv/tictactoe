@@ -1,6 +1,4 @@
 import { GameWinEvent } from "../core/events/GameEvents";
-import { EffectsView } from "../ui/views/EffectsView";
-import fanfareUrl from "../assets/fanfare.wav";
 import { logHandler } from "../utils/helpers";
 
 export class EffectsController {

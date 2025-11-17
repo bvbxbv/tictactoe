@@ -4,15 +4,18 @@ import { UI } from "../ui/elements";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { logHandler } from "../utils/helpers";
 
-class ScoreController {
+export class ScoreController {
 	#view;
 	#gameManager;
 	#dispatcher;
 
-	constructor({ gameManager, dispatcher }) {
+	constructor({ gameManager, view, dispatcher }) {
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
-		this.#view = new ScoreView(UI.score.cross, UI.score.zero);
+		this.#view = view;
+	}
+
+	boot() {
 		this.#subscribe();
 	}
 
@@ -25,13 +28,4 @@ class ScoreController {
 		logHandler(this, e.constructor, this.updateScore);
 		this.#view.update({ activePlayerMark: this.#gameManager.whoseMove });
 	}
-}
-
-let instance = null;
-export function getScoreController({ gameManager, dispatcher }) {
-	if (!instance) {
-		instance = new ScoreController({ gameManager: gameManager, dispatcher: dispatcher });
-	}
-
-	return instance;
 }

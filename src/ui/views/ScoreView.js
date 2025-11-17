@@ -4,7 +4,7 @@ export class ScoreView {
 	#crossEl;
 	#zeroEl;
 
-	constructor(crossEl, zeroEl) {
+	constructor({ crossEl, zeroEl }) {
 		this.#crossEl = crossEl;
 		this.#zeroEl = zeroEl;
 	}
