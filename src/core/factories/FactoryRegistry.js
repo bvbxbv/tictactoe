@@ -1,4 +1,4 @@
-export class ControllerFactoryRegistry {
+export class FactoryRegistry {
 	#factories = new Map();
 
 	constructor(...factories) {
@@ -11,9 +11,7 @@ export class ControllerFactoryRegistry {
 		const factory = this.#factories.get(factoryClass);
 		if (!factory) {
 			// FIXME: исключения.
-			throw new Error(
-				`ControllerFactoryRegistry ничего не знает о ${factoryClass.constructor.name}`,
-			);
+			throw new Error(`FactoryRegistry ничего не знает о ${factoryClass.constructor.name}`);
 		}
 		return factory;
 	}

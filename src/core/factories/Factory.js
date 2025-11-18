@@ -23,3 +23,16 @@ export class ControllerFactory extends Factory {
 		return this.#dispatcher;
 	}
 }
+
+export class ViewFactory extends Factory {
+	#domElement;
+
+	constructor(domElement) {
+		super();
+		this.#domElement = domElement;
+	}
+
+	get domElement() {
+		return this.#domElement;
+	}
+}

@@ -1,23 +1,16 @@
 import { appConfigs } from "../configs/appConfigs";
-import { sounds } from "../configs/sounds";
-import { BoardController } from "../controllers/BoardController";
-import { EffectsController } from "../controllers/EffectsController";
-import { ModalController } from "../controllers/ModalController";
-import { ScoreController } from "../controllers/ScoreController";
-import { TimerController } from "../controllers/TimerController";
-import { BoardView } from "../ui/views/BoardView";
-import { EffectsView } from "../ui/views/EffectsView";
-import { ModalView } from "../ui/views/ModalView";
-import { ScoreView } from "../ui/views/ScoreView";
-import { TimerView } from "../ui/views/TimerView";
-import { log } from "../utils/consolawrapper";
 import { EventDispatcher } from "./events/Base/EventDispatcher";
 import { BoardControllerFactory } from "./factories/BoardControllerFactory";
-import { ControllerFactoryRegistry } from "./factories/ControllerFactoryRegistry";
+import { BoardViewFactory } from "./factories/BoardViewFactory";
 import { EffectsControllerFactory } from "./factories/EffectsControllerFactory";
+import { EffectsViewFactory } from "./factories/EffectsViewFactory";
+import { FactoryRegistry } from "./factories/FactoryRegistry";
 import { ModalControllerFactory } from "./factories/ModalControllerFactory";
+import { ModalViewFactory } from "./factories/ModalViewFactory";
 import { ScoreControllerFactory } from "./factories/ScoreControllerFactory";
+import { ScoreViewFactory } from "./factories/ScoreViewFactory";
 import { TimerControllerFactory } from "./factories/TimerControllerFactory";
+import { TimerViewFactory } from "./factories/TimerViewFactory";
 import { Game } from "./Game";
 
 export class AppComposer {
@@ -35,29 +28,28 @@ export class AppComposer {
 	}
 
 	registerViews() {
-		this.#views.boardView = new BoardView({
-			boardDOM: appConfigs.UI.board,
-			onCellClick: null,
-		});
-		this.#views.effectsView = new EffectsView({ audio: sounds.fanfare });
-		this.#views.scoreView = new ScoreView({
-			crossEl: appConfigs.UI.score.cross,
-			zeroEl: appConfigs.UI.score.zero,
-		});
+		const registry = new FactoryRegistry(
+			new BoardViewFactory(appConfigs.UI.board),
+			new EffectsViewFactory(null),
+			new ScoreViewFactory({
+				crossEl: appConfigs.UI.score.cross,
+				zeroEl: appConfigs.UI.score.zero,
+			}),
+			new ModalViewFactory(appConfigs.UI.modal),
+			new TimerViewFactory(appConfigs.UI.timerDisplay),
+		);
 
-		this.#views.modalView = new ModalView({
-			elements: appConfigs.UI.modal,
-			onClose: null,
-		});
-		this.#views.timerView = new TimerView({
-			startTime: appConfigs.timer.startTime,
-			timerEl: appConfigs.UI.timerDisplay,
-			onTimerEnd: null,
-		});
+		this.#views.boardView = registry.get(BoardViewFactory).create();
+		this.#views.effectsView = registry
+			.get(EffectsViewFactory)
+			.create(appConfigs.sounds.fanfare);
+		this.#views.scoreView = registry.get(ScoreViewFactory).create();
+		this.#views.modalView = registry.get(ModalViewFactory).create();
+		this.#views.timerView = registry.get(TimerViewFactory).create(appConfigs.timer.startTime);
 	}
 
 	registerControllers() {
-		const registry = new ControllerFactoryRegistry(
+		const registry = new FactoryRegistry(
 			new BoardControllerFactory(this.#gameManager, this.#dispatcher),
 			new EffectsControllerFactory(this.#gameManager, this.#dispatcher),
 			new ScoreControllerFactory(this.#gameManager, this.#dispatcher),
