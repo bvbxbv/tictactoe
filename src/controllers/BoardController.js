@@ -21,6 +21,9 @@ export class BoardController {
 	}
 
 	handleCellClick(index) {
+		if (index < 0 || index > 8) {
+			throw new Error(`Index must be between 0 and 9. ${index} given`);
+		}
 		logAction(this, PlayerMovedEvent, index);
 		this.#dispatcher.dispatch(new PlayerMovedEvent(index));
 	}
