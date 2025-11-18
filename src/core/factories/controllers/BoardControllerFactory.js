@@ -1,5 +1,5 @@
-import { BoardController } from "../../controllers/BoardController";
-import { ControllerFactory } from "./Factory";
+import { BoardController } from "@controllers/BoardController";
+import { ControllerFactory } from "@factories/Factory";
 
 export class BoardControllerFactory extends ControllerFactory {
 	create(board, view) {

@@ -1,5 +1,5 @@
-import { ScoreController } from "../../controllers/ScoreController";
-import { ControllerFactory } from "./Factory";
+import { ScoreController } from "@controllers/ScoreController";
+import { ControllerFactory } from "@factories/Factory";
 
 export class ScoreControllerFactory extends ControllerFactory {
 	create(view) {

@@ -1,6 +1,6 @@
-import { BoardResetEvent } from "../core/events/BoardEvents";
-import { PlayerMovedEvent } from "../core/events/PlayerEvents";
-import { logHandler } from "../utils/helpers";
+import { BoardResetEvent } from "@core/events/BoardEvents";
+import { PlayerMovedEvent } from "@core/events/PlayerEvents";
+import { logHandler } from "@utils/helpers";
 
 export class ScoreController {
 	#view;

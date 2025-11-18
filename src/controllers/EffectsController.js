@@ -1,5 +1,5 @@
-import { GameWinEvent } from "../core/events/GameEvents";
-import { logHandler } from "../utils/helpers";
+import { GameWinEvent } from "@core/events/GameEvents";
+import { logHandler } from "@utils/helpers";
 
 export class EffectsController {
 	#view;

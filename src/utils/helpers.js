@@ -1,4 +1,4 @@
-import { log } from "./consolawrapper";
+import { log } from "@utils/consolawrapper";
 
 export function logAction(context, event, payload = null) {
 	const contextName = context?.constructor?.name ?? context?.name ?? "UnknownContext";

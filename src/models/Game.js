@@ -1,9 +1,9 @@
 // FIXME: разнести этот класс. Перерефакторить. В общем больше не должно существовать такой штуки как класс Game.
 // FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
-import { PlayerMark, CellState } from "../configs/enums";
-import { logAction } from "../utils/helpers.js";
-import { Board } from "./Board";
-import { GameDrawEvent, GameWinEvent } from "./events/GameEvents";
+import { PlayerMark, CellState } from "@configs/enums";
+import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
+import { Board } from "@models/Board";
+import { logAction } from "@utils/helpers.js";
 
 export class Game {
 	#dispatcher;

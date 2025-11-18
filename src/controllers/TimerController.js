@@ -1,11 +1,11 @@
-import { appConfigs } from "../configs/appConfigs";
-import { PlayerMark } from "../configs/enums";
-import { BoardResetEvent } from "../core/events/BoardEvents";
-import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "../core/events/GameEvents";
-import { PlayerMovedEvent } from "../core/events/PlayerEvents";
-import { TimerEndEvent } from "../core/events/TimerEvents";
-import { Timer } from "../core/Timer";
-import { logAction } from "../utils/helpers";
+import { appConfigs } from "@configs/appConfigs";
+import { PlayerMark } from "@configs/enums";
+import { BoardResetEvent } from "@core/events/BoardEvents";
+import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "@core/events/GameEvents";
+import { PlayerMovedEvent } from "@core/events/PlayerEvents";
+import { TimerEndEvent } from "@core/events/TimerEvents";
+import { Timer } from "@models/Timer";
+import { logAction } from "@utils/helpers";
 
 export class TimerController {
 	#gameManager;

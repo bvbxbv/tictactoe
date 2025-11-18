@@ -1,17 +1,17 @@
-import { appConfigs } from "../configs/appConfigs";
-import { EventDispatcher } from "./events/Base/EventDispatcher";
-import { BoardControllerFactory } from "./factories/BoardControllerFactory";
-import { BoardViewFactory } from "./factories/BoardViewFactory";
-import { EffectsControllerFactory } from "./factories/EffectsControllerFactory";
-import { EffectsViewFactory } from "./factories/EffectsViewFactory";
-import { FactoryRegistry } from "./factories/FactoryRegistry";
-import { ModalControllerFactory } from "./factories/ModalControllerFactory";
-import { ModalViewFactory } from "./factories/ModalViewFactory";
-import { ScoreControllerFactory } from "./factories/ScoreControllerFactory";
-import { ScoreViewFactory } from "./factories/ScoreViewFactory";
-import { TimerControllerFactory } from "./factories/TimerControllerFactory";
-import { TimerViewFactory } from "./factories/TimerViewFactory";
-import { Game } from "./Game";
+import { appConfigs } from "@configs/appConfigs";
+import { EventDispatcher } from "@core/events/Base/EventDispatcher";
+import { BoardControllerFactory } from "@core/factories/controllers/BoardControllerFactory";
+import { EffectsControllerFactory } from "@core/factories/controllers/EffectsControllerFactory";
+import { ModalControllerFactory } from "@core/factories/controllers/ModalControllerFactory";
+import { ScoreControllerFactory } from "@core/factories/controllers/ScoreControllerFactory";
+import { TimerControllerFactory } from "@core/factories/controllers/TimerControllerFactory";
+import { FactoryRegistry } from "@factories/FactoryRegistry";
+import { BoardViewFactory } from "@factories/views/BoardViewFactory";
+import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
+import { ModalViewFactory } from "@factories/views/ModalViewFactory";
+import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
+import { TimerViewFactory } from "@factories/views/TimerViewFactory";
+import { Game } from "../models/Game";
 
 export class AppComposer {
 	#gameManager = null;

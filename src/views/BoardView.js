@@ -1,5 +1,5 @@
-import { CellState } from "../../configs/enums";
-import { logAction } from "../../utils/helpers";
+import { CellState } from "@configs/enums";
+import { logAction } from "@utils/helpers";
 
 export class BoardView {
 	#cells;

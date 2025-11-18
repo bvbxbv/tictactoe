@@ -1,7 +1,7 @@
-import { BoardResetEvent, BoardUpdatedEvent } from "../core/events/BoardEvents";
-import { PlayerMovedEvent } from "../core/events/PlayerEvents";
-import { log } from "../utils/consolawrapper";
-import { logAction, logHandler } from "../utils/helpers";
+import { BoardResetEvent, BoardUpdatedEvent } from "@core/events/BoardEvents";
+import { PlayerMovedEvent } from "@core/events/PlayerEvents";
+import { log } from "@utils/consolawrapper";
+import { logAction, logHandler } from "@utils/helpers";
 
 export class BoardController {
 	#board;

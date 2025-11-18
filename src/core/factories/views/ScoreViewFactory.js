@@ -1,5 +1,5 @@
-import { ScoreView } from "../../ui/views/ScoreView";
-import { ViewFactory } from "./Factory";
+import { ViewFactory } from "@factories/Factory";
+import { ScoreView } from "@views/ScoreView";
 
 export class ScoreViewFactory extends ViewFactory {
 	create() {

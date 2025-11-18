@@ -1,5 +1,5 @@
-import { EffectsView } from "../../ui/views/EffectsView";
-import { ViewFactory } from "./Factory";
+import { ViewFactory } from "@factories/Factory";
+import { EffectsView } from "@views/EffectsView";
 
 export class EffectsViewFactory extends ViewFactory {
 	create(audio) {

@@ -1,4 +1,4 @@
-import { logAction } from "../../utils/helpers";
+import { logAction } from "@utils/helpers";
 
 export class ModalView {
 	#onClose;

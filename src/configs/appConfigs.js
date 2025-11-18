@@ -1,5 +1,5 @@
-import { UI } from "../ui/elements";
-import { sounds } from "./sounds";
+import { UI } from "@configs/dom";
+import { sounds } from "@configs/sounds";
 
 export const appConfigs = Object.freeze({
 	timer: {

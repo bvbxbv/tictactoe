@@ -1,5 +1,5 @@
-import { BoardView } from "../../ui/views/BoardView";
-import { ViewFactory } from "./Factory";
+import { ViewFactory } from "@factories/Factory";
+import { BoardView } from "@views/BoardView";
 
 export class BoardViewFactory extends ViewFactory {
 	create(onCellClick = null) {

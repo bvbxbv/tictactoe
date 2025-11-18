@@ -1,4 +1,4 @@
-import { appConfigs } from "./appConfigs";
+import { appConfigs } from "@configs/appConfigs";
 
 export const PlayerMark = Object.freeze({
 	Cross: appConfigs.player.cross.char,

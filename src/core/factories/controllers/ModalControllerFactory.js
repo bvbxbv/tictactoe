@@ -1,5 +1,5 @@
-import { ModalController } from "../../controllers/ModalController";
-import { ControllerFactory } from "./Factory";
+import { ModalController } from "@controllers/ModalController";
+import { ControllerFactory } from "@factories/Factory";
 
 export class ModalControllerFactory extends ControllerFactory {
 	create(view) {

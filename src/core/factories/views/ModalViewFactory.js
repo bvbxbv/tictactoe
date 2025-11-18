@@ -1,5 +1,5 @@
-import { ModalView } from "../../ui/views/ModalView";
-import { ViewFactory } from "./Factory";
+import { ViewFactory } from "@factories/Factory";
+import { ModalView } from "@views/ModalView";
 
 export class ModalViewFactory extends ViewFactory {
 	create(onClose = null) {

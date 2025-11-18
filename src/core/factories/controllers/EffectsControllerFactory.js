@@ -1,5 +1,5 @@
-import { EffectsController } from "../../controllers/EffectsController";
-import { ControllerFactory } from "./Factory";
+import { EffectsController } from "@controllers/EffectsController";
+import { ControllerFactory } from "@factories/Factory";
 
 export class EffectsControllerFactory extends ControllerFactory {
 	create(view) {

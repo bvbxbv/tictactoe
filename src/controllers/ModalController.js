@@ -1,4 +1,4 @@
-import { BoardResetEvent } from "../core/events/BoardEvents";
+import { BoardResetEvent } from "@core/events/BoardEvents";
 import {
 	GameDrawEvent,
 	GameLooseEvent,

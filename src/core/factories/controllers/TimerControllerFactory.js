@@ -1,5 +1,5 @@
-import { TimerController } from "../../controllers/TimerController";
-import { ControllerFactory } from "./Factory";
+import { TimerController } from "@controllers/TimerController";
+import { ControllerFactory } from "@factories/Factory";
 
 export class TimerControllerFactory extends ControllerFactory {
 	create(view) {

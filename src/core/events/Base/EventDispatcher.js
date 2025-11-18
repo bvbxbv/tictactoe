@@ -1,4 +1,4 @@
-import { GameEvent } from "./GameEvent.js";
+import { GameEvent } from "@core/events/Base/GameEvent.js";
 
 export class EventDispatcher {
 	#listeners = new Map();

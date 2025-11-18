@@ -1,4 +1,4 @@
-import { PlayerMark } from "../../configs/enums";
+import { PlayerMark } from "@configs/enums";
 
 export class ScoreView {
 	#crossEl;

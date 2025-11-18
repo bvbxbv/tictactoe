@@ -1,4 +1,4 @@
-import { GameEvent } from "./Base/GameEvent";
+import { GameEvent } from "@core/events/Base/GameEvent";
 
 export class GameResetEvent extends GameEvent {
 	constructor() {

@@ -1,4 +1,4 @@
-import { CellState } from "../configs/enums";
+import { CellState } from "@configs/enums";
 
 export class Board {
 	#board;
