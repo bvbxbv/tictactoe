@@ -10,7 +10,14 @@ import { EffectsView } from "../ui/views/EffectsView";
 import { ModalView } from "../ui/views/ModalView";
 import { ScoreView } from "../ui/views/ScoreView";
 import { TimerView } from "../ui/views/TimerView";
+import { log } from "../utils/consolawrapper";
 import { EventDispatcher } from "./events/Base/EventDispatcher";
+import { BoardControllerFactory } from "./factories/BoardControllerFactory";
+import { ControllerFactoryRegistry } from "./factories/ControllerFactoryRegistry";
+import { EffectsControllerFactory } from "./factories/EffectsControllerFactory";
+import { ModalControllerFactory } from "./factories/ModalControllerFactory";
+import { ScoreControllerFactory } from "./factories/ScoreControllerFactory";
+import { TimerControllerFactory } from "./factories/TimerControllerFactory";
 import { Game } from "./Game";
 
 export class AppComposer {
@@ -50,31 +57,33 @@ export class AppComposer {
 	}
 
 	registerControllers() {
-		this.#controllers.boardController = new BoardController({
-			gameManager: this.#gameManager,
-			dispatcher: this.#dispatcher,
-			board: this.#gameManager.board,
-			view: this.#views.boardView,
-		});
-		this.#controllers.effectsController = new EffectsController({
-			view: this.#views.effectsView,
-			dispatcher: this.#dispatcher,
-		});
-		this.#controllers.scoreController = new ScoreController({
-			gameManager: this.#gameManager,
-			view: this.#views.scoreView,
-			dispatcher: this.#dispatcher,
-		});
-		this.#controllers.modalController = new ModalController({
-			gameManager: this.#gameManager,
-			view: this.#views.modalView,
-			dispatcher: this.#dispatcher,
-		});
-		this.#controllers.timerController = new TimerController({
-			gameManager: this.#gameManager,
-			view: this.#views.timerView,
-			dispatcher: this.#dispatcher,
-		});
+		const registry = new ControllerFactoryRegistry(
+			new BoardControllerFactory(this.#gameManager, this.#dispatcher),
+			new EffectsControllerFactory(this.#gameManager, this.#dispatcher),
+			new ScoreControllerFactory(this.#gameManager, this.#dispatcher),
+			new ModalControllerFactory(this.#gameManager, this.#dispatcher),
+			new TimerControllerFactory(this.#gameManager, this.#dispatcher),
+		);
+
+		this.#controllers.boardController = registry
+			.get(BoardControllerFactory)
+			.create(this.#gameManager.board, this.#views.boardView);
+
+		this.#controllers.effectsController = registry
+			.get(EffectsControllerFactory)
+			.create(this.#views.effectsView);
+
+		this.#controllers.scoreController = registry
+			.get(ScoreControllerFactory)
+			.create(this.#views.scoreView);
+
+		this.#controllers.modalController = registry
+			.get(ModalControllerFactory)
+			.create(this.#views.modalView);
+
+		this.#controllers.timerController = registry
+			.get(TimerControllerFactory)
+			.create(this.#views.timerView);
 	}
 
 	connectViewsToControllers() {

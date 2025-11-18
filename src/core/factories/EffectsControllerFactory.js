@@ -1,0 +1,11 @@
+import { EffectsController } from "../../controllers/EffectsController";
+import { ControllerFactory } from "./Factory";
+
+export class EffectsControllerFactory extends ControllerFactory {
+	create(view) {
+		return new EffectsController({
+			dispatcher: this.dispatcher,
+			view: view,
+		});
+	}
+}
