@@ -1,4 +1,3 @@
-// FIXME: modal.message -> modal.title
 export const UI = {
 	get board() {
 		const root = document.getElementById("board-content");
@@ -10,7 +9,7 @@ export const UI = {
 	get modal() {
 		return {
 			body: document.getElementById("modal"),
-			message: document.getElementById("modal-message"),
+			title: document.getElementById("modal-message"),
 			board: document.getElementById("mini-board"),
 			button: document.getElementById("modal-btn"),
 		};

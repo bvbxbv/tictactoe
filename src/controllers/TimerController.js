@@ -1,3 +1,4 @@
+import { appConfigs } from "../configs/appConfigs";
 import { PlayerMark } from "../configs/enums";
 import { BoardResetEvent } from "../core/events/BoardEvents";
 import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "../core/events/GameEvents";
@@ -71,8 +72,7 @@ export class TimerController {
 	}
 
 	onBoardResetHandler() {
-		// FIXME: магическое число детектед
-		Object.values(this.#timers).forEach((t) => t.reset(5000));
+		Object.values(this.#timers).forEach((t) => t.reset(appConfigs.timer.startTime));
 		this.#active = true;
 		this.#current = this.#timers[PlayerMark.Cross];
 		this.#view.reset();

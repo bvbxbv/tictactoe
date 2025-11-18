@@ -1,10 +1,10 @@
-import fanfareUrl from "../assets/fanfare.wav";
+import { appConfigs } from "../configs/appConfigs";
+import { sounds } from "../configs/sounds";
 import { BoardController } from "../controllers/BoardController";
 import { EffectsController } from "../controllers/EffectsController";
 import { ModalController } from "../controllers/ModalController";
 import { ScoreController } from "../controllers/ScoreController";
 import { TimerController } from "../controllers/TimerController";
-import { UI } from "../ui/elements";
 import { BoardView } from "../ui/views/BoardView";
 import { EffectsView } from "../ui/views/EffectsView";
 import { ModalView } from "../ui/views/ModalView";
@@ -29,19 +29,22 @@ export class AppComposer {
 
 	registerViews() {
 		this.#views.boardView = new BoardView({
-			boardDOM: UI.board,
+			boardDOM: appConfigs.UI.board,
 			onCellClick: null,
 		});
-		this.#views.effectsView = new EffectsView({ audio: fanfareUrl });
-		this.#views.scoreView = new ScoreView({ crossEl: UI.score.cross, zeroEl: UI.score.zero });
+		this.#views.effectsView = new EffectsView({ audio: sounds.fanfare });
+		this.#views.scoreView = new ScoreView({
+			crossEl: appConfigs.UI.score.cross,
+			zeroEl: appConfigs.UI.score.zero,
+		});
 
 		this.#views.modalView = new ModalView({
-			elements: UI.modal,
+			elements: appConfigs.UI.modal,
 			onClose: null,
 		});
 		this.#views.timerView = new TimerView({
-			startTime: 5000,
-			timerEl: UI.timerDisplay,
+			startTime: appConfigs.timer.startTime,
+			timerEl: appConfigs.UI.timerDisplay,
 			onTimerEnd: null,
 		});
 	}
@@ -67,7 +70,6 @@ export class AppComposer {
 			view: this.#views.modalView,
 			dispatcher: this.#dispatcher,
 		});
-		// FIXME: долой магические числа. Создай конфиг файлы уже.
 		this.#controllers.timerController = new TimerController({
 			gameManager: this.#gameManager,
 			view: this.#views.timerView,

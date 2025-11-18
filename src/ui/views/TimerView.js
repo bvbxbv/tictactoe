@@ -5,8 +5,7 @@ export class TimerView {
 	#timerEl = null;
 	#onTimerEnd = null;
 
-	// FIXME: кхм-кхм.
-	constructor({ startTime = 5000, timerEl, onTimerEnd }) {
+	constructor({ startTime, timerEl, onTimerEnd }) {
 		this.#startTime = startTime;
 		this.#time = startTime;
 		this.#timerEl = timerEl;

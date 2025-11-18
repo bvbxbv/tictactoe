@@ -1,6 +1,8 @@
+import { appConfigs } from "./appConfigs";
+
 export const PlayerMark = Object.freeze({
-	Cross: "X",
-	Zero: "O",
+	Cross: appConfigs.player.cross.char,
+	Zero: appConfigs.player.zero.char,
 });
 
 export const CellState = Object.freeze({

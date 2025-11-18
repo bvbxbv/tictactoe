@@ -1,5 +1,3 @@
-// FIXME: переделать хэш мапу на очередь
-// FIXME: сделать Laravel-like middleware, который будет логировать ивенты и их хэндлеры сам.
 import { GameEvent } from "./GameEvent.js";
 
 export class EventDispatcher {

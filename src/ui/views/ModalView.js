@@ -13,7 +13,7 @@ export class ModalView {
 	}
 
 	update({ message, board, winCombo }) {
-		this.#elements.message.innerText = message;
+		this.#elements.title.innerText = message;
 
 		this.#cells.forEach((cell, index) => {
 			let cellClass = "cell";
