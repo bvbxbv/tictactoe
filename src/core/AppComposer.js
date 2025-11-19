@@ -1,81 +1,75 @@
 import { appConfigs } from "@configs/appConfigs";
-import { EventDispatcher } from "@core/events/Base/EventDispatcher";
+import { registryFactories } from "@core/app.registry";
 import { BoardControllerFactory } from "@core/factories/controllers/BoardControllerFactory";
 import { EffectsControllerFactory } from "@core/factories/controllers/EffectsControllerFactory";
 import { ModalControllerFactory } from "@core/factories/controllers/ModalControllerFactory";
 import { ScoreControllerFactory } from "@core/factories/controllers/ScoreControllerFactory";
 import { TimerControllerFactory } from "@core/factories/controllers/TimerControllerFactory";
-import { FactoryRegistry } from "@factories/FactoryRegistry";
+import { InstanceContainer } from "@core/InstanceContainer";
+import { EventDispatcherFactory } from "@factories/EventDispatcherFactory";
+import { GameFactory } from "@factories/GameFactory";
 import { BoardViewFactory } from "@factories/views/BoardViewFactory";
 import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { TimerViewFactory } from "@factories/views/TimerViewFactory";
-import { Game } from "../models/Game";
 
 export class AppComposer {
 	#gameManager = null;
 	#dispatcher = null;
+	#container;
 	#views = {};
 	#controllers = {};
 
-	createGame() {
-		this.#gameManager = new Game(this.#dispatcher);
+	createContainer() {
+		this.#container = registryFactories(new InstanceContainer());
 	}
 
 	createDispatcher() {
-		this.#dispatcher = new EventDispatcher();
+		this.#dispatcher = this.#container.get(EventDispatcherFactory);
+	}
+
+	createGame() {
+		this.#gameManager = this.#container.get(GameFactory, this.#dispatcher);
 	}
 
 	registerViews() {
-		const registry = new FactoryRegistry(
-			new BoardViewFactory(appConfigs.UI.board),
-			new EffectsViewFactory(null),
-			new ScoreViewFactory({
-				crossEl: appConfigs.UI.score.cross,
-				zeroEl: appConfigs.UI.score.zero,
-			}),
-			new ModalViewFactory(appConfigs.UI.modal),
-			new TimerViewFactory(appConfigs.UI.timerDisplay),
+		this.#views.boardView = this.#container.get(BoardViewFactory);
+		this.#views.effectsView = this.#container.get(
+			EffectsViewFactory,
+			appConfigs.sounds.fanfare,
 		);
-
-		this.#views.boardView = registry.get(BoardViewFactory).create();
-		this.#views.effectsView = registry
-			.get(EffectsViewFactory)
-			.create(appConfigs.sounds.fanfare);
-		this.#views.scoreView = registry.get(ScoreViewFactory).create();
-		this.#views.modalView = registry.get(ModalViewFactory).create();
-		this.#views.timerView = registry.get(TimerViewFactory).create(appConfigs.timer.startTime);
+		this.#views.scoreView = this.#container.get(ScoreViewFactory);
+		this.#views.modalView = this.#container.get(ModalViewFactory);
+		this.#views.timerView = this.#container.get(TimerViewFactory, appConfigs.timer.startTime);
 	}
 
 	registerControllers() {
-		const registry = new FactoryRegistry(
-			new BoardControllerFactory(this.#gameManager, this.#dispatcher),
-			new EffectsControllerFactory(this.#gameManager, this.#dispatcher),
-			new ScoreControllerFactory(this.#gameManager, this.#dispatcher),
-			new ModalControllerFactory(this.#gameManager, this.#dispatcher),
-			new TimerControllerFactory(this.#gameManager, this.#dispatcher),
+		this.#controllers.boardController = this.#container.get(
+			BoardControllerFactory,
+			this.#gameManager.board,
+			this.#views.boardView,
 		);
 
-		this.#controllers.boardController = registry
-			.get(BoardControllerFactory)
-			.create(this.#gameManager.board, this.#views.boardView);
+		this.#controllers.effectsController = this.#container.get(
+			EffectsControllerFactory,
+			this.#views.effectsView,
+		);
 
-		this.#controllers.effectsController = registry
-			.get(EffectsControllerFactory)
-			.create(this.#views.effectsView);
+		this.#controllers.scoreController = this.#container.get(
+			ScoreControllerFactory,
+			this.#views.scoreView,
+		);
 
-		this.#controllers.scoreController = registry
-			.get(ScoreControllerFactory)
-			.create(this.#views.scoreView);
+		this.#controllers.modalController = this.#container.get(
+			ModalControllerFactory,
+			this.#views.modalView,
+		);
 
-		this.#controllers.modalController = registry
-			.get(ModalControllerFactory)
-			.create(this.#views.modalView);
-
-		this.#controllers.timerController = registry
-			.get(TimerControllerFactory)
-			.create(this.#views.timerView);
+		this.#controllers.timerController = this.#container.get(
+			TimerControllerFactory,
+			this.#views.timerView,
+		);
 	}
 
 	connectViewsToControllers() {
@@ -101,6 +95,7 @@ export class AppComposer {
 			throw new Error("Повторная инициализация контейнера");
 		}
 
+		this.createContainer();
 		this.createDispatcher();
 		this.createGame();
 		this.registerViews();
