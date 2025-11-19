@@ -12,7 +12,7 @@ import { TimerViewFactory } from "@factories/views/TimerViewFactory";
 import { EventDispatcherFactory } from "./factories/EventDispatcherFactory";
 import { GameFactory } from "./factories/GameFactory";
 
-export function registryFactories(container) {
+export function bindFactories(container) {
 	container.register(new EventDispatcherFactory()).register(new GameFactory());
 	const dispatcher = container.get(EventDispatcherFactory);
 	const game = container.get(GameFactory, dispatcher);
@@ -20,7 +20,7 @@ export function registryFactories(container) {
 	// views
 	container
 		.register(new BoardViewFactory(appConfigs.UI.board))
-		.register(new EffectsViewFactory(null))
+		.register(new EffectsViewFactory(appConfigs.sounds.fanfare))
 		.register(
 			new ScoreViewFactory({
 				crossEl: appConfigs.UI.score.cross,

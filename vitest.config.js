@@ -10,6 +10,6 @@ export default defineConfig({
 		setupFiles: "./vitest.setup.js",
 	},
 	define: {
-		__DEBUG__: true, // <-- Теперь vitest видит глобал
+		__DEBUG__: true,
 	},
 });

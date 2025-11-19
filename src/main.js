@@ -1,4 +1,4 @@
 import "./index.css";
-import { AppComposer } from "./core/AppComposer";
+import { AppOrchestrator } from "@core/AppOrchestrator";
 
-new AppComposer().run();
+new AppOrchestrator().run();
