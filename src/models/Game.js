@@ -34,9 +34,14 @@ export class Game {
 	}
 
 	makeMove(index) {
+		if (index < 0 || index > 8) {
+			return err("INDEX_OUT_OF_RANGE", "Индекс вне диапазона");
+		}
+
 		if (!this.#board.cellIs(CellState.Empty, index)) {
 			return err("CELL_OCCUPIED", "Клетка уже занята");
 		}
+
 		const current = this.#currentPlayer;
 		this.#board.setCell(current, index);
 		this.checkWinner();
