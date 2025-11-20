@@ -15,14 +15,23 @@ beforeEach(() => {
 		view: view,
 		dispatcher: dispatcher,
 	});
+	controller.boot();
 });
 
-describe("EffectsController.events", () => {
+describe("Подписка на события", () => {
 	beforeEach(() => {
+		controller.onGameWinHandler = vi.fn();
 		controller.boot();
 	});
 
-	test("Подписка на GameWinEvent и вызов view.update при триггере", () => {
+	test("GameWinEvent", () => {
+		dispatcher.dispatch(new GameWinEvent("", []));
+		expect(controller.onGameWinHandler).toHaveBeenCalled();
+	});
+});
+
+describe("Поведение при триггере событий", () => {
+	test("GameWinEvent -> EffectsController.onGameWinHandler", () => {
 		dispatcher.dispatch(new GameWinEvent("", []));
 		expect(view.update).toHaveBeenCalled();
 	});

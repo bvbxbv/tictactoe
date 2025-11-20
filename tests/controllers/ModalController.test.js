@@ -10,7 +10,7 @@ import {
 	GameWinEvent,
 } from "@core/events/GameEvents";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
-let gameManager, dispatcher, view, controller;
+let gameManager, dispatcher, view, controller, resetFn;
 
 beforeEach(() => {
 	gameManager = {
@@ -25,7 +25,11 @@ beforeEach(() => {
 		reset: vi.fn(),
 		makeMove: vi.fn(() => ({ ok: true })),
 	};
+
 	dispatcher = new EventDispatcher();
+	resetFn = vi.fn();
+	dispatcher.subscribe(BoardResetEvent, resetFn);
+
 	view = {
 		update: vi.fn(),
 	};
@@ -38,31 +42,31 @@ beforeEach(() => {
 });
 
 describe("Подписка на события", () => {
-	test("GameWinEvent", () => {
+	beforeEach(() => {
 		controller.onWinHandler = vi.fn();
-		dispatcher.subscribe(GameWinEvent, controller.onWinHandler);
-		dispatcher.dispatch(new GameWinEvent("X", [0, 1, 2]));
+		controller.onDrawHandler = vi.fn();
+		controller.onResetHandler = vi.fn();
+		controller.onLooseHandler = vi.fn();
+
+		controller.boot();
+	});
+
+	test("GameWinEvent", () => {
+		dispatcher.dispatch(new GameWinEvent("", []));
 		expect(controller.onWinHandler).toHaveBeenCalled();
 	});
 
 	test("GameDrawEvent", () => {
-		controller.onDrawHandler = vi.fn();
-		dispatcher.subscribe(GameDrawEvent, controller.onDrawHandler);
 		dispatcher.dispatch(new GameDrawEvent());
 		expect(controller.onDrawHandler).toHaveBeenCalled();
 	});
 
 	test("GameResetEvent", () => {
-		dispatcher.subscribe(BoardResetEvent, vi.fn());
-		controller.onResetHandler = vi.fn();
-		dispatcher.subscribe(GameResetEvent, controller.onResetHandler);
 		dispatcher.dispatch(new GameResetEvent());
 		expect(controller.onResetHandler).toHaveBeenCalled();
 	});
 
 	test("GameLooseEvent", () => {
-		controller.onLooseHandler = vi.fn();
-		dispatcher.subscribe(GameLooseEvent, controller.onLooseHandler);
 		dispatcher.dispatch(new GameLooseEvent());
 		expect(controller.onLooseHandler).toHaveBeenCalled();
 	});
@@ -91,9 +95,6 @@ describe("Поведение при триггере событий", () => {
 		);
 	});
 	test("GameResetEvent -> onResetHandler", () => {
-		const resetFn = vi.fn();
-		dispatcher.subscribe(BoardResetEvent, resetFn);
-
 		dispatcher.dispatch(new GameResetEvent());
 		expect(gameManager.reset).toHaveBeenCalled();
 		expect(resetFn).toHaveBeenCalled();

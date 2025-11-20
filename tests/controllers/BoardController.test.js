@@ -30,12 +30,52 @@ beforeEach(() => {
 		board: gameManager.board,
 		view: view,
 	});
+	controller.boot();
+});
+
+describe("Подписка на события", () => {
+	beforeEach(() => {
+		controller.cellClickHandler = vi.fn();
+		controller.boardUpdatedHandler = vi.fn();
+		controller.boardResetHandler = vi.fn();
+
+		controller.boot();
+	});
+
+	test("PlayerMovedEvent", () => {
+		dispatcher.dispatch(new PlayerMovedEvent(0));
+		expect(controller.cellClickHandler).toHaveBeenCalledWith(
+			expect.objectContaining({ detail: { index: 0 } }),
+		);
+	});
+
+	test("BoardUpdatedEvent", () => {
+		const toPass = gameManager.board.serialize().cells;
+		dispatcher.dispatch(new BoardUpdatedEvent(toPass));
+		expect(controller.boardUpdatedHandler).toHaveBeenCalledWith(
+			expect.objectContaining({
+				detail: {
+					board: toPass,
+				},
+			}),
+		);
+	});
+
+	test("BoardResetEvent", () => {
+		dispatcher.dispatch(new BoardResetEvent());
+		expect(controller.boardResetHandler).toHaveBeenCalled();
+	});
+});
+
+describe("Поведение при триггере событий", () => {
+	test("BoardResetEvent", () => {
+		dispatcher.dispatch(new BoardResetEvent());
+		expect(gameManager.reset).toHaveBeenCalled();
+	});
 });
 
 describe("BoardController.handleCellClick", () => {
 	test("handleCellClick должен вернуть исключение если 0 > index или 9 < index", () => {
-		controller.boot();
-
 		expect(() => controller.handleCellClick(-1)).toThrowError(/Index/);
 		expect(() => controller.handleCellClick(0)).not.toThrowError(/Index/);
 		expect(() => controller.handleCellClick(8)).not.toThrowError(/Index/);
@@ -43,13 +83,11 @@ describe("BoardController.handleCellClick", () => {
 	});
 
 	test("Должен вызвать gameManager.makeMove при клике", () => {
-		controller.boot();
 		controller.handleCellClick(2);
 		expect(gameManager.makeMove).toHaveBeenCalledWith(2);
 	});
 
 	test("handleCellClick должен задиспатчить событие PlayerMovedEvent", () => {
-		controller.boot();
 		const spy = vi.spyOn(dispatcher, "dispatch");
 		controller.handleCellClick(2);
 		expect(spy).toHaveBeenCalledWith(expect.any(PlayerMovedEvent));
@@ -57,29 +95,14 @@ describe("BoardController.handleCellClick", () => {
 
 	test("Не должен вызывать view.update при некорректном вводе", () => {
 		gameManager.makeMove.mockReturnValue({ ok: false });
-		controller.boot();
 		controller.handleCellClick(2);
 		expect(view.update).not.toHaveBeenCalled();
 	});
 
 	test("Должен обновлять view после корректного входа", () => {
-		controller.boot();
 		const spy = vi.spyOn(dispatcher, "dispatch");
 		controller.handleCellClick(1);
 		expect(view.update).toHaveBeenCalled();
 		expect(spy).toHaveBeenCalledWith(expect.any(BoardUpdatedEvent));
-	});
-});
-describe("BoardController.events", () => {
-	test("BoardResetEvent должен триггерить boardResetHandler", () => {
-		const spy = vi.spyOn(controller, "boardResetHandler");
-		controller.boot();
-		dispatcher.dispatch(new BoardResetEvent());
-		expect(spy).toHaveBeenCalled();
-	});
-	test("BoardResetEvent триггерит reset-логику в контроллере", () => {
-		controller.boot();
-		dispatcher.dispatch(new BoardResetEvent());
-		expect(gameManager.reset).toHaveBeenCalled();
 	});
 });
