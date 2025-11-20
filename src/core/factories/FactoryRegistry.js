@@ -1,8 +1,17 @@
+import { Factory } from "./Factory";
+
 export class FactoryRegistry {
 	#registry = new Map();
 
 	constructor(...factories) {
 		for (const factory of factories) {
+			if (!(factory instanceof Factory)) {
+				throw new Error(`${factory.constructor.name} это не потомок класса Factory`);
+			}
+
+			if (this.#registry.has(factory.constructor)) {
+				throw new Error(`${factory.constructor.name} - дубликат`);
+			}
 			this.#registry.set(factory.constructor, factory);
 		}
 	}
@@ -11,13 +20,17 @@ export class FactoryRegistry {
 		const factory = this.#registry.get(factoryClass);
 		if (!factory) {
 			// FIXME: исключения.
-			throw new Error(`FactoryRegistry ничего не знает о ${factoryClass.constructor.name}`);
+			throw new Error(`FactoryRegistry ничего не знает о ${factoryClass.name}`);
 		}
 		return factory;
 	}
 
 	add(factoryClass) {
-		if (this.has(factoryClass)) {
+		if (!(factoryClass instanceof Factory)) {
+			throw new Error(`${factoryClass} это не потомок класса Factory`);
+		}
+
+		if (this.has(factoryClass.constructor)) {
 			// FIXME: исключения.
 			throw new Error(`Фабрика ${factoryClass} уже существует в FactoryRegistry`);
 		}
