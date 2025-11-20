@@ -12,7 +12,9 @@ beforeEach(() => {
 		board: {
 			cells: ["", "", "", "", "", "", "", "", ""],
 			serialize() {
-				return this.cells;
+				return {
+					cells: this.cells,
+				};
 			},
 		},
 		reset: vi.fn(),
