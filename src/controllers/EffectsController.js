@@ -6,8 +6,8 @@ export class EffectsController {
 	#dispatcher;
 
 	constructor({ view, dispatcher }) {
-		this.#dispatcher = dispatcher;
 		this.#view = view;
+		this.#dispatcher = dispatcher;
 	}
 
 	boot() {

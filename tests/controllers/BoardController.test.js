@@ -5,12 +5,9 @@ import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { BoardResetEvent, BoardUpdatedEvent } from "@core/events/BoardEvents";
 import { PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
-import { getDomFixture } from "../domFixture";
 let gameManager, dispatcher, view, controller;
 
 beforeEach(() => {
-	document.body.innerHTML = getDomFixture();
-
 	gameManager = {
 		board: {
 			cells: ["", "", "", "", "", "", "", "", ""],
