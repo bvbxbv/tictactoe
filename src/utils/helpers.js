@@ -19,6 +19,3 @@ function format(context, payload) {
 	if (payload !== undefined) data.payload = payload;
 	return data;
 }
-
-export const ok = (v) => ({ ok: true, value: v });
-export const err = (code, message) => ({ ok: false, value: null, error: { code, message } });
