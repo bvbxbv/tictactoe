@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 

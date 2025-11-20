@@ -7,8 +7,7 @@ pnpm lint || exit 1
 echo "→ Prettier..."
 pnpm prettier:check || exit 1
 
-# раскомментировать когда тесты будут готовы (после геноцида синглтонов и перехода на DI)
-# echo "→ Tests..."
-# pnpm test:ci || exit 1
+echo "→ Tests..."
+pnpm run test || exit 1
 
 echo "✔ Pre-commit passed"

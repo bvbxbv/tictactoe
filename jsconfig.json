@@ -12,7 +12,8 @@
 			"@core/*": ["core/*"],
 			"@utils/*": ["utils/*"],
 			"@factories/*": ["core/factories/*"]
-		}
+		},
+		"checkJs": true
 	},
 	"exclude": ["node_modules"]
 }
