@@ -4,6 +4,7 @@ import { PlayerMark, CellState } from "@configs/enums";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { Board } from "@models/Board";
 import { logAction } from "@utils/helpers.js";
+import { ok, err } from "@utils/helpers.js";
 
 export class Game {
 	#dispatcher;
@@ -24,9 +25,6 @@ export class Game {
 		this.#dispatcher = dispatcher;
 	}
 
-	static #ok = (v) => ({ ok: true, value: v });
-	static #err = (code, message) => ({ ok: false, value: null, error: { code, message } });
-
 	get whoseMove() {
 		return this.#currentPlayer;
 	}
@@ -37,13 +35,13 @@ export class Game {
 
 	makeMove(index) {
 		if (!this.#board.cellIs(CellState.Empty, index)) {
-			return Game.#err("CELL_OCCUPIED", "Клетка уже занята");
+			return err("CELL_OCCUPIED", "Клетка уже занята");
 		}
 		const current = this.#currentPlayer;
 		this.#board.setCell(current, index);
 		this.checkWinner();
 		this.#togglePlayer();
-		return Game.#ok(current);
+		return ok(current);
 	}
 
 	checkWinner() {
