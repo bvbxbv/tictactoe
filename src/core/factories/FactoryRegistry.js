@@ -1,3 +1,8 @@
+import {
+	ArgumentIsNotFactoryError,
+	FactoryRegistryDuplicateError,
+	FactoryRegistryHasNoGivenFactoryError,
+} from "@errors/factoryErrors";
 import { Factory } from "./Factory";
 
 export class FactoryRegistry {
@@ -19,20 +24,19 @@ export class FactoryRegistry {
 	get(factoryClass) {
 		const factory = this.#registry.get(factoryClass);
 		if (!factory) {
-			// FIXME: исключения.
-			throw new Error(`FactoryRegistry ничего не знает о ${factoryClass.name}`);
+			throw new FactoryRegistryHasNoGivenFactoryError(factoryClass.name);
 		}
 		return factory;
 	}
 
 	add(factoryClass) {
 		if (!(factoryClass instanceof Factory)) {
-			throw new Error(`${factoryClass} это не потомок класса Factory`);
+			throw new ArgumentIsNotFactoryError(factoryClass);
 		}
 
 		if (this.has(factoryClass.constructor)) {
 			// FIXME: исключения.
-			throw new Error(`Фабрика ${factoryClass} уже существует в FactoryRegistry`);
+			throw new FactoryRegistryDuplicateError(factoryClass);
 		}
 
 		this.#registry.set(factoryClass.constructor, factoryClass);

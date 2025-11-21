@@ -1,7 +1,8 @@
-// FIXME: реализовать классы для всех исключений в проекте.
+import { FactoryCreateMethodNotImplementedError } from "@errors/factoryErrors";
+
 export class Factory {
 	create() {
-		throw new Error("Метод create должен быть реализован в наследнике.");
+		throw new FactoryCreateMethodNotImplementedError();
 	}
 }
 

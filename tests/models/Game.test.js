@@ -3,8 +3,8 @@ import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { Game } from "@models/Game";
-import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
 import { Score } from "@models/Score";
+import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
 
 let game, dispatcher, score;
 const outOfRangeResponse = {

@@ -1,5 +1,6 @@
 import { PlayerMark } from "@configs/enums";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
+import { ArgumentIsNotPlayerMarkError } from "@errors/scoreErrors";
 import { logAction } from "@utils/helpers";
 
 // FIXME: load frmo localstorage
@@ -19,8 +20,7 @@ export class Score {
 	win(who) {
 		const isPlayer = who === PlayerMark.Cross || who === PlayerMark.Zero;
 		if (!isPlayer) {
-			// FIXME: exception
-			throw new Error(`${who} is not player`);
+			throw new ArgumentIsNotPlayerMarkError(who);
 		}
 		this.#score[who] += 1;
 		const payload = { cross: this.cross, zero: this.zero };

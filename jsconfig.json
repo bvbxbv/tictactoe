@@ -5,6 +5,7 @@
 		"baseUrl": "./src",
 		"paths": {
 			"@assets/*": ["assets/*"],
+			"@errors/*": ["errors/*"],
 			"@controllers/*": ["controllers/*"],
 			"@models/*": ["models/*"],
 			"@views/*": ["views/*"],
