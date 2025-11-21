@@ -1,3 +1,4 @@
+import fanfareUrl from "@assets/fanfare.wav";
 import { GameWinEvent } from "@core/events/GameEvents";
 import { logHandler } from "@utils/helpers";
 
@@ -20,6 +21,6 @@ export class EffectsController {
 
 	onGameWinHandler() {
 		logHandler(this, GameWinEvent, this.onGameWinHandler);
-		this.#view.update();
+		this.#view.update({ audioUrl: fanfareUrl });
 	}
 }
