@@ -32,7 +32,7 @@ export class AppOrchestrator {
 		this.#views.effects = this.#container.get(EffectsViewFactory, appConfigs.sounds.fanfare);
 		this.#views.score = this.#container.get(ScoreViewFactory);
 		this.#views.modal = this.#container.get(ModalViewFactory);
-		this.#views.timer = this.#container.get(TimerViewFactory);
+		this.#views.timer = this.#container.get(TimerViewFactory, appConfigs.timer.startTime);
 
 		this.#controllers.board = this.#container.get(
 			BoardControllerFactory,

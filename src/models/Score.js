@@ -2,17 +2,12 @@ import { PlayerMark } from "@configs/enums";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { logAction } from "@utils/helpers";
 
-// FIXME: InstanceContainer
-// FIXME: Factory
-// FIXME: DI
-// FIXME: Serialization
 // FIXME: load frmo localstorage
 export class Score {
 	#score;
 	#dispatcher;
 
 	constructor(dispatcher, startScore = null) {
-		console.log(dispatcher);
 		this.#dispatcher = dispatcher;
 		if (startScore === null) {
 			this.reset();
