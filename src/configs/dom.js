@@ -35,6 +35,8 @@ export const UI = {
 		return {
 			cross: this._byId("score-cross-player"),
 			zero: this._byId("score-zero-player"),
+			crossLabel: this._byId("score-cross-label"),
+			zeroLabel: this._byId("score-zero-label"),
 		};
 	},
 };

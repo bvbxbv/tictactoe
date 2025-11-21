@@ -5,10 +5,14 @@ import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { Board } from "@models/Board";
 import { logAction } from "@utils/helpers.js";
 import { ok, err } from "@utils/helpers.js";
+import { Score } from "./Score";
 
 export class Game {
 	#dispatcher;
 	#board = new Board();
+	// FIXME: фабрика
+	// FIXME: DI
+	#score;
 	#currentPlayer = PlayerMark.Cross;
 	static #combos = [
 		[0, 1, 2],
@@ -23,6 +27,7 @@ export class Game {
 
 	constructor(dispatcher) {
 		this.#dispatcher = dispatcher;
+		this.#score = new Score(this.#dispatcher);
 	}
 
 	get whoseMove() {
@@ -31,6 +36,10 @@ export class Game {
 
 	get board() {
 		return this.#board;
+	}
+
+	get score() {
+		return this.#score;
 	}
 
 	makeMove(index) {
@@ -61,6 +70,7 @@ export class Game {
 
 		if (winningCombo) {
 			const winner = this.#board.cells[winningCombo[0]];
+			this.#score.win(winner);
 			logAction(this, GameWinEvent, { winner, winnerCombo: winningCombo });
 			this.#dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
 			return true;

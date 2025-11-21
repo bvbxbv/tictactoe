@@ -3,6 +3,7 @@ import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { Game } from "@models/Game";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
+import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 
 let game, dispatcher;
 const outOfRangeResponse = {
@@ -25,6 +26,10 @@ const cellOccupiedResponse = {
 
 beforeEach(() => {
 	dispatcher = new EventDispatcher();
+
+	// FIXME: дописать тесты также и на Score
+	dispatcher.subscribe(ScoreChangedEvent, vi.fn());
+
 	game = new Game(dispatcher);
 });
 
