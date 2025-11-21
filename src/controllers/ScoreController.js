@@ -1,7 +1,6 @@
 import { BoardResetEvent } from "@core/events/BoardEvents";
 import { PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
-import { log } from "@utils/consolawrapper";
 import { logHandler } from "@utils/helpers";
 
 export class ScoreController {

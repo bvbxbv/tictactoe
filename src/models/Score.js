@@ -46,9 +46,10 @@ export class Score {
 	}
 
 	serialize() {
-		return Object.freeze({
+		const toSerialize = {
 			cross: this.#score[PlayerMark.Cross],
 			zero: this.#score[PlayerMark.Zero],
-		});
+		};
+		return JSON.parse(JSON.stringify(toSerialize));
 	}
 }
