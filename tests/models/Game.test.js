@@ -4,8 +4,9 @@ import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { Game } from "@models/Game";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
+import { Score } from "@models/Score";
 
-let game, dispatcher;
+let game, dispatcher, score;
 const outOfRangeResponse = {
 	ok: false,
 	value: null,
@@ -26,10 +27,10 @@ const cellOccupiedResponse = {
 
 beforeEach(() => {
 	dispatcher = new EventDispatcher();
-
 	dispatcher.subscribe(ScoreChangedEvent, vi.fn());
 
-	game = new Game(dispatcher);
+	score = new Score(dispatcher);
+	game = new Game(dispatcher, score);
 });
 
 describe("Game.makeMove", () => {
@@ -107,6 +108,18 @@ describe("Game.checkWinner", () => {
 			game.checkWinner();
 		});
 		expect(onWin).toHaveBeenCalledTimes(combos.length);
+	});
+
+	test("checkWinner триггерит ScoreChangeEvent", () => {
+		const handler = vi.fn();
+		dispatcher.subscribe(ScoreChangedEvent, handler);
+		dispatcher.subscribe(GameWinEvent, vi.fn());
+		dispatcher.subscribe(GameDrawEvent, vi.fn());
+		[0, 1, 2].forEach((index) => {
+			game.board.setCell(PlayerMark.Cross, index);
+		});
+		game.checkWinner();
+		expect(handler).toHaveBeenCalled();
 	});
 
 	test("checkWinner -> draw", () => {

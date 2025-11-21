@@ -2,7 +2,6 @@ import { PlayerMark } from "@configs/enums";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { logAction } from "@utils/helpers";
 
-// FIXME: vitest test
 // FIXME: InstanceContainer
 // FIXME: Factory
 // FIXME: DI
@@ -12,9 +11,14 @@ export class Score {
 	#score;
 	#dispatcher;
 
-	constructor(dispatcher) {
+	constructor(dispatcher, startScore = null) {
+		console.log(dispatcher);
 		this.#dispatcher = dispatcher;
-		this.reset();
+		if (startScore === null) {
+			this.reset();
+		} else {
+			this.#score = startScore;
+		}
 	}
 
 	win(who) {

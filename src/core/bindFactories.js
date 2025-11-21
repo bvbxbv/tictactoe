@@ -11,11 +11,17 @@ import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { TimerViewFactory } from "@factories/views/TimerViewFactory";
 import { EventDispatcherFactory } from "./factories/EventDispatcherFactory";
 import { GameFactory } from "./factories/GameFactory";
+import { ScoreFactory } from "./factories/ScoreFactory";
 
 export function bindFactories(container) {
-	container.register(new EventDispatcherFactory()).register(new GameFactory());
+	container
+		.register(new EventDispatcherFactory())
+		.register(new ScoreFactory())
+		.register(new GameFactory());
+
 	const dispatcher = container.get(EventDispatcherFactory);
-	const game = container.get(GameFactory, dispatcher);
+	const score = container.get(ScoreFactory, dispatcher);
+	const game = container.get(GameFactory, dispatcher, score);
 
 	// views
 	container

@@ -1,17 +1,13 @@
 // FIXME: разнести этот класс. Перерефакторить. В общем больше не должно существовать такой штуки как класс Game.
-// FIXME: вынести ok и err в отдельный файл. Чем я думал когда писал их в этом классе?
 import { PlayerMark, CellState } from "@configs/enums";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { Board } from "@models/Board";
 import { logAction } from "@utils/helpers.js";
 import { ok, err } from "@utils/helpers.js";
-import { Score } from "./Score";
 
 export class Game {
 	#dispatcher;
 	#board = new Board();
-	// FIXME: фабрика
-	// FIXME: DI
 	#score;
 	#currentPlayer = PlayerMark.Cross;
 	static #combos = [
@@ -25,9 +21,9 @@ export class Game {
 		[2, 4, 6],
 	];
 
-	constructor(dispatcher) {
+	constructor(dispatcher, score) {
 		this.#dispatcher = dispatcher;
-		this.#score = new Score(this.#dispatcher);
+		this.#score = score;
 	}
 
 	get whoseMove() {

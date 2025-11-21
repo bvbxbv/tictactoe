@@ -13,6 +13,7 @@ import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { TimerViewFactory } from "@factories/views/TimerViewFactory";
+import { ScoreFactory } from "./factories/ScoreFactory";
 
 export class AppOrchestrator {
 	#container = new InstanceContainer();
@@ -25,6 +26,7 @@ export class AppOrchestrator {
 
 		this.#models.dispatcher = this.#container.get(EventDispatcherFactory);
 		this.#models.game = this.#container.get(GameFactory, this.#models.dispatcher);
+		this.#models.score = this.#container.get(ScoreFactory, null);
 
 		this.#views.board = this.#container.get(BoardViewFactory);
 		this.#views.effects = this.#container.get(EffectsViewFactory, appConfigs.sounds.fanfare);

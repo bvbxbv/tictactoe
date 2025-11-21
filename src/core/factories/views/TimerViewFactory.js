@@ -6,7 +6,7 @@ export class TimerViewFactory extends ViewFactory {
 	create(startTime, onTimerEnd = null) {
 		return new TimerView({
 			timerEl: this.domElement,
-			startTime: appConfigs.timer.startTime,
+			startTime: appConfigs.timer.startTime, // FIXME: че за безобразие
 			onTimerEnd: onTimerEnd,
 		});
 	}
