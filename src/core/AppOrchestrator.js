@@ -13,6 +13,7 @@ import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { TimerViewFactory } from "@factories/views/TimerViewFactory";
+import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
 
 export class AppOrchestrator {
@@ -46,6 +47,8 @@ export class AppOrchestrator {
 		this.#controllers.score = this.#container.get(ScoreControllerFactory, this.#views.score);
 		this.#controllers.modal = this.#container.get(ModalControllerFactory, this.#views.modal);
 		this.#controllers.timer = this.#container.get(TimerControllerFactory, this.#views.timer);
+
+		this.#controllers.ai = this.#container.get(AIControllerFactory, null);
 
 		this.#bindViewsToControllers();
 	}

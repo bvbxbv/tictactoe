@@ -10,7 +10,8 @@ export class Game {
 	#board = new Board();
 	#score;
 	#currentPlayer = PlayerMark.Cross;
-	static #combos = [
+	#isGameEnded = false;
+	static combos = [
 		[0, 1, 2],
 		[3, 4, 5],
 		[6, 7, 8],
@@ -38,6 +39,15 @@ export class Game {
 		return this.#score;
 	}
 
+	get isGameEnded() {
+		return this.#isGameEnded;
+	}
+
+	// FIXME: переделать это, учитывая что игрок может быть не только cross.
+	get isAiMove() {
+		return this.whoseMove === PlayerMark.Zero;
+	}
+
 	makeMove(index) {
 		if (index < 0 || index > 8) {
 			return err("INDEX_OUT_OF_RANGE", "Индекс вне диапазона");
@@ -55,7 +65,7 @@ export class Game {
 	}
 
 	checkWinner() {
-		const winningCombo = Game.#combos.find(([a, b, c]) => {
+		const winningCombo = Game.combos.find(([a, b, c]) => {
 			const cell = this.#board.cells[a];
 			return (
 				cell !== CellState.Empty &&
@@ -69,12 +79,14 @@ export class Game {
 			this.#score.win(winner);
 			logAction(this, GameWinEvent, { winner, winnerCombo: winningCombo });
 			this.#dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
+			this.#isGameEnded = true;
 			return true;
 		}
 
 		if (this.#board.cells.every((cell) => cell !== CellState.Empty)) {
 			logAction(this, GameDrawEvent);
 			this.#dispatcher.dispatch(new GameDrawEvent());
+			this.#isGameEnded = true;
 			return true;
 		}
 
@@ -88,6 +100,7 @@ export class Game {
 
 	reset() {
 		this.#board.reset();
+		this.#isGameEnded = false;
 		this.#currentPlayer = PlayerMark.Cross;
 	}
 }

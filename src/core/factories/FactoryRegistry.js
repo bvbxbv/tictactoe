@@ -3,14 +3,18 @@ import {
 	FactoryRegistryDuplicateError,
 	FactoryRegistryHasNoGivenFactoryError,
 } from "@errors/factoryErrors";
-import { Factory } from "./Factory";
+import { ControllerFactory, Factory, ViewFactory } from "./Factory";
 
 export class FactoryRegistry {
 	#registry = new Map();
 
 	constructor(...factories) {
 		for (const factory of factories) {
-			if (!(factory instanceof Factory)) {
+			if (
+				!(factory instanceof Factory) &&
+				!(factory instanceof ControllerFactory) &&
+				!(factory instanceof ViewFactory)
+			) {
 				throw new Error(`${factory.constructor.name} это не потомок класса Factory`);
 			}
 
