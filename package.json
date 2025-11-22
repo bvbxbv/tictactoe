@@ -35,6 +35,7 @@
 	},
 	"dependencies": {
 		"consola": "^3.4.2",
-		"js-confetti": "^0.13.1"
+		"js-confetti": "^0.13.1",
+		"toastify-js": "^1.12.0"
 	}
 }

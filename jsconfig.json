@@ -5,6 +5,7 @@
 		"baseUrl": "./src",
 		"paths": {
 			"@assets/*": ["assets/*"],
+			"@pipes/*": ["pipes/*"],
 			"@errors/*": ["errors/*"],
 			"@controllers/*": ["controllers/*"],
 			"@models/*": ["models/*"],

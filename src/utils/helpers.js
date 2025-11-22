@@ -23,11 +23,16 @@ function format(context, payload) {
 export const ok = (v) => ({ ok: true, value: v });
 export const err = (code, message) => ({ ok: false, value: null, error: { code, message } });
 
-export function getRandomItem(of) {
+export function getRandomItem(of, needIndex = false) {
 	if (!Array.isArray(of)) {
 		// exception
 		throw new Error(`${of} это не массив`);
 	}
 
-	return of[Math.floor(Math.random() * of.length)];
+	const index = Math.floor(Math.random() * of.length);
+	if (needIndex) {
+		return index;
+	}
+
+	return of[index];
 }

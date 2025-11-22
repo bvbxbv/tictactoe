@@ -1,16 +1,14 @@
 export class Pipe {
-	#data;
-
 	constructor(data) {
-		this.#data = data;
+		this._data = data;
 	}
 
 	execute() {
-		// exception
+		// FIXME: error
 		throw new Error("В потомке Pipe должен быть реализован метод execute");
 	}
 
 	get data() {
-		return JSON.parse(JSON.stringify(this.#data));
+		return this._data;
 	}
 }

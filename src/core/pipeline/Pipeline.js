@@ -2,11 +2,11 @@ import { Pipe } from "./Pipe";
 
 export class Pipeline {
 	#pipes;
-
+	#meta = {};
 	constructor(pipes) {
 		this.#pipes = pipes;
 		this.#pipes.forEach((pipe) => {
-			if (!(pipe instanceof Pipe)) {
+			if (!(pipe.prototype instanceof Pipe)) {
 				// exception
 				throw new Error(`${pipe} не потомок Pipe`);
 			}
@@ -14,12 +14,18 @@ export class Pipeline {
 	}
 
 	run(data) {
-		let result = data;
-		this.#pipes.forEach((pipeClass) => {
-			const pipe = new pipeClass(result);
+		let response = { start: data, result: null, meta: this.#meta };
+		for (const pipeClass of this.#pipes) {
+			const pipe = new pipeClass(response);
 			pipe.execute();
-			result = pipe.data();
-		});
-		return result;
+			response = pipe.data;
+			if (response.result) break;
+		}
+		return response.result;
+	}
+
+	passThrough(metaData) {
+		this.#meta = { ...this.#meta, ...metaData };
+		return this;
 	}
 }

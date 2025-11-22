@@ -14,6 +14,9 @@ importers:
       js-confetti:
         specifier: ^0.13.1
         version: 0.13.1
+      toastify-js:
+        specifier: ^1.12.0
+        version: 1.12.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.1.0
@@ -1941,6 +1944,9 @@ packages:
   tldts@7.0.17:
     resolution: {integrity: sha512-Y1KQBgDd/NUc+LfOtKS6mNsC9CCaH+m2P1RoIZy7RAPo3C3/t8X45+zgut31cRZtZ3xKPjfn3TkGTrctC2TQIQ==}
     hasBin: true
+
+  toastify-js@1.12.0:
+    resolution: {integrity: sha512-HeMHCO9yLPvP9k0apGSdPUWrUbLnxUKNFzgUoZp1PHCLploIX/4DSQ7V8H25ef+h4iO9n0he7ImfcndnN6nDrQ==}
 
   tough-cookie@6.0.0:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
@@ -4067,6 +4073,8 @@ snapshots:
   tldts@7.0.17:
     dependencies:
       tldts-core: 7.0.17
+
+  toastify-js@1.12.0: {}
 
   tough-cookie@6.0.0:
     dependencies:

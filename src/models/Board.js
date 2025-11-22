@@ -17,6 +17,17 @@ export class Board {
 			.filter((i) => i !== -1);
 	}
 
+	get busyCells() {
+		return [...this.#board]
+			.map((el, i) => (el !== CellState.Empty ? i : -1))
+			.filter((i) => i !== -1);
+	}
+
+	// TODO: тесты
+	movesOf(player) {
+		return this.#board.map((cell, i) => (cell === player ? i : -1)).filter((i) => i !== -1);
+	}
+
 	setCell(value, index) {
 		this.#board[index] = value;
 	}
