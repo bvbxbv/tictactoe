@@ -1,5 +1,7 @@
+import { appConfigs } from "@configs/appConfigs";
 import { CellState } from "@configs/enums";
 import { Pipe } from "@core/pipeline/Pipe";
+import { getRandomItem } from "@utils/helpers";
 
 export class WinningMovePipe extends Pipe {
 	execute() {
@@ -18,7 +20,7 @@ export class WinningMovePipe extends Pipe {
 			if (empties.length === 1) {
 				move = {
 					index: combo[empties[0]],
-					message: "Лох, я выиграл",
+					message: getRandomItem(appConfigs.AI.messages.win),
 				};
 				break;
 			}

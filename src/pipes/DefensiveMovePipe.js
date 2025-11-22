@@ -1,4 +1,6 @@
+import { appConfigs } from "@configs/appConfigs";
 import { Pipe } from "@core/pipeline/Pipe";
+import { getRandomItem } from "@utils/helpers";
 
 export class DefensiveMovePipe extends Pipe {
 	execute() {
@@ -12,7 +14,7 @@ export class DefensiveMovePipe extends Pipe {
 			if (emptyCell !== undefined) {
 				move = {
 					index: emptyCell,
-					message: "Хрен там. Не так быстро",
+					message: getRandomItem(appConfigs.AI.messages.defense),
 				};
 				break;
 			}

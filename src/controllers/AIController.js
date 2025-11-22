@@ -1,7 +1,9 @@
 // FIXME: Factory
 
+import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
+import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "@core/events/GameEvents";
 import { PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { Pipeline } from "@core/pipeline/Pipeline";
 import { Game } from "@models/Game";
@@ -9,6 +11,7 @@ import { DefensiveMovePipe } from "@pipes/DefensiveMovePipe";
 import { DummyMovePipe } from "@pipes/DummyMovePipe";
 import { TryingToForkPipe } from "@pipes/TryingToForkPipe";
 import { WinningMovePipe } from "@pipes/WinningMovePipe";
+import { getRandomItem } from "@utils/helpers";
 import Toastify from "toastify-js";
 
 // FIXME: DIs
@@ -27,6 +30,9 @@ export class AIController {
 
 	#subscribe() {
 		this.#dispatcher.subscribe(PlayerMovedEvent, this.handleMove.bind(this));
+		this.#dispatcher.subscribe(GameWinEvent, this.gameWinHandler.bind(this));
+		this.#dispatcher.subscribe(GameDrawEvent, this.gameDrawHandler.bind(this));
+		this.#dispatcher.subscribe(GameLooseEvent, this.gameLooseHandler.bind(this));
 	}
 
 	handleMove() {
@@ -53,10 +59,32 @@ export class AIController {
 			})
 			.run(this.#gameManager.board.cells);
 		this.#gameManager.makeMove(response.index);
+		this.#showToast(response.message);
+		this.#dispatcher.dispatch(new BoardUpdatedEvent(this.#gameManager.board.serialize()));
+	}
+
+	gameWinHandler(e) {
+		// TODO: игрок должен выбирать сторону
+		if (e.detail.winnner === PlayerMark.Cross) {
+			this.#showToast(getRandomItem(appConfigs.AI.messages.loose));
+		}
+	}
+
+	gameDrawHandler() {
+		this.#showToast(getRandomItem(appConfigs.AI.messages.draw));
+	}
+
+	gameLooseHandler(e) {
+		// TODO: игрок должен выбирать сторону
+		if (e.detail.looser === PlayerMark.Cross) {
+			this.#showToast(getRandomItem(appConfigs.AI.messages.timer.win));
+		}
+	}
+
+	#showToast(message) {
 		Toastify({
-			text: response.message,
+			text: message,
 			duration: 1500,
 		}).showToast();
-		this.#dispatcher.dispatch(new BoardUpdatedEvent(this.#gameManager.board.serialize()));
 	}
 }
