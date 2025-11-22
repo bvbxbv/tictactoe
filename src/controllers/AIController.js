@@ -3,7 +3,7 @@
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
 import { PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { Game } from "@models/Game";
-import { getRandomItem, ok } from "@utils/helpers";
+import { getRandomItem } from "@utils/helpers";
 
 // FIXME: DIs
 export class AIController {
