@@ -17,9 +17,3 @@ export class GameDrawEvent extends GameEvent {
 		super("game@draw", null);
 	}
 }
-
-export class GameLooseEvent extends GameEvent {
-	constructor(looser) {
-		super("game@loose", { looser });
-	}
-}

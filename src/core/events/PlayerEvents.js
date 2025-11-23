@@ -7,7 +7,13 @@ export class PlayerMovedEvent extends GameEvent {
 }
 
 export class AIMovedEvent extends GameEvent {
-	constructor(message) {
-		super("ai@moved", { message });
+	constructor() {
+		super("ai@moved", null);
+	}
+}
+
+export class AIWantsToSpeakEvent extends GameEvent {
+	constructor(speach, className = "toast") {
+		super("ai@speak", { speach, className });
 	}
 }

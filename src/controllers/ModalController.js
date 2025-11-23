@@ -1,10 +1,5 @@
 import { BoardResetEvent } from "@core/events/BoardEvents";
-import {
-	GameDrawEvent,
-	GameLooseEvent,
-	GameResetEvent,
-	GameWinEvent,
-} from "../core/events/GameEvents";
+import { GameDrawEvent, GameResetEvent, GameWinEvent } from "../core/events/GameEvents";
 import { logAction, logHandler } from "../utils/helpers";
 
 export class ModalController {
@@ -26,7 +21,6 @@ export class ModalController {
 		this.#dispatcher.subscribe(GameWinEvent, this.onWinHandler.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.onDrawHandler.bind(this));
 		this.#dispatcher.subscribe(GameResetEvent, this.onResetHandler.bind(this));
-		this.#dispatcher.subscribe(GameLooseEvent, this.onLooseHandler.bind(this));
 	}
 
 	handleModalClose() {
@@ -55,16 +49,8 @@ export class ModalController {
 	onResetHandler() {
 		logHandler(this, BoardResetEvent, this.onResetHandler);
 		this.#gameManager.reset();
+
 		logAction(this, BoardResetEvent);
 		this.#dispatcher.dispatch(new BoardResetEvent());
-	}
-
-	onLooseHandler(e) {
-		logHandler(this, GameLooseEvent, this.onLooseHandler, e.detail);
-		this.#showModal(
-			`Игра окончена. Проигравший: ${e.detail.looser}`,
-			this.#gameManager.board.serialize().cells,
-			null,
-		);
 	}
 }

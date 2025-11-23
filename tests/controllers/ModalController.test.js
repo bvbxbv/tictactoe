@@ -3,12 +3,7 @@
 import { ModalController } from "@controllers/ModalController";
 import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { BoardResetEvent } from "@core/events/BoardEvents";
-import {
-	GameDrawEvent,
-	GameLooseEvent,
-	GameResetEvent,
-	GameWinEvent,
-} from "@core/events/GameEvents";
+import { GameDrawEvent, GameResetEvent, GameWinEvent } from "@core/events/GameEvents";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
 let gameManager, dispatcher, view, controller, resetFn;
 
@@ -65,11 +60,6 @@ describe("Подписка на события", () => {
 		dispatcher.dispatch(new GameResetEvent());
 		expect(controller.onResetHandler).toHaveBeenCalled();
 	});
-
-	test("GameLooseEvent", () => {
-		dispatcher.dispatch(new GameLooseEvent());
-		expect(controller.onLooseHandler).toHaveBeenCalled();
-	});
 });
 
 describe("Поведение при триггере событий", () => {
@@ -98,16 +88,5 @@ describe("Поведение при триггере событий", () => {
 		dispatcher.dispatch(new GameResetEvent());
 		expect(gameManager.reset).toHaveBeenCalled();
 		expect(resetFn).toHaveBeenCalled();
-	});
-
-	test("GameLooseEvent -> onLooseHandler", () => {
-		dispatcher.dispatch(new GameLooseEvent("X"));
-		expect(view.update).toHaveBeenCalledWith(
-			expect.objectContaining({
-				message: "Игра окончена. Проигравший: X",
-				board: gameManager.board.serialize().cells,
-				winCombo: null,
-			}),
-		);
 	});
 });

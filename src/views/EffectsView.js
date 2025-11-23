@@ -1,3 +1,4 @@
+import { toast } from "@utils/helpers";
 import JSConfetti from "js-confetti";
 
 export class EffectsView {
@@ -16,5 +17,13 @@ export class EffectsView {
 		this.#jsConfetti.addConfetti();
 		this.#audio = new Audio(this.#currentAudioUrl);
 		this.#audio.play();
+	}
+
+	showToast({ text, className, duration }) {
+		toast({
+			text: text,
+			className: className,
+			duration: duration,
+		});
 	}
 }

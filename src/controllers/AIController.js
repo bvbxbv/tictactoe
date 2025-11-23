@@ -3,8 +3,8 @@
 import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
-import { GameDrawEvent, GameLooseEvent, GameWinEvent } from "@core/events/GameEvents";
-import { PlayerMovedEvent } from "@core/events/PlayerEvents";
+import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
+import { AIMovedEvent, AIWantsToSpeakEvent, PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { Pipeline } from "@core/pipeline/Pipeline";
 import { Game } from "@models/Game";
 import { DefensiveMovePipe } from "@pipes/DefensiveMovePipe";
@@ -12,9 +12,7 @@ import { DummyMovePipe } from "@pipes/DummyMovePipe";
 import { TryingToForkPipe } from "@pipes/TryingToForkPipe";
 import { WinningMovePipe } from "@pipes/WinningMovePipe";
 import { getRandomItem, logAction, random } from "@utils/helpers";
-import Toastify from "toastify-js";
 
-// FIXME: DIs
 export class AIController {
 	#gameManager;
 	#dispatcher;
@@ -32,7 +30,6 @@ export class AIController {
 		this.#dispatcher.subscribe(PlayerMovedEvent, this.handleMove.bind(this));
 		this.#dispatcher.subscribe(GameWinEvent, this.gameWinHandler.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.gameDrawHandler.bind(this));
-		this.#dispatcher.subscribe(GameLooseEvent, this.gameLooseHandler.bind(this));
 	}
 
 	handleMove() {
@@ -62,38 +59,40 @@ export class AIController {
 		const delay = random(appConfigs.AI.response.delay.min, appConfigs.AI.response.delay.max);
 		setTimeout(() => {
 			this.#gameManager.makeMove(response.index);
-			this.#showToast(response.message);
+
+			const phrase = response.message;
+			logAction(this, AIWantsToSpeakEvent, {
+				message: phrase.message,
+				className: phrase.className,
+			});
+			this.#dispatcher.dispatch(new AIWantsToSpeakEvent(phrase.message, phrase.className));
+
+			logAction(this, AIMovedEvent, response.index);
+			this.#dispatcher.dispatch(new AIMovedEvent());
+
 			logAction(this, BoardUpdatedEvent, this.#gameManager.board.serialize());
 			this.#dispatcher.dispatch(new BoardUpdatedEvent(this.#gameManager.board.serialize()));
-			logAction(this, PlayerMovedEvent, response.index);
-			this.#dispatcher.dispatch(new PlayerMovedEvent(response.index));
 		}, delay);
 	}
 
 	gameWinHandler(e) {
 		// TODO: игрок должен выбирать сторону
 		if (e.detail.winnner === PlayerMark.Cross) {
-			this.#showToast(getRandomItem(appConfigs.AI.messages.loose));
+			const phrase = getRandomItem(appConfigs.AI.messages.loose);
+			logAction(this, AIWantsToSpeakEvent, {
+				message: phrase.message,
+				className: phrase.className,
+			});
+			this.#dispatcher.dispatch(new AIWantsToSpeakEvent(phrase.message, phrase.className));
 		}
 	}
 
 	gameDrawHandler() {
-		this.#showToast(getRandomItem(appConfigs.AI.messages.draw));
-	}
-
-	gameLooseHandler(e) {
-		// TODO: игрок должен выбирать сторону
-		if (e.detail.looser === PlayerMark.Cross) {
-			// FIXME: пережитки TimerController
-			// this.#showToast(getRandomItem(appConfigs.AI.messages.timer.win));
-		}
-	}
-
-	#showToast(phrase) {
-		Toastify({
-			text: phrase.message,
+		const phrase = getRandomItem(appConfigs.AI.messages.draw);
+		logAction(this, AIWantsToSpeakEvent, {
+			message: phrase.message,
 			className: phrase.className,
-			duration: 1500,
-		}).showToast();
+		});
+		this.#dispatcher.dispatch(new AIWantsToSpeakEvent(phrase.message, phrase.className));
 	}
 }

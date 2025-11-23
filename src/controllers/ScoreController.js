@@ -1,5 +1,5 @@
 import { BoardResetEvent } from "@core/events/BoardEvents";
-import { PlayerMovedEvent } from "@core/events/PlayerEvents";
+import { AIMovedEvent, PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { logHandler } from "@utils/helpers";
 
@@ -21,6 +21,7 @@ export class ScoreController {
 	#subscribe() {
 		this.#dispatcher.subscribe(ScoreChangedEvent, this.updateScoreValues.bind(this));
 		this.#dispatcher.subscribe(PlayerMovedEvent, this.updateWhoseMove.bind(this));
+		this.#dispatcher.subscribe(AIMovedEvent, this.updateWhoseMove.bind(this));
 		this.#dispatcher.subscribe(BoardResetEvent, this.updateWhoseMove.bind(this));
 	}
 

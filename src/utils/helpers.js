@@ -1,4 +1,5 @@
 import { log } from "@utils/consolawrapper";
+import Toastify from "toastify-js";
 
 export function logAction(context, event, payload = null) {
 	const contextName = context?.constructor?.name ?? context?.name ?? "UnknownContext";
@@ -40,4 +41,12 @@ export function getRandomItem(of, needIndex = false) {
 export function random(min, max) {
 	const rand = Math.floor(Math.random() * (max - min + 1)) + min;
 	return rand;
+}
+
+export function toast({ text, className = "", duration = 1500 }) {
+	Toastify({
+		text: text,
+		className: className,
+		duration: duration,
+	}).showToast();
 }
