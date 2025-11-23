@@ -11,7 +11,7 @@ import { DefensiveMovePipe } from "@pipes/DefensiveMovePipe";
 import { DummyMovePipe } from "@pipes/DummyMovePipe";
 import { TryingToForkPipe } from "@pipes/TryingToForkPipe";
 import { WinningMovePipe } from "@pipes/WinningMovePipe";
-import { getRandomItem } from "@utils/helpers";
+import { getRandomItem, logAction, random } from "@utils/helpers";
 import Toastify from "toastify-js";
 
 // FIXME: DIs
@@ -58,9 +58,16 @@ export class AIController {
 				_zeroIndexes: this.#gameManager.board.movesOf(PlayerMark.Zero),
 			})
 			.run(this.#gameManager.board.cells);
-		this.#gameManager.makeMove(response.index);
-		this.#showToast(response.message);
-		this.#dispatcher.dispatch(new BoardUpdatedEvent(this.#gameManager.board.serialize()));
+
+		const delay = random(appConfigs.AI.response.delay.min, appConfigs.AI.response.delay.max);
+		setTimeout(() => {
+			this.#gameManager.makeMove(response.index);
+			this.#showToast(response.message);
+			logAction(this, BoardUpdatedEvent, this.#gameManager.board.serialize());
+			this.#dispatcher.dispatch(new BoardUpdatedEvent(this.#gameManager.board.serialize()));
+			logAction(this, PlayerMovedEvent, response.index);
+			this.#dispatcher.dispatch(new PlayerMovedEvent(response.index));
+		}, delay);
 	}
 
 	gameWinHandler(e) {
@@ -77,7 +84,8 @@ export class AIController {
 	gameLooseHandler(e) {
 		// TODO: игрок должен выбирать сторону
 		if (e.detail.looser === PlayerMark.Cross) {
-			this.#showToast(getRandomItem(appConfigs.AI.messages.timer.win));
+			// FIXME: пережитки TimerController
+			// this.#showToast(getRandomItem(appConfigs.AI.messages.timer.win));
 		}
 	}
 

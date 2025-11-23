@@ -25,7 +25,7 @@ export class ScoreController {
 	}
 
 	updateWhoseMove(e) {
-		logHandler(this, e.constructor, this.updateWhoseMove);
+		logHandler(this, e.constructor, this.updateWhoseMove, e.detail);
 		this.#view.update({ activePlayerMark: this.#gameManager.whoseMove });
 	}
 

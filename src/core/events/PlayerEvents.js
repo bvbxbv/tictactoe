@@ -5,3 +5,9 @@ export class PlayerMovedEvent extends GameEvent {
 		super("player@moved", { index });
 	}
 }
+
+export class AIMovedEvent extends GameEvent {
+	constructor(message) {
+		super("ai@moved", { message });
+	}
+}

@@ -15,6 +15,7 @@ export default [
 				Audio: "readonly",
 				Event: "readonly",
 				setInterval: "readonly",
+				setTimeout: "readonly",
 				clearInterval: "readonly",
 				TextEncoder: "readonly",
 				TextDecoder: "readonly",

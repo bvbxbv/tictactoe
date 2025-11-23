@@ -21,6 +21,10 @@ export class BoardController {
 	}
 
 	handleCellClick(index) {
+		if (this.#gameManager.isAiMove) {
+			return;
+		}
+
 		if (index < 0 || index > 8) {
 			throw new Error(`Index must be between 0 and 9. ${index} given`);
 		}
@@ -35,6 +39,10 @@ export class BoardController {
 	}
 
 	cellClickHandler(e) {
+		if (this.#gameManager.isAiMove) {
+			return;
+		}
+
 		const result = this.#gameManager.makeMove(e.detail.index);
 		if (!result.ok) {
 			log.error(

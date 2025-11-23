@@ -1,4 +1,14 @@
+function toMs(s) {
+	return s * 1000;
+}
+
 export const ai = Object.freeze({
+	response: {
+		delay: {
+			min: toMs(0.5),
+			max: toMs(1),
+		},
+	},
 	messages: {
 		defense: [
 			{ message: "Хрен там. Не так быстро.", className: "toast-sarcasm" },

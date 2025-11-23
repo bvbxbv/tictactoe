@@ -12,7 +12,6 @@ export class ScoreView {
 		this.#crossEl = crossEl;
 		this.#zeroEl = zeroEl;
 
-		// FIXME: factory
 		this.#crossLabelEl = appConfigs.UI.score.crossLabel;
 		this.#zeroLabelEl = appConfigs.UI.score.zeroLabel;
 	}

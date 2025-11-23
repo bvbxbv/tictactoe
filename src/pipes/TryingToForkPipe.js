@@ -36,7 +36,6 @@ export class TryingToForkPipe extends Pipe {
 				};
 			}
 		}
-		console.log("TryingToForkPipe", this._data.meta._freeIndexes, move);
 
 		if (move !== null) {
 			this._data.result = move;
