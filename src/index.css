@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-
 @import "tailwindcss";
+@import "./toastify.css";
 
 @theme {
 	--font-family-montserrat: "Montserrat", sans-serif;
@@ -18,6 +18,18 @@
 
 	.font-roboto {
 		font-family: var(--font-family-roboto);
+	}
+
+	.toast-angry {
+		@apply font-[montserrat] bg-red-500 text-white font-bold;
+	}
+
+	.toast-sarcasm {
+		@apply font-[montserrat] bg-yellow-500 text-white font-bold;
+	}
+
+	.toast-calm {
+		@apply font-[montserrat] bg-blue-400 text-white font-bold;
 	}
 }
 

@@ -81,9 +81,10 @@ export class AIController {
 		}
 	}
 
-	#showToast(message) {
+	#showToast(phrase) {
 		Toastify({
-			text: message,
+			text: phrase.message,
+			className: phrase.className,
 			duration: 1500,
 		}).showToast();
 	}
