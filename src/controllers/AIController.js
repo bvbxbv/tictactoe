@@ -11,7 +11,7 @@ import { DefensiveMovePipe } from "@pipes/DefensiveMovePipe";
 import { DummyMovePipe } from "@pipes/DummyMovePipe";
 import { TryingToForkPipe } from "@pipes/TryingToForkPipe";
 import { WinningMovePipe } from "@pipes/WinningMovePipe";
-import { getRandomItem, logAction, random } from "@utils/helpers";
+import { getRandomItem, gotLucky, logAction, random } from "@utils/helpers";
 
 export class AIController {
 	#gameManager;
@@ -64,8 +64,13 @@ export class AIController {
 			logAction(this, AIWantsToSpeakEvent, {
 				message: phrase.message,
 				className: phrase.className,
+				chance: phrase.chance,
 			});
-			this.#dispatcher.dispatch(new AIWantsToSpeakEvent(phrase.message, phrase.className));
+			if (gotLucky(phrase.chance)) {
+				this.#dispatcher.dispatch(
+					new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
+				);
+			}
 
 			logAction(this, AIMovedEvent, response.index);
 			this.#dispatcher.dispatch(new AIMovedEvent());
@@ -82,8 +87,13 @@ export class AIController {
 			logAction(this, AIWantsToSpeakEvent, {
 				message: phrase.message,
 				className: phrase.className,
+				chance: phrase.chance,
 			});
-			this.#dispatcher.dispatch(new AIWantsToSpeakEvent(phrase.message, phrase.className));
+			if (gotLucky(phrase.chance)) {
+				this.#dispatcher.dispatch(
+					new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
+				);
+			}
 		}
 	}
 
@@ -92,7 +102,12 @@ export class AIController {
 		logAction(this, AIWantsToSpeakEvent, {
 			message: phrase.message,
 			className: phrase.className,
+			chance: phrase.chance,
 		});
-		this.#dispatcher.dispatch(new AIWantsToSpeakEvent(phrase.message, phrase.className));
+		if (gotLucky(phrase.chance)) {
+			this.#dispatcher.dispatch(
+				new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
+			);
+		}
 	}
 }

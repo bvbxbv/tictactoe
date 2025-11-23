@@ -50,3 +50,11 @@ export function toast({ text, className = "", duration = 1500 }) {
 		duration: duration,
 	}).showToast();
 }
+
+export function gotLucky(chance) {
+	if (chance > 1) {
+		// 30 -> 0.3
+		chance = chance / 100;
+	}
+	return Math.random() <= chance;
+}

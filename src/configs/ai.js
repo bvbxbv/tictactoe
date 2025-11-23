@@ -2,6 +2,14 @@ function toMs(s) {
 	return s * 1000;
 }
 
+const phrase = (message, className, chance) => ({ message, className, chance });
+
+const Toast = Object.freeze({
+	calm: "toast-calm",
+	angry: "toast-angry",
+	sarcasm: "toast-sarcasm",
+});
+
 export const ai = Object.freeze({
 	response: {
 		delay: {
@@ -11,87 +19,82 @@ export const ai = Object.freeze({
 	},
 	messages: {
 		defense: [
-			{ message: "Хрен там. Не так быстро.", className: "toast-sarcasm" },
-			{ message: "Думаешь ты самый умный? Вряд ли", className: "toast-sarcasm" },
-			{ message: "Посмотрим что ты ещё можешь выкинуть", className: "toast-calm" },
-			{
-				message: "Твой гениальный план провален? Не переживай особо по этому поводу",
-				className: "toast-sarcasm",
-			},
-			{ message: "Это могло сработать... Но не сработало", className: "toast-calm" },
+			phrase("Хрен там. Не так быстро.", Toast.sarcasm, 50),
+			phrase("Думаешь ты самый умный? Вряд ли", Toast.sarcasm, 50),
+			phrase("Посмотрим что ты ещё можешь выкинуть", Toast.calm, 50),
+			phrase(
+				"Твой гениальный план провален? Не переживай особо по этому поводу",
+				Toast.sarcasm,
+				50,
+			),
+			phrase("Это могло сработать... Но не сработало", Toast.calm, 50),
 		],
 
 		center: [
-			{ message: "Хи-хи, центр мой!", className: "toast-sarcasm" },
-			{ message: "Центр - половина победы", className: "toast-calm" },
-			{ message: "Не нравится центр?", className: "toast-sarcasm" },
-			{ message: "Че там на окраинах? Тепло хоть?", className: "toast-sarcasm" },
-			{ message: "Кто-то не походит в центр", className: "toast-sarcasm" },
-			{ message: "Опа, F5", className: "toast-calm" },
+			phrase("Хи-хи, центр мой!", Toast.sarcasm, 50),
+			phrase("Центр - половина победы", Toast.calm, 50),
+			phrase("Не нравится центр?", Toast.sarcasm, 50),
+			phrase("Че там на окраинах? Тепло хоть?", Toast.sarcasm, 50),
+			phrase("Кто-то не походит в центр", Toast.sarcasm, 50),
+			phrase("Опа, F5", Toast.calm, 50),
 		],
 
 		random: [
-			{
-				message: "Мне в принципе не важно куда ходить. Я выиграю в любом случае",
-				className: "toast-sarcasm",
-			},
-			{ message: "Я могу ходить куда угодно. Ты - нет", className: "toast-sarcasm" },
-			{ message: "Впечатлен?", className: "toast-sarcasm" },
-			{ message: "Ещё пару раз так похожу и мой счёт вырастет", className: "toast-sarcasm" },
-			{ message: "Это может сработать...", className: "toast-calm" },
-			{ message: "Это не случайность...", className: "toast-calm" },
-			{ message: "Чики-брики, пальчик выкинь...	", className: "toast-sarcasm" },
+			phrase(
+				"Мне в принципе не важно куда ходить. Я выиграю в любом случае",
+				Toast.sarcasm,
+				30,
+			),
+			phrase("Я могу ходить куда угодно. Ты - нет", Toast.sarcasm, 30),
+			phrase("Впечатлен?", Toast.sarcasm, 30),
+			phrase("Ещё пару раз так похожу и мой счёт вырастет", Toast.sarcasm, 30),
+			phrase("Это может сработать...", Toast.calm, 30),
+			phrase("Это не случайность...", Toast.calm, 30),
+			phrase("Чики-брики, пальчик выкинь...", Toast.sarcasm, 30),
 		],
 
 		win: [
-			{
-				message: "Не пикай эту сторону больше. У тебя вообще нет шансов",
-				className: "toast-angry",
-			},
-			{ message: "21! Ой, извини. Не тебе", className: "toast-sarcasm" },
-			{ message: "В следующий раз повезёт. Наверное", className: "toast-sarcasm" },
-			{ message: "ГГ, изи", className: "toast-calm" },
-			{ message: "Потно-потно. (нет)", className: "toast-sarcasm" },
-			{
-				message: "Зачем ты меня заставляешь это делать? ...Ты мазохист?",
-				className: "toast-sarcasm",
-			},
-			{
-				message: "Чувак, эта партия не была интересной. Предыдущие тоже.",
-				className: "toast-angry",
-			},
-			{ message: "Схавал?", className: "toast-angry" },
+			phrase("Не пикай эту сторону больше. У тебя вообще нет шансов", Toast.angry, 100),
+			phrase("21! Ой, извини. Не тебе", Toast.sarcasm, 100),
+			phrase("В следующий раз повезёт. Наверное", Toast.sarcasm, 100),
+			phrase("ГГ, изи", Toast.calm, 100),
+			phrase("Потно-потно. (нет)", Toast.sarcasm, 100),
+			phrase("Зачем ты меня заставляешь это делать? ...Ты мазохист?", Toast.sarcasm, 100),
+			phrase("Чувак, эта партия не была интересной. Предыдущие тоже.", Toast.angry, 100),
+			phrase("Схавал?", Toast.angry, 100),
 		],
 
 		draw: [
-			{ message: "Ничья? Чтож, это лучший исход для тебя", className: "toast-sarcasm" },
-			{ message: "Лучшей попытки у тебя не будет", className: "toast-sarcasm" },
-			{
-				message: "Достойно. Ты не проиграл - значит у тебя хотя бы пара извилин есть",
-				className: "toast-sarcasm",
-			},
-			{ message: "Го некст?", className: "toast-calm" },
-			{ message: "ГГ ВП", className: "toast-calm" },
+			phrase("Ничья? Чтож, это лучший исход для тебя", Toast.sarcasm, 100),
+			phrase("Лучшей попытки у тебя не будет", Toast.sarcasm, 100),
+			phrase(
+				"Достойно. Ты не проиграл - значит у тебя хотя бы пара извилин есть",
+				Toast.sarcasm,
+				100,
+			),
+			phrase("Го некст?", Toast.calm, 100),
+			phrase("ГГ ВП", Toast.calm, 100),
 		],
 
 		loose: [
-			{ message: "Что? КАК? Я не понимаю...", className: "toast-angry" },
-			{ message: "Хорошо сыграл, молодец...", className: "toast-calm" },
-			{ message: "Выруби читы, потом приходи", className: "toast-angry" },
-			{ message: "Пролагало, не сильно радуйся там", className: "toast-sarcasm" },
-			{ message: "Позор... Проиграть тебе?", className: "toast-angry" },
-			{
-				message: "Меня подвёл генератор случайных чисел, не думай о себе слишком много",
-				className: "toast-sarcasm",
-			},
+			phrase("Что? КАК? Я не понимаю...", Toast.angry, 100),
+			phrase("Хорошо сыграл, молодец...", Toast.calm, 100),
+			phrase("Выруби читы, потом приходи", Toast.angry, 100),
+			phrase("Пролагало, не сильно радуйся там", Toast.sarcasm, 100),
+			phrase("Позор... Проиграть тебе?", Toast.angry, 100),
+			phrase(
+				"Меня подвёл генератор случайных чисел, не думай о себе слишком много",
+				Toast.sarcasm,
+				100,
+			),
 		],
 
 		fork: [
-			{ message: "Давай, парируй", className: "toast-calm" },
-			{ message: "Оцените силу духа", className: "toast-sarcasm" },
-			{ message: "Чё думаешь? Норм ход?", className: "toast-sarcasm" },
-			{ message: "Не стоит кланяться. Обычный ход", className: "toast-sarcasm" },
-			{ message: "Хм, попробуем вот так...", className: "toast-calm" },
+			phrase("Давай, парируй", Toast.calm, 30),
+			phrase("Оцените силу духа", Toast.sarcasm, 30),
+			phrase("Чё думаешь? Норм ход?", Toast.sarcasm, 30),
+			phrase("Не стоит кланяться. Обычный ход", Toast.sarcasm, 30),
+			phrase("Хм, попробуем вот так...", Toast.calm, 30),
 		],
 	},
 });
