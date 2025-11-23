@@ -1,9 +1,12 @@
 import { CellState } from "@configs/enums";
+import { CellChangedEvent } from "@core/events/BoardEvents";
 
 export class Board {
 	#board;
+	#dispatcher;
 
-	constructor() {
+	constructor(dispatcher) {
+		this.#dispatcher = dispatcher;
 		this.#board = Array(9).fill(CellState.Empty);
 	}
 
@@ -30,6 +33,7 @@ export class Board {
 
 	setCell(value, index) {
 		this.#board[index] = value;
+		this.#dispatcher.dispatch(new CellChangedEvent());
 	}
 
 	cellIs(value, index) {

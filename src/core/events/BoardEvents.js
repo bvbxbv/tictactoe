@@ -11,3 +11,9 @@ export class BoardResetEvent extends GameEvent {
 		super("board@reset", null);
 	}
 }
+
+export class CellChangedEvent extends GameEvent {
+	constructor() {
+		super("cell@changed", null);
+	}
+}

@@ -9,7 +9,6 @@ export class TryingToForkPipe extends Pipe {
 	}
 
 	execute() {
-		const isAnyCornerEmpty = this._data.meta._freeIndexes.some((i) => [0, 2, 6, 8].includes(i));
 		const isAnyOppositeEmpty = this._data.meta._freeIndexes.some((i) =>
 			[1, 3, 5, 7].includes(i),
 		);

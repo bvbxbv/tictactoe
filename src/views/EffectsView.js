@@ -4,19 +4,18 @@ import JSConfetti from "js-confetti";
 export class EffectsView {
 	#audio;
 	#jsConfetti;
-	#currentAudioUrl;
+	// #currentAudioUrl;
 
 	constructor({ audio }) {
-		this.#currentAudioUrl = audio;
+		// this.#currentAudioUrl = audio;
 		this.#audio = new Audio(audio);
 		this.#jsConfetti = new JSConfetti();
 	}
 
 	update({ audioUrl }) {
-		this.#currentAudioUrl = audioUrl;
+		// this.#currentAudioUrl = audioUrl;
 		this.#jsConfetti.addConfetti();
-		this.#audio = new Audio(this.#currentAudioUrl);
-		this.#audio.play();
+		this.playSound(audioUrl);
 	}
 
 	showToast({ text, className, duration }) {
@@ -25,5 +24,10 @@ export class EffectsView {
 			className: className,
 			duration: duration,
 		});
+	}
+
+	playSound(sound) {
+		this.#audio = new Audio(sound);
+		this.#audio.play();
 	}
 }

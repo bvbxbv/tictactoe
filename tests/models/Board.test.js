@@ -1,11 +1,15 @@
 import { CellState, PlayerMark } from "@configs/enums";
+import { EventDispatcher } from "@core/events/Base/EventDispatcher";
+import { CellChangedEvent } from "@core/events/BoardEvents";
 import { Board } from "@models/Board";
-import { beforeEach, describe, test } from "../../node_modules/vitest/dist/index";
+import { beforeEach, describe, test, vi } from "../../node_modules/vitest/dist/index";
 import { expect } from "../../node_modules/vitest/dist/index";
 
 let board;
 beforeEach(() => {
-	board = new Board();
+	const dispatcher = new EventDispatcher();
+	dispatcher.subscribe(CellChangedEvent, vi.fn());
+	board = new Board(dispatcher);
 });
 
 describe("Board -> setCell", () => {

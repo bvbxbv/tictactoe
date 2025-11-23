@@ -1,13 +1,12 @@
 // FIXME: разнести этот класс. Перерефакторить. В общем больше не должно существовать такой штуки как класс Game.
 import { PlayerMark, CellState } from "@configs/enums";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
-import { Board } from "@models/Board";
 import { logAction } from "@utils/helpers.js";
 import { ok, err } from "@utils/helpers.js";
 
 export class Game {
 	#dispatcher;
-	#board = new Board();
+	#board;
 	#score;
 	#currentPlayer = PlayerMark.Cross;
 	#isGameEnded = false;
@@ -22,9 +21,10 @@ export class Game {
 		[2, 4, 6],
 	];
 
-	constructor(dispatcher, score) {
+	constructor(dispatcher, board, score) {
 		this.#dispatcher = dispatcher;
 		this.#score = score;
+		this.#board = board;
 	}
 
 	get whoseMove() {

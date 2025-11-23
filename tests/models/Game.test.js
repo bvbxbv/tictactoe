@@ -1,7 +1,9 @@
 import { CellState, PlayerMark } from "@configs/enums";
 import { EventDispatcher } from "@core/events/Base/EventDispatcher";
+import { CellChangedEvent } from "@core/events/BoardEvents";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
+import { Board } from "@models/Board";
 import { Game } from "@models/Game";
 import { Score } from "@models/Score";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
@@ -28,9 +30,11 @@ const cellOccupiedResponse = {
 beforeEach(() => {
 	dispatcher = new EventDispatcher();
 	dispatcher.subscribe(ScoreChangedEvent, vi.fn());
+	dispatcher.subscribe(CellChangedEvent, vi.fn());
 
 	score = new Score(dispatcher);
-	game = new Game(dispatcher, score);
+	const board = new Board(dispatcher);
+	game = new Game(dispatcher, board, score);
 });
 
 describe("Game.makeMove", () => {

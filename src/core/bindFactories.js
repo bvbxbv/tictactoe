@@ -7,6 +7,7 @@ import { BoardViewFactory } from "@factories/views/BoardViewFactory";
 import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
+import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { EventDispatcherFactory } from "./factories/EventDispatcherFactory";
 import { GameFactory } from "./factories/GameFactory";
@@ -16,13 +17,16 @@ export function bindFactories(container) {
 	container
 		.register(new EventDispatcherFactory())
 		.register(new ScoreFactory())
+		.register(new BoardFactory())
 		.register(new GameFactory())
 		.register(new AIControllerFactory());
 
 	const dispatcher = container.get(EventDispatcherFactory);
 	const score = container.get(ScoreFactory, dispatcher);
-	const game = container.get(GameFactory, dispatcher, score);
-	const ai = container.get(AIControllerFactory, game, dispatcher);
+	const board = container.get(BoardFactory, dispatcher);
+	console.log(board);
+	const game = container.get(GameFactory, dispatcher, board, score);
+	container.get(AIControllerFactory, game, dispatcher);
 
 	// views
 	container

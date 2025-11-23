@@ -11,6 +11,7 @@ import { BoardViewFactory } from "@factories/views/BoardViewFactory";
 import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
+import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
 
@@ -24,7 +25,16 @@ export class AppOrchestrator {
 		bindFactories(this.#container);
 
 		this.#models.dispatcher = this.#container.get(EventDispatcherFactory);
-		this.#models.game = this.#container.get(GameFactory, this.#models.dispatcher);
+		this.#models.board = this.#container.get(
+			BoardFactory,
+			this.#models,
+			this.#models.dispatcher,
+		);
+		this.#models.game = this.#container.get(
+			GameFactory,
+			this.#models.dispatcher,
+			this.#models.board,
+		);
 		this.#models.score = this.#container.get(ScoreFactory, null);
 
 		this.#views.board = this.#container.get(BoardViewFactory);
