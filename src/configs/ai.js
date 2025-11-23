@@ -76,23 +76,6 @@ export const ai = Object.freeze({
 			},
 		],
 
-		timer: {
-			win: [
-				{ message: "Время кончилось, да? Долго думал?", className: "toast-sarcasm" },
-				{
-					message: "Болеешь чем-то? Как тебе времени не хватило?",
-					className: "toast-sarcasm",
-				},
-				{ message: "Есть только миг между прошлым и будущим...", className: "toast-calm" },
-				{ message: "Долго думаешь, братан", className: "toast-sarcasm" },
-				{ message: "Ты про время что-нибудь слышал?", className: "toast-sarcasm" },
-				{
-					message: "Время играет против тебя… Против меня? Вряд ли",
-					className: "toast-calm",
-				},
-			],
-		},
-
 		fork: [
 			{ message: "Давай, парируй", className: "toast-calm" },
 			{ message: "Оцените силу духа", className: "toast-sarcasm" },

@@ -18,10 +18,6 @@ export const UI = {
 		return { root, cells: root ? this._bySelector(".cell", root) : [] };
 	},
 
-	get timerDisplay() {
-		return this._byId("timer-display");
-	},
-
 	get modal() {
 		return {
 			body: this._byId("modal"),

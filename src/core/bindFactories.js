@@ -3,12 +3,10 @@ import { BoardControllerFactory } from "@core/factories/controllers/BoardControl
 import { EffectsControllerFactory } from "@core/factories/controllers/EffectsControllerFactory";
 import { ModalControllerFactory } from "@core/factories/controllers/ModalControllerFactory";
 import { ScoreControllerFactory } from "@core/factories/controllers/ScoreControllerFactory";
-import { TimerControllerFactory } from "@core/factories/controllers/TimerControllerFactory";
 import { BoardViewFactory } from "@factories/views/BoardViewFactory";
 import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
-import { TimerViewFactory } from "@factories/views/TimerViewFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { EventDispatcherFactory } from "./factories/EventDispatcherFactory";
 import { GameFactory } from "./factories/GameFactory";
@@ -36,16 +34,14 @@ export function bindFactories(container) {
 				zeroEl: appConfigs.UI.score.zero,
 			}),
 		)
-		.register(new ModalViewFactory(appConfigs.UI.modal))
-		.register(new TimerViewFactory(appConfigs.UI.timerDisplay));
+		.register(new ModalViewFactory(appConfigs.UI.modal));
 
 	// controllers
 	container
 		.register(new BoardControllerFactory(game, dispatcher))
 		.register(new EffectsControllerFactory(game, dispatcher))
 		.register(new ScoreControllerFactory(game, dispatcher))
-		.register(new ModalControllerFactory(game, dispatcher))
-		.register(new TimerControllerFactory(game, dispatcher));
+		.register(new ModalControllerFactory(game, dispatcher));
 
 	return container;
 }

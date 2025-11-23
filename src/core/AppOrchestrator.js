@@ -4,7 +4,6 @@ import { BoardControllerFactory } from "@core/factories/controllers/BoardControl
 import { EffectsControllerFactory } from "@core/factories/controllers/EffectsControllerFactory";
 import { ModalControllerFactory } from "@core/factories/controllers/ModalControllerFactory";
 import { ScoreControllerFactory } from "@core/factories/controllers/ScoreControllerFactory";
-import { TimerControllerFactory } from "@core/factories/controllers/TimerControllerFactory";
 import { InstanceContainer } from "@core/InstanceContainer";
 import { EventDispatcherFactory } from "@factories/EventDispatcherFactory";
 import { GameFactory } from "@factories/GameFactory";
@@ -12,7 +11,6 @@ import { BoardViewFactory } from "@factories/views/BoardViewFactory";
 import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
-import { TimerViewFactory } from "@factories/views/TimerViewFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
 
@@ -33,7 +31,6 @@ export class AppOrchestrator {
 		this.#views.effects = this.#container.get(EffectsViewFactory, appConfigs.sounds.fanfare);
 		this.#views.score = this.#container.get(ScoreViewFactory);
 		this.#views.modal = this.#container.get(ModalViewFactory);
-		this.#views.timer = this.#container.get(TimerViewFactory, appConfigs.timer.startTime);
 
 		this.#controllers.board = this.#container.get(
 			BoardControllerFactory,
@@ -46,7 +43,6 @@ export class AppOrchestrator {
 		);
 		this.#controllers.score = this.#container.get(ScoreControllerFactory, this.#views.score);
 		this.#controllers.modal = this.#container.get(ModalControllerFactory, this.#views.modal);
-		this.#controllers.timer = this.#container.get(TimerControllerFactory, this.#views.timer);
 
 		this.#controllers.ai = this.#container.get(AIControllerFactory, null);
 
@@ -56,10 +52,6 @@ export class AppOrchestrator {
 	#bindViewsToControllers() {
 		this.#views.board.setOnCellClick(
 			this.#controllers.board.handleCellClick.bind(this.#controllers.board),
-		);
-
-		this.#views.timer.setOnTimerEnd(
-			this.#controllers.timer.handleTimerEnd.bind(this.#controllers.timer),
 		);
 
 		this.#views.modal.setOnClose(

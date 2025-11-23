@@ -8,10 +8,6 @@ export function getDomFixture() {
 			${cells(9)}
 		</div>
 
-		<div class="timer">
-			<div class="__content"></div>
-		</div>
-
 		<div id="modal">
 			<div id="modal-message"></div>
 			<div id="mini-board"></div>
