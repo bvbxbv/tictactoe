@@ -38,7 +38,7 @@ export class AppOrchestrator {
 		this.#models.score = this.#container.get(ScoreFactory, null);
 
 		this.#views.board = this.#container.get(BoardViewFactory);
-		this.#views.effects = this.#container.get(EffectsViewFactory, appConfigs.sounds.fanfare);
+		this.#views.effects = this.#container.get(EffectsViewFactory, appConfigs.sounds.win);
 		this.#views.score = this.#container.get(ScoreViewFactory);
 		this.#views.modal = this.#container.get(ModalViewFactory);
 

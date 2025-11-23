@@ -1,7 +1,9 @@
 import cellClick from "@assets/cell-click.wav";
-import fanfareUrl from "@assets/fanfare.wav";
+import loose from "@assets/loose.wav";
+import win from "@assets/win.wav";
 
 export const sounds = {
-	fanfare: fanfareUrl,
+	win: win,
 	cellClick: cellClick,
+	loose: loose,
 };

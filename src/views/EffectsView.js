@@ -10,8 +10,8 @@ export class EffectsView {
 		this.#jsConfetti = new JSConfetti();
 	}
 
-	update({ audioUrl }) {
-		this.#jsConfetti.addConfetti();
+	showWinScreen({ confetti, audioUrl }) {
+		this.#jsConfetti.addConfetti(confetti);
 		this.playSound(audioUrl);
 	}
 

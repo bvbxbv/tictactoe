@@ -30,7 +30,7 @@ export function bindFactories(container) {
 	// views
 	container
 		.register(new BoardViewFactory(appConfigs.UI.board))
-		.register(new EffectsViewFactory(appConfigs.sounds.fanfare))
+		.register(new EffectsViewFactory(appConfigs.sounds.win))
 		.register(
 			new ScoreViewFactory({
 				crossEl: appConfigs.UI.score.cross,

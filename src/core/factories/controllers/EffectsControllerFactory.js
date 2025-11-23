@@ -5,6 +5,7 @@ export class EffectsControllerFactory extends ControllerFactory {
 	create(view) {
 		return new EffectsController({
 			dispatcher: this.dispatcher,
+			gameManager: this.gameManager,
 			view: view,
 		});
 	}

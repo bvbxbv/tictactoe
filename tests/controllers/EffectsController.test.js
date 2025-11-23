@@ -9,10 +9,11 @@ let dispatcher, view, controller;
 beforeEach(() => {
 	dispatcher = new EventDispatcher();
 	view = {
-		update: vi.fn(),
+		showWinScreen: vi.fn(),
 	};
 	controller = new EffectsController({
 		view: view,
+		gameManager: {},
 		dispatcher: dispatcher,
 	});
 	controller.boot();
@@ -33,6 +34,6 @@ describe("Подписка на события", () => {
 describe("Поведение при триггере событий", () => {
 	test("GameWinEvent -> EffectsController.onGameWinHandler", () => {
 		dispatcher.dispatch(new GameWinEvent("", []));
-		expect(view.update).toHaveBeenCalled();
+		expect(view.showWinScreen).toHaveBeenCalled();
 	});
 });

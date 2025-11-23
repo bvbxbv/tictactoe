@@ -76,7 +76,9 @@ export class Game {
 
 		if (winningCombo) {
 			const winner = this.#board.cells[winningCombo[0]];
+
 			this.#score.win(winner);
+
 			logAction(this, GameWinEvent, { winner, winnerCombo: winningCombo });
 			this.#dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
 			this.#isGameEnded = true;
