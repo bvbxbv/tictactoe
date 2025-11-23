@@ -24,7 +24,6 @@ export function bindFactories(container) {
 	const dispatcher = container.get(EventDispatcherFactory);
 	const score = container.get(ScoreFactory, dispatcher);
 	const board = container.get(BoardFactory, dispatcher);
-	console.log(board);
 	const game = container.get(GameFactory, dispatcher, board, score);
 	container.get(AIControllerFactory, game, dispatcher);
 
