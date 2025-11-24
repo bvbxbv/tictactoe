@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -89,6 +89,170 @@
 					</button>
 				</div>
 			</div>
+		</div>
+
+		<script type="module" src="/src/main.js"></script>
+	</body>
+</html> -->
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body class="bg-[#edeef0]">
+		<div class="flex" id="app-container">
+			<div class="board-container w-full h-screen">
+				<div class="__inner h-full flex flex-col">
+					<div
+						class="__content-wrap h-[calc(100%-100px)] flex flex-col justify-center items-center my-10 mx-2 md:mx-5"
+					>
+						<div
+							class="board w-full md:max-w-[600px] p-2 bg-white rounded-lg shadow-md"
+						>
+							<div
+								class="__content grid grid-cols-3 grid-rows-3 aspect-square"
+								id="board-content"
+							>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+							</div>
+						</div>
+
+						<div
+							class="max-w-[600px] w-full bg-purple-400 text-white rounded border-b-6 border-purple-500 mt-5"
+							id="timer"
+						>
+							<div class="__content px-10 py-5">
+								<div class="__time text-center text-5xl font-bold font-[roboto]">
+									05:00
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<nav class="w-full h-[100px] bg-white shadow-xl" id="controls">
+						<div
+							class="__content flex flex-row w-full mx-auto justify-between items-center h-full max-w-[600px]"
+						>
+							<div class="nav-item">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="refresh-ccw"></i>
+								</div>
+							</div>
+
+							<div class="nav-item">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Volume2"></i>
+								</div>
+							</div>
+
+							<div class="nav-item">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Brain"></i>
+								</div>
+							</div>
+
+							<div class="nav-item">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Sun"></i>
+								</div>
+							</div>
+
+							<div class="nav-item">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Flag"></i>
+								</div>
+							</div>
+
+							<div class="nav-item block md:hidden">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Menu"></i>
+								</div>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+
+			<aside
+				class="hidden md:block max-w-[350px] w-full h-screen bg-white shadow-2xl"
+				id="chat"
+			>
+				<div class="w-full h-[calc(100%-100px)]" id="chat">
+					<div class="chat-message p-5 pb-2">
+						<div class="__nickname text-purple-500 font-bold tracking-tighter">
+							SayMyName
+						</div>
+
+						<div class="__message tracking-wide font-[roboto]">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+							exercitationem non ex cupiditate aliquid aliquam quia atque dolores
+							minima aut reprehenderit, quas id modi quisquam, quo amet repellendus
+							facilis est!
+						</div>
+					</div>
+					<div class="chat-message p-5 py-2">
+						<div class="__nickname text-purple-500 font-bold tracking-tighter">
+							SayMyName
+						</div>
+
+						<div class="__message tracking-wide font-[roboto]">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+							exercitationem non ex cupiditate aliquid aliquam quia atque dolores
+							minima aut reprehenderit, quas id modi quisquam, quo amet repellendus
+							facilis est!
+						</div>
+					</div>
+					<div class="chat-message p-5 py-2">
+						<div class="__nickname text-purple-500 font-bold tracking-tighter">
+							SayMyName
+						</div>
+
+						<div class="__message tracking-wide font-[roboto]">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+							exercitationem non ex cupiditate aliquid aliquam quia atque dolores
+							minima aut reprehenderit, quas id modi quisquam, quo amet repellendus
+							facilis est!
+						</div>
+					</div>
+					<div class="chat-message p-5 py-2">
+						<div class="__nickname text-purple-500 font-bold tracking-tighter">
+							SayMyName
+						</div>
+
+						<div class="__message tracking-wide font-[roboto]">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+							exercitationem non ex cupiditate aliquid aliquam quia atque dolores
+							minima aut reprehenderit, quas id modi quisquam, quo amet repellendus
+							facilis est!
+						</div>
+					</div>
+				</div>
+
+				<div class="w-full h-[100px] px-2 pb-2 mt-auto">
+					<div class="flex flex-row h-full">
+						<div class="score-item inactive-score-item mr-1">
+							<div class="__player text-xl">Крестики</div>
+							<div class="__text text-3xl">0</div>
+						</div>
+
+						<div class="score-item active-score-item">
+							<div class="__player text-xl">Нолики</div>
+							<div class="__text text-3xl">0</div>
+						</div>
+					</div>
+				</div>
+			</aside>
 		</div>
 
 		<script type="module" src="/src/main.js"></script>

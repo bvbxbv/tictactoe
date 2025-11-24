@@ -1,4 +1,34 @@
 import "./index.css";
-import { AppOrchestrator } from "@core/AppOrchestrator";
+import { createIcons, icons } from "lucide";
+import {
+	RefreshCcw,
+	Volume2,
+	VolumeX,
+	Volume1,
+	Brain,
+	List,
+	Sun,
+	Moon,
+	Settings,
+	Flag,
+	Menu,
+} from "lucide";
 
-new AppOrchestrator().run();
+createIcons({
+	icons: {
+		RefreshCcw,
+		Volume2,
+		VolumeX,
+		Volume1,
+		Brain,
+		List,
+		Sun,
+		Moon,
+		Settings,
+		Flag,
+		Menu,
+	},
+});
+// import { AppOrchestrator } from "@core/AppOrchestrator";
+
+// new AppOrchestrator().run();

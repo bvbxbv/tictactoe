@@ -36,6 +36,7 @@
 	"dependencies": {
 		"consola": "^3.4.2",
 		"js-confetti": "^0.13.1",
+		"lucide": "^0.554.0",
 		"toastify-js": "^1.12.0"
 	}
 }
