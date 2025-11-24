@@ -1,4 +1,5 @@
 import "./index.css";
+import { AppOrchestrator } from "@core/AppOrchestrator";
 import { createIcons, icons } from "lucide";
 import {
 	RefreshCcw,
@@ -29,6 +30,5 @@ createIcons({
 		Menu,
 	},
 });
-// import { AppOrchestrator } from "@core/AppOrchestrator";
 
-// new AppOrchestrator().run();
+new AppOrchestrator().run();

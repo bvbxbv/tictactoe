@@ -44,7 +44,7 @@
 	}
 
 	.score-item {
-		@apply py-5 w-1/2 text-center flex flex-col items-center justify-center font-bold font-[montserrat];
+		@apply py-5 w-1/2 text-center flex flex-col items-center justify-center font-bold font-[montserrat] transition-all;
 	}
 
 	.score-item.active-score-item {
