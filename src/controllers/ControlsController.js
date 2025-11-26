@@ -12,9 +12,12 @@ export class ControlsController {
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
 		this.#view = view;
+		this.#bindListeners();
 	}
 
-	boot() {}
+	boot() {
+		this.#bindListeners();
+	}
 
 	onRestartGameHandler() {
 		logHandler(this, GameResetEvent);
@@ -39,4 +42,14 @@ export class ControlsController {
 	}
 
 	onOpenMenuHandler() {}
+
+	#bindListeners() {
+		appConfigs.UI.chat.openButton.addEventListener("click", () => {
+			appConfigs.UI.chat.root.classList.remove("-translate-x-full");
+		});
+
+		appConfigs.UI.chat.closeButton.addEventListener("click", () => {
+			appConfigs.UI.chat.root.classList.add("-translate-x-full");
+		});
+	}
 }

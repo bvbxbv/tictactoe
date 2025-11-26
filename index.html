@@ -91,11 +91,18 @@
 			</div>
 
 			<aside
-				class="hidden md:block max-w-[350px] w-full h-screen bg-white dark:bg-[#111] shadow-2xl dark:shadow-none"
+				class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:translate-x-0 md:static md:max-w-[350px] w-full h-screen bg-white dark:bg-[#111] shadow-2xl dark:shadow-none"
+				id="chat-sidebar"
 			>
+				<div class="md:hidden flex justify-end">
+					<button id="close-sidebar" class="text-xl font-bold p-[15px]">
+						<i class="w-8 h-8 text-black dark:text-white" data-lucide="Menu"></i>
+					</button>
+				</div>
+
 				<div
 					id="chat"
-					class="w-full h-[calc(100%-100px)] overflow-y-auto flex flex-col justify-end p-4 space-y-2"
+					class="w-full h-[calc(100%-160px)] md:h-[calc(100%-100px)] overflow-y-auto flex flex-col justify-end p-4 space-y-2"
 				></div>
 
 				<div class="w-full h-[100px] px-2 pb-2 mt-auto">

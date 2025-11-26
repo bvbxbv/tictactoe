@@ -19,7 +19,7 @@ export class EffectsView {
 	showMessageInChat(text, className) {
 		const msg = createChatMessage("SayMyName", text, { msg: className });
 		// FIXME: dependency
-		appConfigs.UI.chat.root.appendChild(msg);
+		appConfigs.UI.chat.chat.appendChild(msg);
 	}
 
 	playSound(sound) {

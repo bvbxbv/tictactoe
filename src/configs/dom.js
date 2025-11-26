@@ -39,7 +39,10 @@ export const UI = {
 
 	get chat() {
 		return {
-			root: this._byId("chat"),
+			chat: this._byId("chat"),
+			root: this._byId("chat-sidebar"),
+			openButton: this._byId("menu-open"),
+			closeButton: this._byId("close-sidebar"),
 		};
 	},
 
