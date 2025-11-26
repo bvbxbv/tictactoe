@@ -14,6 +14,8 @@ import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
+import { ControlsControllerFactory } from "./factories/controllers/ControlsControllerFactory";
+import { ControlsViewFactory } from "./factories/views/ControlsViewFactory";
 
 export class AppOrchestrator {
 	#container = new InstanceContainer();
@@ -41,6 +43,13 @@ export class AppOrchestrator {
 		this.#views.effects = this.#container.get(EffectsViewFactory, appConfigs.sounds.win);
 		this.#views.score = this.#container.get(ScoreViewFactory);
 		this.#views.modal = this.#container.get(ModalViewFactory);
+		this.#views.controls = this.#container.get(ControlsViewFactory, appConfigs.UI.gameControls);
+
+		this.#controllers.controls = this.#container.get(
+			ControlsControllerFactory,
+			this.#views.controls,
+			this.#models.dispatcher,
+		);
 
 		this.#controllers.board = this.#container.get(
 			BoardControllerFactory,
@@ -66,6 +75,22 @@ export class AppOrchestrator {
 
 		this.#views.modal.setOnClose(
 			this.#controllers.modal.handleModalClose.bind(this.#controllers.modal),
+		);
+
+		this.#views.controls.setOnRestartGameButtonClick(
+			this.#controllers.controls.onRestartGameHandler.bind(this.#controllers.controls),
+		);
+		this.#views.controls.setOnToggleVolumeButtonClick(
+			this.#controllers.controls.onToggleVolumeHandler.bind(this.#controllers.controls),
+		);
+		this.#views.controls.setOnSwitchColorThemeButtonClick(
+			this.#controllers.controls.onSwitchColorThemeHandler.bind(this.#controllers.controls),
+		);
+		this.#views.controls.setOnGiveUpButtonClick(
+			this.#controllers.controls.onGiveUpHandler.bind(this.#controllers.controls),
+		);
+		this.#views.controls.setOnOpenMenuButtonClick(
+			this.#controllers.controls.onOpenMenuHandler.bind(this.#controllers.controls),
 		);
 	}
 

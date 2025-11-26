@@ -1,0 +1,42 @@
+export class ControlsView {
+	#controlsDOM;
+	#handlers = {
+		restartGameButton: null,
+		toggleVolumeButton: null,
+		switchColorThemeButton: null,
+		giveUpButton: null,
+		openMenuButton: null,
+	};
+
+	constructor({ controlsDOM }) {
+		this.#controlsDOM = controlsDOM;
+		this.#bindListeners();
+	}
+
+	setOnRestartGameButtonClick(handler) {
+		this.#handlers.restartGameButton = handler;
+	}
+	setOnToggleVolumeButtonClick(handler) {
+		this.#handlers.toggleVolumeButton = handler;
+	}
+	setOnSwitchColorThemeButtonClick(handler) {
+		this.#handlers.switchColorThemeButton = handler;
+	}
+
+	setOnGiveUpButtonClick(handler) {
+		this.#handlers.giveUpButton = handler;
+	}
+
+	setOnOpenMenuButtonClick(handler) {
+		this.#handlers.openMenuButton = handler;
+	}
+
+	#bindListeners() {
+		const keys = Object.keys(this.#handlers);
+		for (const key of keys) {
+			this.#controlsDOM[key].addEventListener("click", () => {
+				this.#handlers[key]?.();
+			});
+		}
+	}
+}

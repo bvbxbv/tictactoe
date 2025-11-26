@@ -9,9 +9,11 @@ import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
+import { ControlsControllerFactory } from "./factories/controllers/ControlsControllerFactory";
 import { EventDispatcherFactory } from "./factories/EventDispatcherFactory";
 import { GameFactory } from "./factories/GameFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
+import { ControlsViewFactory } from "./factories/views/ControlsViewFactory";
 
 export function bindFactories(container) {
 	container
@@ -19,18 +21,21 @@ export function bindFactories(container) {
 		.register(new ScoreFactory())
 		.register(new BoardFactory())
 		.register(new GameFactory())
-		.register(new AIControllerFactory());
+		.register(new AIControllerFactory())
+		.register(new ControlsControllerFactory());
 
 	const dispatcher = container.get(EventDispatcherFactory);
 	const score = container.get(ScoreFactory, dispatcher);
 	const board = container.get(BoardFactory, dispatcher);
 	const game = container.get(GameFactory, dispatcher, board, score);
+
 	container.get(AIControllerFactory, game, dispatcher);
 
 	// views
 	container
 		.register(new BoardViewFactory(appConfigs.UI.board))
 		.register(new EffectsViewFactory(appConfigs.sounds.win))
+		.register(new ControlsViewFactory(appConfigs.UI.gameControls))
 		.register(
 			new ScoreViewFactory({
 				crossEl: appConfigs.UI.score.cross,
