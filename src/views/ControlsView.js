@@ -13,6 +13,18 @@ export class ControlsView {
 		this.#bindListeners();
 	}
 
+	changeVolumeIconFrom({ isMuted }) {
+		const { unmutedIcon, mutedIcon } = this.#controlsDOM.icons;
+
+		if (isMuted) {
+			unmutedIcon.classList.add("hidden");
+			mutedIcon.classList.remove("hidden");
+		} else {
+			unmutedIcon.classList.remove("hidden");
+			mutedIcon.classList.add("hidden");
+		}
+	}
+
 	setOnRestartGameButtonClick(handler) {
 		this.#handlers.restartGameButton = handler;
 	}

@@ -1,6 +1,7 @@
 import { UI } from "@configs/dom";
 import { sounds } from "@configs/sounds";
 import { ai } from "./ai";
+import { audio } from "./audio";
 
 export const appConfigs = Object.freeze({
 	timer: {
@@ -30,6 +31,7 @@ export const appConfigs = Object.freeze({
 			],
 		},
 	},
+	audio: audio,
 	UI: UI,
 	AI: ai,
 	sounds: sounds,

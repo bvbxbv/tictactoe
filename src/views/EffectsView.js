@@ -24,6 +24,9 @@ export class EffectsView {
 
 	playSound(sound) {
 		this.#audio = new Audio(sound);
+		if (appConfigs.audio.muted) {
+			this.#audio.muted = true;
+		}
 		this.#audio.play();
 	}
 }

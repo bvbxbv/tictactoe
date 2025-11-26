@@ -47,8 +47,8 @@ export class AppOrchestrator {
 
 		this.#controllers.controls = this.#container.get(
 			ControlsControllerFactory,
-			this.#views.controls,
 			this.#models.dispatcher,
+			this.#views.controls,
 		);
 
 		this.#controllers.board = this.#container.get(

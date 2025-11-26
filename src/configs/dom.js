@@ -21,6 +21,10 @@ export const UI = {
 			switchColorThemeButton: this._byId("color-theme-switch"),
 			giveUpButton: this._byId("give-up"),
 			openMenuButton: this._byId("menu-open"),
+			icons: {
+				unmutedIcon: this._byId("volume-unmuted-icon"),
+				mutedIcon: this._byId("volume-muted-icon"),
+			},
 		};
 	},
 
