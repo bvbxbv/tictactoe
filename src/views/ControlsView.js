@@ -1,7 +1,6 @@
 export class ControlsView {
 	#controlsDOM;
 	#handlers = {
-		restartGameButton: null,
 		toggleVolumeButton: null,
 		switchColorThemeButton: null,
 		giveUpButton: null,
@@ -29,9 +28,6 @@ export class ControlsView {
 		documentElement.classList.toggle("dark");
 	}
 
-	setOnRestartGameButtonClick(handler) {
-		this.#handlers.restartGameButton = handler;
-	}
 	setOnToggleVolumeButtonClick(handler) {
 		this.#handlers.toggleVolumeButton = handler;
 	}

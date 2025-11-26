@@ -48,6 +48,10 @@ export class Game {
 		return this.whoseMove === PlayerMark.Zero;
 	}
 
+	surrend() {
+		this.#score.loose(PlayerMark.Cross);
+	}
+
 	makeMove(index) {
 		if (index < 0 || index > 8) {
 			return err("INDEX_OUT_OF_RANGE", "Индекс вне диапазона");

@@ -29,6 +29,16 @@ export class Score {
 		this.#dispatcher.dispatch(new ScoreChangedEvent(payload));
 	}
 
+	loose(who) {
+		if (this.#score[who] > 0) {
+			this.#score[who] -= 1;
+			const payload = { cross: this.cross, zero: this.zero };
+
+			logAction(this, ScoreChangedEvent, payload);
+			this.#dispatcher.dispatch(new ScoreChangedEvent(payload));
+		}
+	}
+
 	reset() {
 		this.#score = {
 			[PlayerMark.Cross]: 0,

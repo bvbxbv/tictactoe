@@ -1,5 +1,5 @@
 import { appConfigs } from "@configs/appConfigs";
-import { CellState } from "@configs/enums";
+import { CellState, PlayerMark } from "@configs/enums";
 import { GameResetEvent, GameSurrendEvent } from "@core/events/GameEvents";
 import { logHandler } from "@utils/helpers";
 
@@ -19,11 +19,6 @@ export class ControlsController {
 		this.#bindListeners();
 	}
 
-	onRestartGameHandler() {
-		logHandler(this, GameResetEvent);
-		this.#dispatcher.dispatch(new GameResetEvent());
-	}
-
 	onToggleVolumeHandler() {
 		appConfigs.audio.toggle();
 		this.#view.changeVolumeIconFrom({ isMuted: appConfigs.audio.muted });
@@ -39,6 +34,7 @@ export class ControlsController {
 		} else {
 			this.#dispatcher.dispatch(new GameSurrendEvent("Вы сдались"));
 		}
+		this.#gameManager.surrend(PlayerMark.Cross);
 	}
 
 	onOpenMenuHandler() {}

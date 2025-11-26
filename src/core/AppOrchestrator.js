@@ -78,9 +78,6 @@ export class AppOrchestrator {
 			this.#controllers.modal.handleModalClose.bind(this.#controllers.modal),
 		);
 
-		this.#views.controls.setOnRestartGameButtonClick(
-			this.#controllers.controls.onRestartGameHandler.bind(this.#controllers.controls),
-		);
 		this.#views.controls.setOnToggleVolumeButtonClick(
 			this.#controllers.controls.onToggleVolumeHandler.bind(this.#controllers.controls),
 		);
