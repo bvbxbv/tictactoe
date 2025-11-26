@@ -1,6 +1,6 @@
 import "./index.css";
 import { AppOrchestrator } from "@core/AppOrchestrator";
-import { createIcons, icons } from "lucide";
+import { createIcons } from "lucide";
 import {
 	RefreshCcw,
 	Volume2,

@@ -21,8 +21,7 @@ export function bindFactories(container) {
 		.register(new ScoreFactory())
 		.register(new BoardFactory())
 		.register(new GameFactory())
-		.register(new AIControllerFactory())
-		.register(new ControlsControllerFactory());
+		.register(new AIControllerFactory());
 
 	const dispatcher = container.get(EventDispatcherFactory);
 	const score = container.get(ScoreFactory, dispatcher);
@@ -49,7 +48,8 @@ export function bindFactories(container) {
 		.register(new BoardControllerFactory(game, dispatcher))
 		.register(new EffectsControllerFactory(game, dispatcher))
 		.register(new ScoreControllerFactory(game, dispatcher))
-		.register(new ModalControllerFactory(game, dispatcher));
+		.register(new ModalControllerFactory(game, dispatcher))
+		.register(new ControlsControllerFactory(game, dispatcher));
 
 	return container;
 }

@@ -17,3 +17,9 @@ export class GameDrawEvent extends GameEvent {
 		super("game@draw", null);
 	}
 }
+
+export class GameSurrendEvent extends GameEvent {
+	constructor(message = null) {
+		super("player@surrend", { message });
+	}
+}

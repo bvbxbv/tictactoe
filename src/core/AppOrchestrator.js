@@ -13,8 +13,8 @@ import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
-import { ScoreFactory } from "./factories/ScoreFactory";
 import { ControlsControllerFactory } from "./factories/controllers/ControlsControllerFactory";
+import { ScoreFactory } from "./factories/ScoreFactory";
 import { ControlsViewFactory } from "./factories/views/ControlsViewFactory";
 
 export class AppOrchestrator {
@@ -47,6 +47,7 @@ export class AppOrchestrator {
 
 		this.#controllers.controls = this.#container.get(
 			ControlsControllerFactory,
+			this.#models.game,
 			this.#models.dispatcher,
 			this.#views.controls,
 		);
