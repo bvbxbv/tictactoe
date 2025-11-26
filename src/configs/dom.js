@@ -13,6 +13,10 @@ export const UI = {
 		return elements;
 	},
 
+	get mount() {
+		return document.documentElement;
+	},
+
 	get gameControls() {
 		return {
 			root: this._byId("controls"),

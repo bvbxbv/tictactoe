@@ -2,6 +2,8 @@
 @import "tailwindcss";
 @import "./toastify.css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--font-family-montserrat: "Montserrat", sans-serif;
 	--font-family-roboto: "Roboto", sans-serif;
@@ -19,18 +21,6 @@
 	.font-roboto {
 		font-family: var(--font-family-roboto);
 	}
-
-	.toast-angry {
-		@apply font-[montserrat] bg-red-500 text-white font-bold;
-	}
-
-	.toast-sarcasm {
-		@apply font-[montserrat] bg-yellow-500 text-white font-bold;
-	}
-
-	.toast-calm {
-		@apply font-[montserrat] bg-blue-400 text-white font-bold;
-	}
 }
 
 @layer components {
@@ -39,6 +29,7 @@
 	}
 
 	.nav-item > .__text {
+		@apply dark:text-white;
 		@apply hover:bg-purple-500 hover:border-b-4 hover:border-purple-600 hover:text-white;
 		@apply cursor-pointer transition-all border-b-4 border-transparent  flex justify-center  py-8;
 	}
@@ -56,7 +47,7 @@
 	}
 
 	.cell {
-		@apply text-[clamp(2.5rem,10vw,5rem)] text-dark font-[montserrat] font-bold uppercase;
+		@apply text-[clamp(2.5rem,10vw,5rem)] text-dark bg-white font-[montserrat] font-bold uppercase dark:text-white dark:bg-[#333];
 		@apply flex items-center justify-center;
 		@apply cursor-pointer;
 		border-right: 3px solid var(--color-dark);
@@ -80,6 +71,10 @@
 	}
 
 	.cell-win {
-		@apply text-blue-400;
+		@apply text-purple-400;
 	}
+}
+
+.chat-message .__message {
+	@apply text-black dark:text-white;
 }

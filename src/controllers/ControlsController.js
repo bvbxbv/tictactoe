@@ -24,7 +24,9 @@ export class ControlsController {
 		this.#view.changeVolumeIconFrom({ isMuted: appConfigs.audio.muted });
 	}
 
-	onSwitchColorThemeHandler() {}
+	onSwitchColorThemeHandler() {
+		this.#view.toggleAppTheme({ documentElement: appConfigs.UI.mount });
+	}
 	onGiveUpHandler() {}
 	onOpenMenuHandler() {}
 	#subscribe() {}

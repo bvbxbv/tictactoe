@@ -31,6 +31,12 @@ export const appConfigs = Object.freeze({
 			],
 		},
 	},
+	theme: {
+		isDark: false,
+		toggle() {
+			this.isDark = !this.isDark;
+		},
+	},
 	audio: audio,
 	UI: UI,
 	AI: ai,

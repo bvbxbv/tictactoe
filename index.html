@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>tictactoe</title>
 	</head>
-	<body class="bg-[#edeef0]">
+	<body class="bg-[#edeef0] dark:bg-[#222] transition-all">
 		<div class="flex" id="app-container">
 			<div class="board-container w-full h-screen">
 				<div class="__inner h-full flex flex-col">
@@ -13,7 +13,7 @@
 						class="__content-wrap h-[calc(100%-100px)] flex flex-col justify-center items-center my-10 mx-2 md:mx-5"
 					>
 						<div
-							class="board w-full md:max-w-[600px] p-2 bg-white rounded-lg shadow-md"
+							class="board w-full md:max-w-[600px] p-2 bg-white dark:bg-[#444] rounded-lg shadow-md"
 						>
 							<div
 								class="__content grid grid-cols-3 grid-rows-3 aspect-square"
@@ -43,7 +43,7 @@
 						</div>
 					</div>
 
-					<nav class="w-full h-[100px] bg-white shadow-xl" id="controls">
+					<nav class="w-full h-[100px] bg-white dark:bg-[#111] shadow-xl" id="controls">
 						<div
 							class="__content flex flex-row w-full mx-auto justify-between items-center h-full max-w-[600px]"
 						>
@@ -90,7 +90,9 @@
 				</div>
 			</div>
 
-			<aside class="hidden md:block max-w-[350px] w-full h-screen bg-white shadow-2xl">
+			<aside
+				class="hidden md:block max-w-[350px] w-full h-screen bg-white dark:bg-[#111] shadow-2xl dark:shadow-none"
+			>
 				<div
 					id="chat"
 					class="w-full h-[calc(100%-100px)] overflow-y-auto flex flex-col justify-end p-4 space-y-2"
@@ -116,9 +118,11 @@
 			id="modal"
 			class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
 		>
-			<div class="bg-white rounded-lg shadow-lg p-6 text-center w-full max-w-[600px]">
+			<div
+				class="bg-white dark:bg-[#222] rounded-lg shadow-lg p-6 text-center w-full max-w-[600px]"
+			>
 				<div
-					class="font-roboto mb-4 text-blue-400 font-bold text-3xl uppercase tracking-widest"
+					class="font-roboto mb-4 text-purple-400 font-bold text-3xl uppercase tracking-widest"
 				>
 					<span id="modal-message"> </span>
 				</div>
@@ -140,9 +144,11 @@
 
 				<button
 					id="modal-btn"
-					class="bg-blue-400 px-4 py-5 rounded-lg hover:bg-blue-500 transition w-[70%] mt-5"
+					class="bg-purple-400 px-4 py-5 rounded-lg hover:bg-purple-500 transition w-[70%] mt-5"
 				>
-					<div class="__content text-4xl uppercase tracking-widest font-bold text-white">
+					<div
+						class="__content text-4xl uppercase tracking-widest font-bold text-white pointer"
+					>
 						Заново
 					</div>
 				</button>

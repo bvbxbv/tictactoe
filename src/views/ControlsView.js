@@ -25,6 +25,10 @@ export class ControlsView {
 		}
 	}
 
+	toggleAppTheme({ documentElement }) {
+		documentElement.classList.toggle("dark");
+	}
+
 	setOnRestartGameButtonClick(handler) {
 		this.#handlers.restartGameButton = handler;
 	}
