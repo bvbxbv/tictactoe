@@ -4,10 +4,9 @@ function toMs(s) {
 
 const phrase = (message, className, chance) => ({ message, className, chance });
 
-const Toast = Object.freeze({
-	calm: "toast-calm",
-	angry: "toast-angry",
-	sarcasm: "toast-sarcasm",
+export const Style = Object.freeze({
+	Sarcasm: "italic",
+	Default: "",
 });
 
 export const ai = Object.freeze({
@@ -19,82 +18,82 @@ export const ai = Object.freeze({
 	},
 	messages: {
 		defense: [
-			phrase("Хрен там. Не так быстро.", Toast.sarcasm, 50),
-			phrase("Думаешь ты самый умный? Вряд ли", Toast.sarcasm, 50),
-			phrase("Посмотрим что ты ещё можешь выкинуть", Toast.calm, 50),
+			phrase("Хрен там. Не так быстро.", Style.Sarcasm, 50),
+			phrase("Думаешь ты самый умный? Вряд ли", Style.Sarcasm, 50),
+			phrase("Посмотрим что ты ещё можешь выкинуть", Style.Default, 50),
 			phrase(
 				"Твой гениальный план провален? Не переживай особо по этому поводу",
-				Toast.sarcasm,
+				Style.Sarcasm,
 				50,
 			),
-			phrase("Это могло сработать... Но не сработало", Toast.calm, 50),
+			phrase("Это могло сработать... Но не сработало", Style.Default, 50),
 		],
 
 		center: [
-			phrase("Хи-хи, центр мой!", Toast.sarcasm, 50),
-			phrase("Центр - половина победы", Toast.calm, 50),
-			phrase("Не нравится центр?", Toast.sarcasm, 50),
-			phrase("Че там на окраинах? Тепло хоть?", Toast.sarcasm, 50),
-			phrase("Кто-то не походит в центр", Toast.sarcasm, 50),
-			phrase("Опа, F5", Toast.calm, 50),
+			phrase("Хи-хи, центр мой!", Style.Sarcasm, 50),
+			phrase("Центр - половина победы", Style.Default, 50),
+			phrase("Не нравится центр?", Style.Sarcasm, 50),
+			phrase("Че там на окраинах? Тепло хоть?", Style.Sarcasm, 50),
+			phrase("Кто-то не походит в центр", Style.Sarcasm, 50),
+			phrase("Опа, F5", Style.Default, 50),
 		],
 
 		random: [
 			phrase(
 				"Мне в принципе не важно куда ходить. Я выиграю в любом случае",
-				Toast.sarcasm,
+				Style.Sarcasm,
 				30,
 			),
-			phrase("Я могу ходить куда угодно. Ты - нет", Toast.sarcasm, 30),
-			phrase("Впечатлен?", Toast.sarcasm, 30),
-			phrase("Ещё пару раз так похожу и мой счёт вырастет", Toast.sarcasm, 30),
-			phrase("Это может сработать...", Toast.calm, 30),
-			phrase("Это не случайность...", Toast.calm, 30),
-			phrase("Чики-брики, пальчик выкинь...", Toast.sarcasm, 30),
+			phrase("Я могу ходить куда угодно. Ты - нет", Style.Sarcasm, 30),
+			phrase("Впечатлен?", Style.Sarcasm, 30),
+			phrase("Ещё пару раз так похожу и мой счёт вырастет", Style.Sarcasm, 30),
+			phrase("Это может сработать...", Style.Default, 30),
+			phrase("Это не случайность...", Style.Default, 30),
+			phrase("Чики-брики, пальчик выкинь...", Style.Sarcasm, 30),
 		],
 
 		win: [
-			phrase("Не пикай эту сторону больше. У тебя вообще нет шансов", Toast.angry, 100),
-			phrase("21! Ой, извини. Не тебе", Toast.sarcasm, 100),
-			phrase("В следующий раз повезёт. Наверное", Toast.sarcasm, 100),
-			phrase("ГГ, изи", Toast.calm, 100),
-			phrase("Потно-потно. (нет)", Toast.sarcasm, 100),
-			phrase("Зачем ты меня заставляешь это делать? ...Ты мазохист?", Toast.sarcasm, 100),
-			phrase("Чувак, эта партия не была интересной. Предыдущие тоже.", Toast.angry, 100),
-			phrase("Схавал?", Toast.angry, 100),
+			phrase("Не пикай эту сторону больше. У тебя вообще нет шансов", Style.Sarcasm, 100),
+			phrase("21! Ой, извини. Не тебе", Style.Sarcasm, 100),
+			phrase("В следующий раз повезёт. Наверное", Style.Sarcasm, 100),
+			phrase("ГГ, изи", Style.Default, 100),
+			phrase("Потно-потно. (нет)", Style.Sarcasm, 100),
+			phrase("Зачем ты меня заставляешь это делать? ...Ты мазохист?", Style.Sarcasm, 100),
+			phrase("Чувак, эта партия не была интересной. Предыдущие тоже.", Style.Sarcasm, 100),
+			phrase("Схавал?", Style.Sarcasm, 100),
 		],
 
 		draw: [
-			phrase("Ничья? Чтож, это лучший исход для тебя", Toast.sarcasm, 100),
-			phrase("Лучшей попытки у тебя не будет", Toast.sarcasm, 100),
+			phrase("Ничья? Чтож, это лучший исход для тебя", Style.Sarcasm, 100),
+			phrase("Лучшей попытки у тебя не будет", Style.Sarcasm, 100),
 			phrase(
 				"Достойно. Ты не проиграл - значит у тебя хотя бы пара извилин есть",
-				Toast.sarcasm,
+				Style.Sarcasm,
 				100,
 			),
-			phrase("Го некст?", Toast.calm, 100),
-			phrase("ГГ ВП", Toast.calm, 100),
+			phrase("Го некст?", Style.Default, 100),
+			phrase("ГГ ВП", Style.Default, 100),
 		],
 
 		loose: [
-			phrase("Что? КАК? Я не понимаю...", Toast.angry, 100),
-			phrase("Хорошо сыграл, молодец...", Toast.calm, 100),
-			phrase("Выруби читы, потом приходи", Toast.angry, 100),
-			phrase("Пролагало, не сильно радуйся там", Toast.sarcasm, 100),
-			phrase("Позор... Проиграть тебе?", Toast.angry, 100),
+			phrase("Что? КАК? Я не понимаю...", Style.Sarcasm, 100),
+			phrase("Хорошо сыграл, молодец...", Style.Default, 100),
+			phrase("Выруби читы, потом приходи", Style.Sarcasm, 100),
+			phrase("Пролагало, не сильно радуйся там", Style.Sarcasm, 100),
+			phrase("Позор... Проиграть тебе?", Style.Sarcasm, 100),
 			phrase(
 				"Меня подвёл генератор случайных чисел, не думай о себе слишком много",
-				Toast.sarcasm,
+				Style.Sarcasm,
 				100,
 			),
 		],
 
 		fork: [
-			phrase("Давай, парируй", Toast.calm, 30),
-			phrase("Оцените силу духа", Toast.sarcasm, 30),
-			phrase("Чё думаешь? Норм ход?", Toast.sarcasm, 30),
-			phrase("Не стоит кланяться. Обычный ход", Toast.sarcasm, 30),
-			phrase("Хм, попробуем вот так...", Toast.calm, 30),
+			phrase("Давай, парируй", Style.Default, 30),
+			phrase("Оцените силу духа", Style.Sarcasm, 30),
+			phrase("Чё думаешь? Норм ход?", Style.Sarcasm, 30),
+			phrase("Не стоит кланяться. Обычный ход", Style.Sarcasm, 30),
+			phrase("Хм, попробуем вот так...", Style.Default, 30),
 		],
 	},
 });

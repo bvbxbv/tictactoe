@@ -30,6 +30,14 @@ export class EffectsController {
 		const aiLoosePreset = getRandomItem(appConfigs.jsConfetti.emojisPresets.aiLoose);
 		const confetti = { emojis: this.#gameManager.isAiMove ? aiWinPreset : aiLoosePreset };
 		const sound = this.#gameManager.isAiMove ? appConfigs.sounds.loose : appConfigs.sounds.win;
+
+		const phrase = getRandomItem(appConfigs.AI.messages.loose);
+		if (!this.#gameManager.isAiMove) {
+			this.onAIWantsToSpeak(
+				new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
+			);
+		}
+
 		logHandler(this, GameWinEvent, this.onGameWinHandler);
 		this.#view.showWinScreen({ confetti: confetti, audioUrl: sound });
 	}
@@ -37,11 +45,7 @@ export class EffectsController {
 	onAIWantsToSpeak(e) {
 		const text = e.detail.speach;
 		const className = e.detail.className;
-		this.#view.showToast({
-			text: text,
-			className: className,
-			duration: 1500, // FIXME: config
-		});
+		this.#view.showMessageInChat(text, className);
 	}
 
 	onCellChanged() {

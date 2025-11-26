@@ -1,5 +1,4 @@
 import { log } from "@utils/consolawrapper";
-import Toastify from "toastify-js";
 
 export function logAction(context, event, payload = null) {
 	const contextName = context?.constructor?.name ?? context?.name ?? "UnknownContext";
@@ -43,18 +42,29 @@ export function random(min, max) {
 	return rand;
 }
 
-export function toast({ text, className = "", duration = 1500 }) {
-	Toastify({
-		text: text,
-		className: className,
-		duration: duration,
-	}).showToast();
-}
-
 export function gotLucky(chance) {
 	if (chance > 1) {
 		// 30 -> 0.3
 		chance = chance / 100;
 	}
 	return Math.random() <= chance;
+}
+
+export function createChatMessage(nickname, message, classNames = {}) {
+	const { wrap = "", nick = "", msg = "" } = classNames;
+
+	const wrapper = document.createElement("div");
+	wrapper.className = `chat-message p-5 pb-2 ${wrap}`.trim();
+
+	const nickEl = document.createElement("div");
+	nickEl.className = `__nickname text-purple-500 font-bold tracking-tighter ${nick}`.trim();
+	nickEl.textContent = nickname;
+
+	const msgEl = document.createElement("div");
+	msgEl.className = `__message tracking-wide font-[roboto] ${msg}`.trim();
+	msgEl.textContent = message;
+
+	wrapper.append(nickEl, msgEl);
+
+	return wrapper;
 }

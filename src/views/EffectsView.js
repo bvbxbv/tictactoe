@@ -1,4 +1,5 @@
-import { toast } from "@utils/helpers";
+import { appConfigs } from "@configs/appConfigs";
+import { createChatMessage } from "@utils/helpers";
 import JSConfetti from "js-confetti";
 
 export class EffectsView {
@@ -15,12 +16,10 @@ export class EffectsView {
 		this.playSound(audioUrl);
 	}
 
-	showToast({ text, className, duration }) {
-		toast({
-			text: text,
-			className: className,
-			duration: duration,
-		});
+	showMessageInChat(text, className) {
+		const msg = createChatMessage("SayMyName", text, { msg: className });
+		// FIXME: dependency
+		appConfigs.UI.chat.root.appendChild(msg);
 	}
 
 	playSound(sound) {

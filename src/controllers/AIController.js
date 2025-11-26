@@ -1,5 +1,3 @@
-// FIXME: Factory
-
 import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
@@ -60,16 +58,18 @@ export class AIController {
 		setTimeout(() => {
 			this.#gameManager.makeMove(response.index);
 
-			const phrase = response.message;
-			logAction(this, AIWantsToSpeakEvent, {
-				message: phrase.message,
-				className: phrase.className,
-				chance: phrase.chance,
-			});
-			if (gotLucky(phrase.chance)) {
-				this.#dispatcher.dispatch(
-					new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
-				);
+			if (!this.#gameManager.isAiMove) {
+				const phrase = response.message;
+				logAction(this, AIWantsToSpeakEvent, {
+					message: phrase.message,
+					className: phrase.className,
+					chance: phrase.chance,
+				});
+				if (gotLucky(phrase.chance)) {
+					this.#dispatcher.dispatch(
+						new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
+					);
+				}
 			}
 
 			logAction(this, AIMovedEvent, response.index);

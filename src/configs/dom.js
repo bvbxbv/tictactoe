@@ -18,6 +18,12 @@ export const UI = {
 		return { root, cells: root ? this._bySelector(".cell", root) : [] };
 	},
 
+	get chat() {
+		return {
+			root: this._byId("chat"),
+		};
+	},
+
 	get modal() {
 		return {
 			body: this._byId("modal"),

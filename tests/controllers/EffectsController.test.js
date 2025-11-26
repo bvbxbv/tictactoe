@@ -9,6 +9,7 @@ let dispatcher, view, controller;
 beforeEach(() => {
 	dispatcher = new EventDispatcher();
 	view = {
+		showMessageInChat: vi.fn(),
 		showWinScreen: vi.fn(),
 	};
 	controller = new EffectsController({
