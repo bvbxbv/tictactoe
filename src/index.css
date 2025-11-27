@@ -78,3 +78,11 @@
 .chat-message .__message {
 	@apply text-black dark:text-white;
 }
+
+.player-active {
+	@apply bg-purple-400 border-purple-500;
+}
+
+.ai-active {
+	@apply bg-blue-400 border-blue-500;
+}

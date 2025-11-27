@@ -1,8 +1,8 @@
 import { GameError } from "./BaseError";
 
 export class IncorrectEventClassError extends GameError {
-	constructor() {
-		super("Ожидалось событие типа GameEvent");
+	constructor(given) {
+		super("Ожидалось событие типа GameEvent. Получено: " + given);
 	}
 }
 

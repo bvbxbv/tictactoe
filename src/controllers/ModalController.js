@@ -1,4 +1,5 @@
 import { BoardResetEvent } from "@core/events/BoardEvents";
+import { AITimeoutEvent, PlayerTimeoutEvent } from "@core/events/TimerEvents";
 import {
 	GameDrawEvent,
 	GameResetEvent,
@@ -27,6 +28,26 @@ export class ModalController {
 		this.#dispatcher.subscribe(GameDrawEvent, this.onDrawHandler.bind(this));
 		this.#dispatcher.subscribe(GameResetEvent, this.onResetHandler.bind(this));
 		this.#dispatcher.subscribe(GameSurrendEvent, this.onSurrendHandler.bind(this));
+		this.#dispatcher.subscribe(PlayerTimeoutEvent, this.onPlayerTimeoutHandler.bind(this));
+		this.#dispatcher.subscribe(AITimeoutEvent, this.onAITimeoutHandler.bind(this));
+	}
+
+	onPlayerTimeoutHandler() {
+		logHandler(this, PlayerTimeoutEvent, this.onPlayerTimeoutHandler);
+		this.#showModal(
+			`Время истекло. Вы проиграли`,
+			this.#gameManager.board.serialize().cells,
+			null,
+		);
+	}
+
+	onAITimeoutHandler() {
+		logHandler(this, AITimeoutEvent, this.onAITimeoutHandler);
+		this.#showModal(
+			`Кто бы мог подумать, время машины истекло. Вы выиграли`,
+			this.#gameManager.board.serialize().cells,
+			null,
+		);
 	}
 
 	handleModalClose() {

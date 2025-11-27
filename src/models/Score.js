@@ -1,6 +1,7 @@
 import { PlayerMark } from "@configs/enums";
 import { GameRestartEvent, GameStartEvent } from "@core/events/GameEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
+import { AITimeoutEvent, PlayerTimeoutEvent } from "@core/events/TimerEvents";
 import { ArgumentIsNotPlayerMarkError } from "@errors/scoreErrors";
 import { logAction } from "@utils/helpers";
 
@@ -17,6 +18,16 @@ export class Score {
 		this.#store = store;
 		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
 		this.#dispatcher.subscribe(GameRestartEvent, this.reset.bind(this));
+		this.#dispatcher.subscribe(PlayerTimeoutEvent, this.onPlayerLoose.bind(this));
+		this.#dispatcher.subscribe(AITimeoutEvent, this.onPlayerWin.bind(this));
+	}
+
+	onPlayerLoose() {
+		this.loose(PlayerMark.Cross);
+	}
+
+	onPlayerWin() {
+		this.win(PlayerMark.Cross);
 	}
 
 	onGameStartHandler() {

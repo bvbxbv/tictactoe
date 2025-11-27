@@ -6,7 +6,7 @@ export class EventDispatcher {
 
 	dispatch(event) {
 		if (typeof event !== "object" || !(event instanceof GameEvent)) {
-			throw new IncorrectEventClassError();
+			throw new IncorrectEventClassError(event);
 		}
 
 		const eventType = event.constructor;
@@ -22,7 +22,7 @@ export class EventDispatcher {
 
 	subscribe(event, listener) {
 		if (!(event.prototype instanceof GameEvent)) {
-			throw new IncorrectEventClassError();
+			throw new IncorrectEventClassError(event);
 		}
 
 		if (!this.#listeners.has(event)) {

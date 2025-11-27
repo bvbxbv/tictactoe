@@ -32,6 +32,13 @@ export const UI = {
 		};
 	},
 
+	get timer() {
+		return {
+			root: this._byId("timer"),
+			display: this._byId("timer-display"),
+		};
+	},
+
 	get board() {
 		const root = this._byId("board-content");
 		return { root, cells: root ? this._bySelector(".cell", root) : [] };
