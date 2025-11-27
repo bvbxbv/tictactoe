@@ -7,6 +7,7 @@ export class ScoreControllerFactory extends ControllerFactory {
 			gameManager: this.gameManager,
 			dispatcher: this.dispatcher,
 			view: view,
+			store: this.store,
 		});
 	}
 }

@@ -1,6 +1,9 @@
+import { appConfigs } from "@configs/appConfigs";
+
 export class ControlsView {
 	#controlsDOM;
 	#handlers = {
+		restartGameButton: null,
 		toggleVolumeButton: null,
 		switchColorThemeButton: null,
 		giveUpButton: null,
@@ -24,8 +27,13 @@ export class ControlsView {
 		}
 	}
 
-	toggleAppTheme({ documentElement }) {
-		documentElement.classList.toggle("dark");
+	setAppTheme({ documentElement, toAdd, toRemove }) {
+		documentElement.classList.remove(toRemove);
+		documentElement.classList.add(toAdd);
+	}
+
+	setOnRestartGameButtonClick(handler) {
+		this.#handlers.restartGameButton = handler;
 	}
 
 	setOnToggleVolumeButtonClick(handler) {
@@ -50,5 +58,13 @@ export class ControlsView {
 				this.#handlers[key]?.();
 			});
 		}
+
+		appConfigs.UI.chat.openButton.addEventListener("click", () => {
+			appConfigs.UI.chat.root.classList.remove("-translate-x-full");
+		});
+
+		appConfigs.UI.chat.closeButton.addEventListener("click", () => {
+			appConfigs.UI.chat.root.classList.add("-translate-x-full");
+		});
 	}
 }

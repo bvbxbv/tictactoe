@@ -20,6 +20,7 @@ export const UI = {
 	get gameControls() {
 		return {
 			root: this._byId("controls"),
+			restartGameButton: this._byId("game-restart"),
 			toggleVolumeButton: this._byId("volume-toggle"),
 			switchColorThemeButton: this._byId("color-theme-switch"),
 			giveUpButton: this._byId("give-up"),

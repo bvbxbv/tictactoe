@@ -1,7 +1,6 @@
 import { appConfigs } from "@configs/appConfigs";
 import { CellChangedEvent } from "@core/events/BoardEvents";
 import { GameWinEvent } from "@core/events/GameEvents";
-import { AIWantsToSpeakEvent } from "@core/events/PlayerEvents";
 import { getRandomItem, logHandler } from "@utils/helpers";
 
 export class EffectsController {
@@ -22,7 +21,6 @@ export class EffectsController {
 	#subscribe() {
 		this.#dispatcher.subscribe(GameWinEvent, this.onGameWinHandler.bind(this));
 		this.#dispatcher.subscribe(CellChangedEvent, this.onCellChanged.bind(this));
-		this.#dispatcher.subscribe(AIWantsToSpeakEvent, this.onAIWantsToSpeak.bind(this));
 	}
 
 	onGameWinHandler() {
@@ -30,22 +28,8 @@ export class EffectsController {
 		const aiLoosePreset = getRandomItem(appConfigs.jsConfetti.emojisPresets.aiLoose);
 		const confetti = { emojis: this.#gameManager.isAiMove ? aiWinPreset : aiLoosePreset };
 		const sound = this.#gameManager.isAiMove ? appConfigs.sounds.loose : appConfigs.sounds.win;
-
-		const phrase = getRandomItem(appConfigs.AI.messages.loose);
-		if (!this.#gameManager.isAiMove) {
-			this.onAIWantsToSpeak(
-				new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
-			);
-		}
-
 		logHandler(this, GameWinEvent, this.onGameWinHandler);
 		this.#view.showWinScreen({ confetti: confetti, audioUrl: sound });
-	}
-
-	onAIWantsToSpeak(e) {
-		const text = e.detail.speach;
-		const className = e.detail.className;
-		this.#view.showMessageInChat(text, className);
 	}
 
 	onCellChanged() {

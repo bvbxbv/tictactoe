@@ -1,5 +1,5 @@
 import { BoardResetEvent } from "@core/events/BoardEvents";
-import { GameSurrendEvent } from "@core/events/GameEvents";
+import { GameStartEvent, GameSurrendEvent } from "@core/events/GameEvents";
 import { AIMovedEvent, PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { logHandler } from "@utils/helpers";
@@ -8,11 +8,13 @@ export class ScoreController {
 	#view;
 	#gameManager;
 	#dispatcher;
+	#store;
 
-	constructor({ gameManager, view, dispatcher }) {
+	constructor({ gameManager, view, dispatcher, store }) {
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
 		this.#view = view;
+		this.#store = store;
 	}
 
 	boot() {
@@ -25,6 +27,21 @@ export class ScoreController {
 		this.#dispatcher.subscribe(AIMovedEvent, this.updateWhoseMove.bind(this));
 		this.#dispatcher.subscribe(BoardResetEvent, this.updateWhoseMove.bind(this));
 		this.#dispatcher.subscribe(GameSurrendEvent, this.updateScoreValues.bind(this));
+		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
+	}
+
+	onGameStartHandler() {
+		if (
+			this.#store.state.score !== null &&
+			this.#store.state.score !== undefined &&
+			this.#store.state.player !== undefined
+		) {
+			this.#view.update({
+				activePlayerMark: this.#store.state.player.activePlayerMark,
+				cross: this.#store.state.score.cross,
+				zero: this.#store.state.score.zero,
+			});
+		}
 	}
 
 	updateWhoseMove(e) {

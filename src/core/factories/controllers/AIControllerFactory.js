@@ -2,7 +2,7 @@ import { AIController } from "@controllers/AIController";
 import { ControllerFactory } from "../Factory";
 
 export class AIControllerFactory extends ControllerFactory {
-	create(gameManager, dispatcher) {
-		return new AIController(gameManager, dispatcher);
+	create(view) {
+		return new AIController(this.gameManager, this.dispatcher, view, this.store);
 	}
 }

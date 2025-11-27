@@ -5,9 +5,9 @@ export class Board {
 	#board;
 	#dispatcher;
 
-	constructor(dispatcher) {
+	constructor(dispatcher, board = Array(9).fill(CellState.Empty)) {
 		this.#dispatcher = dispatcher;
-		this.#board = Array(9).fill(CellState.Empty);
+		this.#board = board;
 	}
 
 	get cells() {

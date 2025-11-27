@@ -9,11 +9,13 @@ export class Factory {
 export class ControllerFactory extends Factory {
 	#gameManager;
 	#dispatcher;
+	#store;
 
-	constructor(gameManager, dispatcher) {
+	constructor(gameManager, dispatcher, store) {
 		super();
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
+		this.#store = store;
 	}
 
 	get gameManager() {
@@ -22,6 +24,10 @@ export class ControllerFactory extends Factory {
 
 	get dispatcher() {
 		return this.#dispatcher;
+	}
+
+	get store() {
+		return this.#store;
 	}
 }
 

@@ -6,6 +6,12 @@ export class PlayerMovedEvent extends GameEvent {
 	}
 }
 
+export class PlayerChangedEvent extends GameEvent {
+	constructor(activePlayerMark) {
+		super("player@changed", { activePlayerMark });
+	}
+}
+
 export class AIMovedEvent extends GameEvent {
 	constructor() {
 		super("ai@moved", null);

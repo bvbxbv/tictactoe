@@ -24,6 +24,7 @@ export default [
 				document: "readonly",
 				window: "readonly",
 				__DEBUG__: "readonly",
+				localStorage: "readonly",
 			},
 		},
 		plugins: {

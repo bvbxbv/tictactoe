@@ -8,6 +8,7 @@ export class BoardControllerFactory extends ControllerFactory {
 			dispatcher: this.dispatcher,
 			board: board,
 			view: view,
+			store: this.store,
 		});
 	}
 }

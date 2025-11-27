@@ -1,4 +1,6 @@
+import { PlayerMark } from "@configs/enums";
 import { BoardResetEvent, BoardUpdatedEvent } from "@core/events/BoardEvents";
+import { GameStartEvent } from "@core/events/GameEvents";
 import { PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { log } from "@utils/consolawrapper";
 import { logAction, logHandler } from "@utils/helpers";
@@ -8,12 +10,14 @@ export class BoardController {
 	#gameManager;
 	#view;
 	#dispatcher;
+	#store;
 
-	constructor({ gameManager, dispatcher, board, view }) {
+	constructor({ gameManager, dispatcher, board, view, store }) {
 		this.#dispatcher = dispatcher;
 		this.#gameManager = gameManager;
 		this.#board = board;
 		this.#view = view;
+		this.#store = store;
 	}
 
 	boot() {
@@ -36,6 +40,22 @@ export class BoardController {
 		this.#dispatcher.subscribe(PlayerMovedEvent, this.cellClickHandler.bind(this));
 		this.#dispatcher.subscribe(BoardUpdatedEvent, this.boardUpdatedHandler.bind(this));
 		this.#dispatcher.subscribe(BoardResetEvent, this.boardResetHandler.bind(this));
+		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
+	}
+
+	onGameStartHandler() {
+		if (this.#store) this.#updateBoardAndDispatch();
+		const matches = this.#gameManager.checkComboMatches();
+		if (matches) {
+			const state = this.#store.state;
+			const score = {
+				[PlayerMark.Cross]: state.score.cross,
+				[PlayerMark.Zero]: state.score.zero,
+			};
+			logAction(this, BoardResetEvent);
+			this.#dispatcher.dispatch(new BoardResetEvent());
+			this.#gameManager.score.set(score);
+		}
 	}
 
 	cellClickHandler(e) {

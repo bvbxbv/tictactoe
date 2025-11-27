@@ -7,6 +7,7 @@ export class ModalControllerFactory extends ControllerFactory {
 			gameManager: this.gameManager,
 			dispatcher: this.dispatcher,
 			view: view,
+			store: this.store,
 		});
 	}
 }

@@ -2,6 +2,7 @@ import { CellState, PlayerMark } from "@configs/enums";
 import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { CellChangedEvent } from "@core/events/BoardEvents";
 import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
+import { PlayerChangedEvent } from "@core/events/PlayerEvents";
 import { ScoreChangedEvent } from "@core/events/ScoreEvents";
 import { Board } from "@models/Board";
 import { Game } from "@models/Game";
@@ -31,6 +32,7 @@ beforeEach(() => {
 	dispatcher = new EventDispatcher();
 	dispatcher.subscribe(ScoreChangedEvent, vi.fn());
 	dispatcher.subscribe(CellChangedEvent, vi.fn());
+	dispatcher.subscribe(PlayerChangedEvent, vi.fn());
 
 	score = new Score(dispatcher);
 	const board = new Board(dispatcher);

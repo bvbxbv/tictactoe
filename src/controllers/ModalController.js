@@ -35,7 +35,11 @@ export class ModalController {
 	}
 
 	#showModal(message, board, winCombo) {
-		this.#view.update({ message: message, board: board, winCombo: winCombo });
+		this.#view.update({
+			message: message,
+			board: board,
+			winCombo: winCombo,
+		});
 	}
 
 	onWinHandler(e) {

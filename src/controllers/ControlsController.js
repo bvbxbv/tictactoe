@@ -1,31 +1,79 @@
 import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
-import { GameResetEvent, GameSurrendEvent } from "@core/events/GameEvents";
+import { AppThemeChangedEvent, SoundStateChangedEvent } from "@core/events/ControlEvents";
+import {
+	GameResetEvent,
+	GameRestartEvent,
+	GameStartEvent,
+	GameSurrendEvent,
+} from "@core/events/GameEvents";
 import { logHandler } from "@utils/helpers";
 
 export class ControlsController {
 	#dispatcher;
 	#view;
 	#gameManager;
+	#store;
 
-	constructor(gameManager, dispatcher, view) {
+	constructor(gameManager, dispatcher, view, store) {
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
 		this.#view = view;
-		this.#bindListeners();
+		this.#store = store;
 	}
 
 	boot() {
-		this.#bindListeners();
+		this.#subscribe();
+	}
+
+	#subscribe() {
+		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
+	}
+
+	onGameStartHandler() {
+		let theme;
+		const themeState = this.#store.state.theme;
+		if (themeState !== null && themeState !== undefined) {
+			theme = themeState.scheme;
+		} else {
+			theme = appConfigs.theme.isDark ? "dark" : "light";
+		}
+		const toAdd = theme === "dark" ? "dark" : "light";
+		const toRemove = theme === "dark" ? "light" : "dark";
+		this.#view.setAppTheme({
+			documentElement: appConfigs.UI.mount,
+			toAdd: toAdd,
+			toRemove: toRemove,
+		});
+
+		if (this.#store.state.sound.muted) {
+			const isMuted = this.#store.state.sound.muted;
+			this.#view.changeVolumeIconFrom({ isMuted: isMuted });
+			appConfigs.audio.muted = isMuted;
+		}
+	}
+
+	onRestartGameHandler() {
+		logHandler(this, GameResetEvent);
+		this.#dispatcher.dispatch(new GameResetEvent());
+		this.#dispatcher.dispatch(new GameRestartEvent());
 	}
 
 	onToggleVolumeHandler() {
 		appConfigs.audio.toggle();
+		this.#dispatcher.dispatch(new SoundStateChangedEvent(appConfigs.audio.muted));
 		this.#view.changeVolumeIconFrom({ isMuted: appConfigs.audio.muted });
 	}
 
 	onSwitchColorThemeHandler() {
-		this.#view.toggleAppTheme({ documentElement: appConfigs.UI.mount });
+		const toAdd = appConfigs.UI.mount.classList.contains("dark") ? "light" : "dark";
+		const toRemove = toAdd === "dark" ? "light" : "dark";
+		this.#dispatcher.dispatch(new AppThemeChangedEvent(toAdd));
+		this.#view.setAppTheme({
+			documentElement: appConfigs.UI.mount,
+			toAdd: toAdd,
+			toRemove: toRemove,
+		});
 	}
 
 	onGiveUpHandler() {
@@ -35,17 +83,5 @@ export class ControlsController {
 			this.#dispatcher.dispatch(new GameSurrendEvent("Вы сдались"));
 		}
 		this.#gameManager.surrend(PlayerMark.Cross);
-	}
-
-	onOpenMenuHandler() {}
-
-	#bindListeners() {
-		appConfigs.UI.chat.openButton.addEventListener("click", () => {
-			appConfigs.UI.chat.root.classList.remove("-translate-x-full");
-		});
-
-		appConfigs.UI.chat.closeButton.addEventListener("click", () => {
-			appConfigs.UI.chat.root.classList.add("-translate-x-full");
-		});
 	}
 }

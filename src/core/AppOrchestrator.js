@@ -11,10 +11,13 @@ import { BoardViewFactory } from "@factories/views/BoardViewFactory";
 import { EffectsViewFactory } from "@factories/views/EffectsViewFactory";
 import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
+import { GameStartEvent } from "./events/GameEvents";
 import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
+import { ChatControllerFactory } from "./factories/controllers/ChatControllerFactory";
 import { ControlsControllerFactory } from "./factories/controllers/ControlsControllerFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
+import { ChatViewFactory } from "./factories/views/ChatViewFactory";
 import { ControlsViewFactory } from "./factories/views/ControlsViewFactory";
 
 export class AppOrchestrator {
@@ -27,6 +30,7 @@ export class AppOrchestrator {
 		bindFactories(this.#container);
 
 		this.#models.dispatcher = this.#container.get(EventDispatcherFactory);
+
 		this.#models.board = this.#container.get(
 			BoardFactory,
 			this.#models,
@@ -44,6 +48,7 @@ export class AppOrchestrator {
 		this.#views.score = this.#container.get(ScoreViewFactory);
 		this.#views.modal = this.#container.get(ModalViewFactory);
 		this.#views.controls = this.#container.get(ControlsViewFactory, appConfigs.UI.gameControls);
+		this.#views.chat = this.#container.get(ChatViewFactory, appConfigs.UI.chat.chat);
 
 		this.#controllers.controls = this.#container.get(
 			ControlsControllerFactory,
@@ -51,6 +56,8 @@ export class AppOrchestrator {
 			this.#models.dispatcher,
 			this.#views.controls,
 		);
+
+		this.#controllers.chat = this.#container.get(ChatControllerFactory, this.#views.chat);
 
 		this.#controllers.board = this.#container.get(
 			BoardControllerFactory,
@@ -70,6 +77,10 @@ export class AppOrchestrator {
 	}
 
 	#bindViewsToControllers() {
+		this.#views.controls.setOnRestartGameButtonClick(
+			this.#controllers.controls.onRestartGameHandler.bind(this.#controllers.controls),
+		);
+
 		this.#views.board.setOnCellClick(
 			this.#controllers.board.handleCellClick.bind(this.#controllers.board),
 		);
@@ -87,9 +98,6 @@ export class AppOrchestrator {
 		this.#views.controls.setOnGiveUpButtonClick(
 			this.#controllers.controls.onGiveUpHandler.bind(this.#controllers.controls),
 		);
-		this.#views.controls.setOnOpenMenuButtonClick(
-			this.#controllers.controls.onOpenMenuHandler.bind(this.#controllers.controls),
-		);
 	}
 
 	run() {
@@ -98,5 +106,7 @@ export class AppOrchestrator {
 		for (const controller of Object.values(this.#controllers)) {
 			controller.boot();
 		}
+
+		this.#models.dispatcher.dispatch(new GameStartEvent());
 	}
 }

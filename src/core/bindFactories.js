@@ -9,32 +9,34 @@ import { ModalViewFactory } from "@factories/views/ModalViewFactory";
 import { ScoreViewFactory } from "@factories/views/ScoreViewFactory";
 import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
+import { ChatControllerFactory } from "./factories/controllers/ChatControllerFactory";
 import { ControlsControllerFactory } from "./factories/controllers/ControlsControllerFactory";
 import { EventDispatcherFactory } from "./factories/EventDispatcherFactory";
 import { GameFactory } from "./factories/GameFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
+import { ChatViewFactory } from "./factories/views/ChatViewFactory";
 import { ControlsViewFactory } from "./factories/views/ControlsViewFactory";
+import { Store } from "./Store";
 
 export function bindFactories(container) {
 	container
 		.register(new EventDispatcherFactory())
 		.register(new ScoreFactory())
 		.register(new BoardFactory())
-		.register(new GameFactory())
-		.register(new AIControllerFactory());
+		.register(new GameFactory());
 
 	const dispatcher = container.get(EventDispatcherFactory);
-	const score = container.get(ScoreFactory, dispatcher);
-	const board = container.get(BoardFactory, dispatcher);
-	const game = container.get(GameFactory, dispatcher, board, score);
-
-	container.get(AIControllerFactory, game, dispatcher);
+	const store = new Store({ dispatcher: dispatcher });
+	const score = container.get(ScoreFactory, dispatcher, store);
+	const board = container.get(BoardFactory, dispatcher, store.state.board.cells);
+	const game = container.get(GameFactory, dispatcher, board, score, store);
 
 	// views
 	container
 		.register(new BoardViewFactory(appConfigs.UI.board))
 		.register(new EffectsViewFactory(appConfigs.sounds.win))
 		.register(new ControlsViewFactory(appConfigs.UI.gameControls))
+		.register(new ChatViewFactory(appConfigs.UI.chat.chat))
 		.register(
 			new ScoreViewFactory({
 				crossEl: appConfigs.UI.score.cross,
@@ -45,11 +47,12 @@ export function bindFactories(container) {
 
 	// controllers
 	container
-		.register(new BoardControllerFactory(game, dispatcher))
-		.register(new EffectsControllerFactory(game, dispatcher))
-		.register(new ScoreControllerFactory(game, dispatcher))
-		.register(new ModalControllerFactory(game, dispatcher))
-		.register(new ControlsControllerFactory(game, dispatcher));
-
+		.register(new BoardControllerFactory(game, dispatcher, store))
+		.register(new EffectsControllerFactory(game, dispatcher, store))
+		.register(new ScoreControllerFactory(game, dispatcher, store))
+		.register(new ModalControllerFactory(game, dispatcher, store))
+		.register(new ControlsControllerFactory(game, dispatcher, store))
+		.register(new AIControllerFactory(game, dispatcher, store))
+		.register(new ChatControllerFactory(game, dispatcher, store));
 	return container;
 }

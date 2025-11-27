@@ -1,6 +1,7 @@
 // FIXME: разнести этот класс. Перерефакторить. В общем больше не должно существовать такой штуки как класс Game.
 import { PlayerMark, CellState } from "@configs/enums";
-import { GameDrawEvent, GameWinEvent } from "@core/events/GameEvents";
+import { GameDrawEvent, GameStartEvent, GameWinEvent } from "@core/events/GameEvents";
+import { PlayerChangedEvent } from "@core/events/PlayerEvents";
 import { logAction } from "@utils/helpers.js";
 import { ok, err } from "@utils/helpers.js";
 
@@ -8,8 +9,10 @@ export class Game {
 	#dispatcher;
 	#board;
 	#score;
+	#store;
 	#currentPlayer = PlayerMark.Cross;
 	#isGameEnded = false;
+	#winnerCombo = null;
 	static combos = [
 		[0, 1, 2],
 		[3, 4, 5],
@@ -21,10 +24,22 @@ export class Game {
 		[2, 4, 6],
 	];
 
-	constructor(dispatcher, board, score) {
+	constructor(dispatcher, board, score, store) {
 		this.#dispatcher = dispatcher;
 		this.#score = score;
 		this.#board = board;
+		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
+		this.#store = store;
+	}
+
+	onGameStartHandler() {
+		if (this.#store.state.player !== null && this.#store.state.player !== undefined) {
+			this.#currentPlayer = this.#store.state.player.activePlayerMark;
+		}
+	}
+
+	get winnerCombo() {
+		return this.#winnerCombo;
 	}
 
 	get whoseMove() {
@@ -43,7 +58,6 @@ export class Game {
 		return this.#isGameEnded;
 	}
 
-	// FIXME: переделать это, учитывая что игрок может быть не только cross.
 	get isAiMove() {
 		return this.whoseMove === PlayerMark.Zero;
 	}
@@ -68,8 +82,8 @@ export class Game {
 		return ok(current);
 	}
 
-	checkWinner() {
-		const winningCombo = Game.combos.find(([a, b, c]) => {
+	checkComboMatches() {
+		return Game.combos.find(([a, b, c]) => {
 			const cell = this.#board.cells[a];
 			return (
 				cell !== CellState.Empty &&
@@ -77,12 +91,16 @@ export class Game {
 				cell === this.#board.cells[c]
 			);
 		});
+	}
+
+	checkWinner() {
+		const winningCombo = this.checkComboMatches();
 
 		if (winningCombo) {
 			const winner = this.#board.cells[winningCombo[0]];
+			this.#winnerCombo = winningCombo[0];
 
 			this.#score.win(winner);
-
 			logAction(this, GameWinEvent, { winner, winnerCombo: winningCombo });
 			this.#dispatcher.dispatch(new GameWinEvent(winner, winningCombo));
 			this.#isGameEnded = true;
@@ -99,14 +117,22 @@ export class Game {
 		return false;
 	}
 
+	increaseScore(winner) {
+		this.#score.win(winner);
+	}
+
 	#togglePlayer() {
 		this.#currentPlayer =
 			this.#currentPlayer === PlayerMark.Cross ? PlayerMark.Zero : PlayerMark.Cross;
+
+		logAction(this, PlayerChangedEvent, this.#currentPlayer);
+		this.#dispatcher.dispatch(new PlayerChangedEvent(this.#currentPlayer));
 	}
 
 	reset() {
 		this.#board.reset();
 		this.#isGameEnded = false;
 		this.#currentPlayer = PlayerMark.Cross;
+		// this.#dispatcher.dispatch(new GameStartEvent());
 	}
 }
