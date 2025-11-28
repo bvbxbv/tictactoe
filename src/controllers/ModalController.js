@@ -1,3 +1,4 @@
+import { appConfigs } from "@configs/appConfigs";
 import { BoardResetEvent } from "@core/events/BoardEvents";
 import { AITimeoutEvent, PlayerTimeoutEvent } from "@core/events/TimerEvents";
 import {
@@ -35,7 +36,7 @@ export class ModalController {
 	onPlayerTimeoutHandler() {
 		logHandler(this, PlayerTimeoutEvent, this.onPlayerTimeoutHandler);
 		this.#showModal(
-			`Время истекло. Вы проиграли`,
+			appConfigs.text.modal.lose.player.byTimer,
 			this.#gameManager.board.serialize().cells,
 			null,
 		);
@@ -44,7 +45,7 @@ export class ModalController {
 	onAITimeoutHandler() {
 		logHandler(this, AITimeoutEvent, this.onAITimeoutHandler);
 		this.#showModal(
-			`Кто бы мог подумать, время машины истекло. Вы выиграли`,
+			appConfigs.text.modal.lose.ai.byTimer,
 			this.#gameManager.board.serialize().cells,
 			null,
 		);
@@ -66,7 +67,7 @@ export class ModalController {
 	onWinHandler(e) {
 		logHandler(this, GameWinEvent, this.onWinHandler, e.details);
 		this.#showModal(
-			`Игра окончена. Победитель: ${e.detail.winner}`,
+			`${appConfigs.text.modal.win} ${e.detail.winner}`,
 			this.#gameManager.board.serialize().cells,
 			e.detail.combo,
 		);
@@ -79,7 +80,11 @@ export class ModalController {
 
 	onDrawHandler() {
 		logHandler(this, GameDrawEvent, this.onDrawHandler);
-		this.#showModal("Победила дружба!", this.#gameManager.board.serialize().cells, null);
+		this.#showModal(
+			appConfigs.text.modal.draw,
+			this.#gameManager.board.serialize().cells,
+			null,
+		);
 	}
 
 	onResetHandler() {

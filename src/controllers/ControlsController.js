@@ -78,9 +78,11 @@ export class ControlsController {
 
 	onGiveUpHandler() {
 		if (this.#gameManager.board.serialize().cells.every((c) => c === CellState.Empty)) {
-			this.#dispatcher.dispatch(new GameSurrendEvent("Пропади все пропадом, да?"));
+			this.#dispatcher.dispatch(
+				new GameSurrendEvent(appConfigs.text.modal.giveUp.onEmptyBoard),
+			);
 		} else {
-			this.#dispatcher.dispatch(new GameSurrendEvent("Вы сдались"));
+			this.#dispatcher.dispatch(new GameSurrendEvent(appConfigs.text.modal.giveUp.default));
 		}
 		this.#gameManager.surrend(PlayerMark.Cross);
 	}
