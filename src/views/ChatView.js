@@ -22,7 +22,7 @@ export class ChatView {
 	}
 
 	#appendMessageElement(phrase) {
-		const msg = createChatMessage("SayMyName", phrase.message, { msg: phrase.className });
+		const msg = createChatMessage(phrase.nickname, phrase.message, { msg: phrase.className });
 		this.#chatDOM.appendChild(msg);
 	}
 }

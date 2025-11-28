@@ -16,6 +16,7 @@ export const ai = Object.freeze({
 			max: toMs(1),
 		},
 	},
+	nicknames: ["SayMyName", "Heizenberg", "JamesSunderland2018"],
 	messages: {
 		defense: [
 			phrase("Хрен там. Не так быстро.", Style.Sarcasm, 50),

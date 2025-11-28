@@ -53,10 +53,11 @@ describe("ChatController -> events", () => {
 
 	test("AIWantsToSpeakEvent", () => {
 		const text = "mock-text";
-		dispatcher.dispatch(new AIWantsToSpeakEvent(text, text, 1));
+		dispatcher.dispatch(new AIWantsToSpeakEvent(text, text, text, 1));
 		expect(controller.appendMessage).toHaveBeenCalledWith(
 			expect.objectContaining({
 				detail: {
+					nickname: text,
 					speach: text,
 					className: text,
 					chance: 1,
@@ -110,9 +111,10 @@ describe("ChatController.onGameWinHandler", () => {
 describe("ChatController.appendMessage", () => {
 	test("вызывается корректно", () => {
 		const text = "mock-text";
-		dispatcher.dispatch(new AIWantsToSpeakEvent(text, text, 1));
+		dispatcher.dispatch(new AIWantsToSpeakEvent(text, text, text, 1));
 		expect(view.appendMessage).toHaveBeenCalledWith(
 			expect.objectContaining({
+				nickname: text,
 				message: text,
 				className: text,
 				chance: 1,

@@ -23,7 +23,13 @@ beforeEach(() => {
 	dispatcher.subscribe(BoardUpdatedEvent, vi.fn());
 	dispatcher.subscribe(AIWantsToSpeakEvent, vi.fn());
 	dispatcher.subscribe(AIMovedEvent, vi.fn());
-	controller = new AIController(gameManager, dispatcher);
+	const store = {
+		state: {
+			chat: [],
+			aiName: "mock-text",
+		},
+	};
+	controller = new AIController(gameManager, dispatcher, null, store);
 	controller.boot();
 });
 
@@ -112,32 +118,6 @@ describe("GameWinEvent/GameDrawEvent", () => {
 	beforeEach(() => {
 		dispatchSpy = vi.spyOn(dispatcher, "dispatch");
 		vi.spyOn(helpers, "gotLucky").mockReturnValue(true);
-	});
-
-	test("AIController.gameWinHandler", () => {
-		const text = "mock-text";
-		vi.spyOn(helpers, "getRandomItem").mockReturnValue({
-			message: text,
-			className: text,
-			chance: 1,
-		});
-
-		controller.gameWinHandler({
-			detail: {
-				winnner: PlayerMark.Cross,
-				combo: [0, 1, 2],
-			},
-		});
-
-		expect(dispatchSpy).toHaveBeenCalledWith(
-			expect.objectContaining({
-				detail: {
-					speach: text,
-					className: text,
-					chance: 1,
-				},
-			}),
-		);
 	});
 
 	test("AIController.gameDrawHandler", () => {

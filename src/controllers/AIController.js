@@ -1,7 +1,12 @@
 import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
-import { GameDrawEvent, GameStartEvent, GameWinEvent } from "@core/events/GameEvents";
+import {
+	GameDrawEvent,
+	GameRestartEvent,
+	GameStartEvent,
+	GameWinEvent,
+} from "@core/events/GameEvents";
 import { AIMovedEvent, AIWantsToSpeakEvent, PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { Pipeline } from "@core/pipeline/Pipeline";
 import { Game } from "@models/Game";
@@ -14,10 +19,12 @@ import { getRandomItem, gotLucky, logAction, random } from "@utils/helpers";
 export class AIController {
 	#gameManager;
 	#dispatcher;
+	#store;
 
-	constructor(gameManager, dispatcher) {
+	constructor(gameManager, dispatcher, view, store) {
 		this.#gameManager = gameManager;
 		this.#dispatcher = dispatcher;
+		this.#store = store;
 	}
 
 	boot() {
@@ -29,6 +36,9 @@ export class AIController {
 		this.#dispatcher.subscribe(GameWinEvent, this.gameWinHandler.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.gameDrawHandler.bind(this));
 		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
+		this.#dispatcher.subscribe(GameRestartEvent, () => {
+			this.setNewName();
+		});
 	}
 
 	onGameStartHandler() {
@@ -36,6 +46,18 @@ export class AIController {
 			this.#dispatcher.dispatch(new PlayerMovedEvent(null));
 			this.handleMove();
 		}
+
+		const state = this.#store.state;
+		if (state.aiName === undefined || state.aiName === null) {
+			this.setNewName();
+		}
+	}
+
+	setNewName() {
+		const state = this.#store.state;
+		const name = getRandomItem(appConfigs.AI.nicknames);
+		state.aiName = name;
+		this.#store.set(state);
 	}
 
 	handleMove() {
@@ -67,17 +89,7 @@ export class AIController {
 			this.#gameManager.makeMove(response.index);
 
 			if (!this.#gameManager.isAiMove) {
-				const phrase = response.message;
-				logAction(this, AIWantsToSpeakEvent, {
-					message: phrase.message,
-					className: phrase.className,
-					chance: phrase.chance,
-				});
-				if (gotLucky(phrase.chance)) {
-					this.#dispatcher.dispatch(
-						new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
-					);
-				}
+				this.#dispatchMessageWithChance(response.message);
 			}
 
 			logAction(this, AIMovedEvent, response.index);
@@ -89,32 +101,21 @@ export class AIController {
 	}
 
 	gameWinHandler(e) {
-		if (e.detail.winnner === PlayerMark.Cross) {
-			const phrase = getRandomItem(appConfigs.AI.messages.loose);
-			logAction(this, AIWantsToSpeakEvent, {
-				message: phrase.message,
-				className: phrase.className,
-				chance: phrase.chance,
-			});
-			if (gotLucky(phrase.chance)) {
-				this.#dispatcher.dispatch(
-					new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
-				);
-			}
-		}
+		if (e.detail.winner !== PlayerMark) return;
+		const phrase = getRandomItem(appConfigs.AI.messages.loose);
+		this.#dispatchMessageWithChance(phrase);
 	}
 
 	gameDrawHandler() {
 		const phrase = getRandomItem(appConfigs.AI.messages.draw);
-		logAction(this, AIWantsToSpeakEvent, {
-			message: phrase.message,
-			className: phrase.className,
-			chance: phrase.chance,
-		});
-		if (gotLucky(phrase.chance)) {
-			this.#dispatcher.dispatch(
-				new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
-			);
-		}
+		this.#dispatchMessageWithChance(phrase);
+	}
+
+	#dispatchMessageWithChance(phrase) {
+		if (!gotLucky(phrase.chance)) return;
+		const nickname = this.#store.state.aiName;
+		const { message, className, chance } = phrase;
+		logAction(this, AIWantsToSpeakEvent, { nickname, message, className, chance });
+		this.#dispatcher.dispatch(new AIWantsToSpeakEvent(nickname, message, className, chance));
 	}
 }

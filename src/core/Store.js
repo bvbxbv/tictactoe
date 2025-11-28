@@ -34,6 +34,7 @@ export class Store {
 				muted: false,
 			},
 			chat: [],
+			aiName: null,
 		};
 
 		this.#subscribe();
@@ -76,6 +77,7 @@ export class Store {
 
 	saveChat(e) {
 		this.#state.chat.push({
+			nickname: e.detail.nickname,
 			message: e.detail.speach,
 			className: e.detail.className,
 			chance: e.detail.chance,

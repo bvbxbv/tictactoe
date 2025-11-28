@@ -35,7 +35,12 @@ export class ChatController {
 		if (!this.#gameManager.isAiMove) {
 			const phrase = getRandomItem(appConfigs.AI.messages.loose);
 			this.#dispatcher.dispatch(
-				new AIWantsToSpeakEvent(phrase.message, phrase.className, phrase.chance),
+				new AIWantsToSpeakEvent(
+					this.#store.state.aiName,
+					phrase.message,
+					phrase.className,
+					phrase.chance,
+				),
 			);
 		}
 	}
@@ -53,6 +58,7 @@ export class ChatController {
 
 		phrase.className = e.detail.className;
 		phrase.chance = e.detail.chance;
+		phrase.nickname = e.detail.nickname;
 
 		this.#view.appendMessage(phrase);
 	}
