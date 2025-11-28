@@ -77,3 +77,5 @@ export function createChatMessage(nickname, message, classNames = {}) {
 
 	return wrapper;
 }
+
+export const phrase = (message, className, chance) => ({ message, className, chance });
