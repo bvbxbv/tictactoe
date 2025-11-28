@@ -54,7 +54,15 @@ export function createChatMessage(nickname, message, classNames = {}) {
 	const { wrap = "", nick = "", msg = "" } = classNames;
 
 	const wrapper = document.createElement("div");
-	wrapper.className = `chat-message p-5 pb-2 ${wrap}`.trim();
+	wrapper.className = `chat-message flex py-5 pb-2 gap-4 items-start ${wrap}`.trim();
+
+	const img = document.createElement("img");
+	img.className = "w-12 h-12 rounded-full flex-shrink-0";
+	img.src = `./src/assets/images/${nickname.toLowerCase()}.png`;
+	img.alt = "pfp";
+
+	const info = document.createElement("div");
+	info.className = "flex flex-col";
 
 	const nickEl = document.createElement("div");
 	nickEl.className = `__nickname text-purple-500 font-bold tracking-tighter ${nick}`.trim();
@@ -64,7 +72,8 @@ export function createChatMessage(nickname, message, classNames = {}) {
 	msgEl.className = `__message tracking-wide font-[roboto] ${msg}`.trim();
 	msgEl.textContent = message;
 
-	wrapper.append(nickEl, msgEl);
+	info.append(nickEl, msgEl);
+	wrapper.append(img, info);
 
 	return wrapper;
 }
