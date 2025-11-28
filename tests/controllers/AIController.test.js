@@ -13,30 +13,16 @@ import {
 	test,
 	vi,
 } from "../../node_modules/vitest/dist/index";
+import { createGameMock } from "../mocks/Game.mock";
 let gameManager, dispatcher, controller;
 
 beforeEach(() => {
-	gameManager = {
-		board: {
-			cells: [],
-			movesOf: vi.fn(() => []),
-			freeCells: [],
-			busyCells: [],
-			serialize: vi.fn(),
-		},
-		makeMove: vi.fn(() => {
-			true;
-		}),
-		isAiMove: vi.fn(() => {
-			true;
-		}),
-	};
+	gameManager = createGameMock();
 	dispatcher = new EventDispatcher();
 	dispatcher.subscribe(PlayerMovedEvent, vi.fn());
 	dispatcher.subscribe(BoardUpdatedEvent, vi.fn());
 	dispatcher.subscribe(AIWantsToSpeakEvent, vi.fn());
 	dispatcher.subscribe(AIMovedEvent, vi.fn());
-
 	controller = new AIController(gameManager, dispatcher);
 	controller.boot();
 });
@@ -96,7 +82,7 @@ describe("AIController.handleMove", () => {
 	});
 
 	test("Если сейчас не ход AI, то метод не отрабатывает целиком", () => {
-		gameManager.isAiMove.mockReturnValueOnce(false);
+		gameManager.isAiMove = false;
 		dispatcher.dispatch = vi.fn();
 		controller.handleMove();
 		expect(gameManager.makeMove).not.toHaveBeenCalled();
@@ -104,6 +90,7 @@ describe("AIController.handleMove", () => {
 	});
 
 	test("Game.makeMove вызывается через setTimeout", () => {
+		gameManager.isAiMove = true;
 		controller.handleMove();
 		expect(gameManager.makeMove).not.toHaveBeenCalled();
 		vi.runAllTimers();
@@ -112,7 +99,7 @@ describe("AIController.handleMove", () => {
 
 	test("handleMove в случае корректного ввода вызывает AIMovedEvent, BoardUpdatedEvent", () => {
 		const spy = vi.spyOn(dispatcher, "dispatch");
-		gameManager.isAiMove.mockReturnValue(false);
+		gameManager.isAiMove = true;
 		controller.handleMove();
 		vi.runAllTimers();
 		expect(spy).toHaveBeenNthCalledWith(1, expect.any(AIMovedEvent));

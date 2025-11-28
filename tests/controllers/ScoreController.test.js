@@ -5,24 +5,11 @@ import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { BoardResetEvent } from "@core/events/BoardEvents";
 import { PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { beforeEach, describe, expect, test, vi } from "../../node_modules/vitest/dist/index";
+import { createGameMock } from "../mocks/Game.mock";
 let gameManager, dispatcher, view, controller;
 
 beforeEach(() => {
-	gameManager = {
-		board: {
-			cells: ["", "", "", "", "", "", "", "", ""],
-			serialize() {
-				return {
-					cells: this.cells,
-				};
-			},
-		},
-		get whoseMove() {
-			return "X";
-		},
-		reset: vi.fn(),
-		makeMove: vi.fn(() => ({ ok: true })),
-	};
+	gameManager = createGameMock();
 	dispatcher = new EventDispatcher();
 	view = {
 		update: vi.fn(() => {}),
