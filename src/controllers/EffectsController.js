@@ -1,17 +1,19 @@
 import { appConfigs } from "@configs/appConfigs";
 import { CellChangedEvent } from "@core/events/BoardEvents";
 import { GameWinEvent } from "@core/events/GameEvents";
-import { getRandomItem, logHandler } from "@utils/helpers";
+import { logHandler } from "@utils/helpers";
 
 export class EffectsController {
 	#view;
 	#dispatcher;
 	#gameManager;
+	#store;
 
-	constructor({ view, dispatcher, gameManager }) {
+	constructor({ view, dispatcher, gameManager, store }) {
 		this.#view = view;
 		this.#dispatcher = dispatcher;
 		this.#gameManager = gameManager;
+		this.#store = store;
 	}
 
 	boot() {
@@ -24,8 +26,8 @@ export class EffectsController {
 	}
 
 	onGameWinHandler() {
-		const aiWinPreset = getRandomItem(appConfigs.jsConfetti.emojisPresets.aiWin);
-		const aiLoosePreset = getRandomItem(appConfigs.jsConfetti.emojisPresets.aiLoose);
+		const aiWinPreset = appConfigs.AI.messages[this.#store.state.aiName].emojiPresets.aiWin;
+		const aiLoosePreset = appConfigs.AI.messages[this.#store.state.aiName].emojiPresets.aiLoose;
 		const confetti = { emojis: this.#gameManager.isAiMove ? aiWinPreset : aiLoosePreset };
 		const sound = this.#gameManager.isAiMove ? appConfigs.sounds.loose : appConfigs.sounds.win;
 		logHandler(this, GameWinEvent, this.onGameWinHandler);

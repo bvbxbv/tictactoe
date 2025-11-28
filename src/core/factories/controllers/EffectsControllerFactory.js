@@ -7,6 +7,7 @@ export class EffectsControllerFactory extends ControllerFactory {
 			dispatcher: this.dispatcher,
 			gameManager: this.gameManager,
 			view: view,
+			store: this.store,
 		});
 	}
 }
