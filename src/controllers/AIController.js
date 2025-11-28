@@ -104,11 +104,13 @@ export class AIController {
 	gameWinHandler(e) {
 		if (e.detail.winner !== PlayerMark) return;
 		const phrase = getRandomItem(appConfigs.AI.messages[this.#store.state.aiName].loose);
+		phrase.chance = 100;
 		this.#dispatchMessageWithChance(phrase);
 	}
 
 	gameDrawHandler() {
 		const phrase = getRandomItem(appConfigs.AI.messages[this.#store.state.aiName].draw);
+		phrase.chance = 100;
 		this.#dispatchMessageWithChance(phrase);
 	}
 
