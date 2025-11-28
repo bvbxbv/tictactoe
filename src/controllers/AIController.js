@@ -3,7 +3,8 @@ import { CellState, PlayerMark } from "@configs/enums";
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
 import {
 	GameDrawEvent,
-	GameRestartEvent,
+	GameEndEvent,
+	GameResetEvent,
 	GameStartEvent,
 	GameWinEvent,
 } from "@core/events/GameEvents";
@@ -36,9 +37,8 @@ export class AIController {
 		this.#dispatcher.subscribe(GameWinEvent, this.gameWinHandler.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.gameDrawHandler.bind(this));
 		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
-		this.#dispatcher.subscribe(GameRestartEvent, () => {
-			this.setNewName();
-		});
+		this.#dispatcher.subscribe(GameResetEvent, this.setNewName.bind(this));
+		this.#dispatcher.subscribe(GameEndEvent, this.setNewName.bind(this));
 	}
 
 	onGameStartHandler() {
@@ -75,6 +75,7 @@ export class AIController {
 		const response = pipeline
 			.passThrough({
 				_mark: PlayerMark.Zero,
+				_aiName: this.#store.state.aiName,
 				_combos: Game.combos,
 				_isEmpty: this.#gameManager.board.cells.every((c) => c === CellState.Empty),
 				_freeIndexes: this.#gameManager.board.freeCells,
@@ -102,12 +103,12 @@ export class AIController {
 
 	gameWinHandler(e) {
 		if (e.detail.winner !== PlayerMark) return;
-		const phrase = getRandomItem(appConfigs.AI.messages.loose);
+		const phrase = getRandomItem(appConfigs.AI.messages[this.#store.state.aiName].loose);
 		this.#dispatchMessageWithChance(phrase);
 	}
 
 	gameDrawHandler() {
-		const phrase = getRandomItem(appConfigs.AI.messages.draw);
+		const phrase = getRandomItem(appConfigs.AI.messages[this.#store.state.aiName].draw);
 		this.#dispatchMessageWithChance(phrase);
 	}
 

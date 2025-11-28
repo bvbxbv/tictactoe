@@ -3,6 +3,7 @@ import { BoardResetEvent } from "@core/events/BoardEvents";
 import { AITimeoutEvent, PlayerTimeoutEvent } from "@core/events/TimerEvents";
 import {
 	GameDrawEvent,
+	GameEndEvent,
 	GameResetEvent,
 	GameSurrendEvent,
 	GameWinEvent,
@@ -54,6 +55,8 @@ export class ModalController {
 	handleModalClose() {
 		logAction(this, BoardResetEvent);
 		this.#dispatcher.dispatch(new BoardResetEvent());
+		logAction(this, GameEndEvent);
+		this.#dispatcher.dispatch(new GameEndEvent());
 	}
 
 	#showModal(message, board, winCombo) {

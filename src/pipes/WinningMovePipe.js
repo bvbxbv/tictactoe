@@ -20,7 +20,7 @@ export class WinningMovePipe extends Pipe {
 			if (empties.length === 1) {
 				move = {
 					index: combo[empties[0]],
-					message: getRandomItem(appConfigs.AI.messages.win),
+					message: getRandomItem(appConfigs.AI.messages[this._data.meta._aiName].win),
 				};
 				break;
 			}

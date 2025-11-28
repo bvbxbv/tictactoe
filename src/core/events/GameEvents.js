@@ -41,3 +41,9 @@ export class ChatUpdatedEvent extends GameEvent {
 		super("chat@updated", { phrase });
 	}
 }
+
+export class GameEndEvent extends GameEvent {
+	constructor() {
+		super("game@end", null);
+	}
+}

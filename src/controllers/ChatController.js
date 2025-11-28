@@ -33,7 +33,7 @@ export class ChatController {
 
 	onGameWinHandler() {
 		if (!this.#gameManager.isAiMove) {
-			const phrase = getRandomItem(appConfigs.AI.messages.loose);
+			const phrase = getRandomItem(appConfigs.AI.messages[this.#store.state.aiName].loose);
 			this.#dispatcher.dispatch(
 				new AIWantsToSpeakEvent(
 					this.#store.state.aiName,

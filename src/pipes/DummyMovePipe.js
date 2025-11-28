@@ -8,12 +8,12 @@ export class DummyMovePipe extends Pipe {
 		if (this._data.meta._freeIndexes.includes(4)) {
 			move = {
 				index: 4,
-				message: getRandomItem(appConfigs.AI.messages.center),
+				message: getRandomItem(appConfigs.AI.messages[this._data.meta._aiName].center),
 			};
 		} else {
 			move = {
 				index: getRandomItem(this._data.meta._freeIndexes),
-				message: getRandomItem(appConfigs.AI.messages.random),
+				message: getRandomItem(appConfigs.AI.messages[this._data.meta._aiName].random),
 			};
 		}
 

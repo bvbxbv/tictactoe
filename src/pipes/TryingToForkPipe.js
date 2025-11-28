@@ -19,7 +19,7 @@ export class TryingToForkPipe extends Pipe {
 		if (free.includes(4) && corners.length) {
 			move = {
 				index: getRandomItem(corners),
-				message: getRandomItem(appConfigs.AI.messages.fork),
+				message: getRandomItem(appConfigs.AI.messages[this._data.meta._aiName].fork),
 			};
 		} else if (free.some((i) => [1, 3, 5, 7].includes(i)) && isAnyOppositeEmpty) {
 			const candidates = free.filter((i) => [1, 3, 5, 7].includes(i));
@@ -31,7 +31,7 @@ export class TryingToForkPipe extends Pipe {
 				const choice = getRandomItem(validCandidates);
 				move = {
 					index: this.#getOpposite(choice),
-					message: getRandomItem(appConfigs.AI.messages.fork),
+					message: getRandomItem(appConfigs.AI.messages[this._data.meta._aiName].fork),
 				};
 			}
 		}

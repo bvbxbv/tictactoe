@@ -1,3 +1,4 @@
+import { appConfigs } from "@configs/appConfigs";
 import { PlayerMark } from "@configs/enums";
 import { AIController } from "@controllers/AIController";
 import { EventDispatcher } from "@core/events/Base/EventDispatcher";
@@ -26,7 +27,7 @@ beforeEach(() => {
 	const store = {
 		state: {
 			chat: [],
-			aiName: "mock-text",
+			aiName: helpers.getRandomItem(appConfigs.AI.nicknames),
 		},
 	};
 	controller = new AIController(gameManager, dispatcher, null, store);

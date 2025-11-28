@@ -14,7 +14,7 @@ export class DefensiveMovePipe extends Pipe {
 			if (emptyCell !== undefined) {
 				move = {
 					index: emptyCell,
-					message: getRandomItem(appConfigs.AI.messages.defense),
+					message: getRandomItem(appConfigs.AI.messages[this._data.meta._aiName].defense),
 				};
 				break;
 			}

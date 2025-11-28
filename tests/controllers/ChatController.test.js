@@ -1,8 +1,10 @@
+import { appConfigs } from "@configs/appConfigs";
 import { PlayerMark } from "@configs/enums";
 import { ChatController } from "@controllers/ChatController";
 import { EventDispatcher } from "@core/events/Base/EventDispatcher";
 import { GameRestartEvent, GameStartEvent, GameWinEvent } from "@core/events/GameEvents";
 import { AIWantsToSpeakEvent } from "@core/events/PlayerEvents";
+import { getRandomItem } from "@utils/helpers";
 import { beforeEach, describe, test, vi } from "../../node_modules/vitest/dist/index";
 import { expect } from "../../node_modules/vitest/dist/index";
 import { createGameMock } from "../mocks/Game.mock";
@@ -18,6 +20,7 @@ beforeEach(() => {
 	};
 	store = {
 		state: {
+			aiName: getRandomItem(appConfigs.AI.nicknames),
 			chat: [],
 		},
 	};
