@@ -1,4 +1,3 @@
-// FIXME: DI
 import { appConfigs } from "@configs/appConfigs";
 import { PlayerMark } from "@configs/enums";
 

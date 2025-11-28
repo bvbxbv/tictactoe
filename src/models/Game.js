@@ -1,4 +1,3 @@
-// FIXME: разнести этот класс. Перерефакторить. В общем больше не должно существовать такой штуки как класс Game.
 import { PlayerMark, CellState } from "@configs/enums";
 import { GameDrawEvent, GameStartEvent, GameWinEvent } from "@core/events/GameEvents";
 import { PlayerChangedEvent } from "@core/events/PlayerEvents";

@@ -89,7 +89,6 @@ export class AIController {
 	}
 
 	gameWinHandler(e) {
-		// TODO: игрок должен выбирать сторону
 		if (e.detail.winnner === PlayerMark.Cross) {
 			const phrase = getRandomItem(appConfigs.AI.messages.loose);
 			logAction(this, AIWantsToSpeakEvent, {

@@ -15,11 +15,11 @@ export class FactoryRegistry {
 				!(factory instanceof ControllerFactory) &&
 				!(factory instanceof ViewFactory)
 			) {
-				throw new Error(`${factory.constructor.name} это не потомок класса Factory`);
+				throw new ArgumentIsNotFactoryError(factory.constructor.name);
 			}
 
 			if (this.#registry.has(factory.constructor)) {
-				throw new Error(`${factory.constructor.name} - дубликат`);
+				throw new FactoryRegistryDuplicateError(factory.constructor.name);
 			}
 			this.#registry.set(factory.constructor, factory);
 		}
@@ -39,7 +39,6 @@ export class FactoryRegistry {
 		}
 
 		if (this.has(factoryClass.constructor)) {
-			// FIXME: исключения.
 			throw new FactoryRegistryDuplicateError(factoryClass);
 		}
 

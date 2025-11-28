@@ -44,7 +44,7 @@ describe("FactoryRegistry -> constructor", () => {
 	test("конструктор выкинет исключение при добавлении дубликата фабрики через конструктор", () => {
 		expect(() => {
 			registry = new FactoryRegistry(new TestFactory(), new TestFactory());
-		}).toThrowError(/дубликат/);
+		}).toThrowError(/уже существует/);
 	});
 
 	test("конструктор сохраняет только потомки класса Factory", () => {

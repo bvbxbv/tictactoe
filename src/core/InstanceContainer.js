@@ -1,3 +1,4 @@
+import { ArgumentIsNotFactoryError } from "@errors/factoryErrors";
 import { log } from "@utils/consolawrapper";
 import { Factory } from "./factories/Factory";
 import { FactoryRegistry } from "./factories/FactoryRegistry";
@@ -15,7 +16,7 @@ export class InstanceContainer {
 		this.#factoryRegistry.validate(
 			(factory) => factory instanceof Factory,
 			(result) => {
-				throw new Error(`${result?.constructor?.name} это не экземпляр Factory`); // FIXME: отдельный класс для исключения
+				throw new ArgumentIsNotFactoryError(result?.constructor?.name);
 			},
 		);
 	}
