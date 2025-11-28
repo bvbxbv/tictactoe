@@ -44,6 +44,7 @@ export class ControlsController {
 			documentElement: appConfigs.UI.mount,
 			toAdd: toAdd,
 			toRemove: toRemove,
+			isDark: toAdd !== "dark",
 		});
 
 		if (this.#store.state.sound.muted) {
@@ -73,6 +74,7 @@ export class ControlsController {
 			documentElement: appConfigs.UI.mount,
 			toAdd: toAdd,
 			toRemove: toRemove,
+			isDark: toAdd !== "dark",
 		});
 	}
 

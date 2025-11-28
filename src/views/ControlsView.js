@@ -16,8 +16,8 @@ export class ControlsView {
 	}
 
 	changeVolumeIconFrom({ isMuted }) {
-		const { unmutedIcon, mutedIcon } = this.#controlsDOM.icons;
-
+		const unmutedIcon = this.#controlsDOM.icons.unmutedIcon;
+		const mutedIcon = this.#controlsDOM.icons.mutedIcon;
 		if (isMuted) {
 			unmutedIcon.classList.add("hidden");
 			mutedIcon.classList.remove("hidden");
@@ -27,7 +27,21 @@ export class ControlsView {
 		}
 	}
 
-	setAppTheme({ documentElement, toAdd, toRemove }) {
+	changeThemeIconFrom(isDark) {
+		const light = this.#controlsDOM.icons.lightTheme;
+		const dark = this.#controlsDOM.icons.darkTheme;
+
+		if (isDark) {
+			light.classList.add("hidden");
+			dark.classList.remove("hidden");
+		} else {
+			light.classList.remove("hidden");
+			dark.classList.add("hidden");
+		}
+	}
+
+	setAppTheme({ documentElement, toAdd, toRemove, isDark }) {
+		this.changeThemeIconFrom(isDark);
 		documentElement.classList.remove(toRemove);
 		documentElement.classList.add(toAdd);
 	}

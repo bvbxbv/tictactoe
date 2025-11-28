@@ -28,6 +28,8 @@ export const UI = {
 			icons: {
 				unmutedIcon: this._byId("volume-unmuted-icon"),
 				mutedIcon: this._byId("volume-muted-icon"),
+				lightTheme: this._byId("theme-light-icon"),
+				darkTheme: this._byId("theme-dark-icon"),
 			},
 		};
 	},
