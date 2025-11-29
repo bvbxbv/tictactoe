@@ -14,7 +14,7 @@
 		"prepare": "husky",
 		"prettier:check": "prettier --check .",
 		"prettier:write": "prettier --write .",
-		"deploy": "pnpm run build && npx gh-pages -d dist"
+		"deploy": "pnpm run build && npx gh-pages -d docs"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^20.1.0",
