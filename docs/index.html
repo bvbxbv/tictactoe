@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>tictactoe</title>
+		<script type="module" crossorigin src="/assets/index-ADOWS1-F.js"></script>
+		<link rel="stylesheet" crossorigin href="/assets/index-gDy4ijaW.css">
+	</head>
+	<body class="bg-[#edeef0] dark:bg-[#222] transition-all">
+		<div class="flex" id="app-container">
+			<div class="board-container w-full h-screen">
+				<div class="__inner h-full flex flex-col">
+					<div
+						class="__content-wrap h-[calc(100%-100px)] flex flex-col justify-center items-center my-10 mx-2 md:mx-5"
+					>
+						<div
+							class="board w-full md:max-w-[600px] p-2 bg-white dark:bg-[#444] rounded-lg shadow-md"
+						>
+							<div
+								class="__content grid grid-cols-3 grid-rows-3 aspect-square"
+								id="board-content"
+							>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+								<div class="cell"></div>
+							</div>
+						</div>
+
+						<div
+							class="max-w-[600px] w-full bg-purple-400 text-white rounded border-b-6 border-purple-500 mt-5 transition-all"
+							id="timer"
+						>
+							<div class="__content px-10 py-5">
+								<div
+									class="__time text-center text-5xl font-bold font-[roboto]"
+									id="timer-display"
+								>
+									05:00
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<nav class="w-full h-[100px] bg-white dark:bg-[#111] shadow-xl" id="controls">
+						<div
+							class="__content flex flex-row w-full mx-auto justify-between items-center h-full max-w-[600px]"
+						>
+							<div class="nav-item" id="game-restart">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="refresh-ccw"></i>
+								</div>
+							</div>
+
+							<div class="nav-item" id="volume-toggle">
+								<div class="__text">
+									<i
+										class="w-8 h-8"
+										data-lucide="Volume2"
+										id="volume-unmuted-icon"
+									></i>
+									<i
+										class="w-8 h-8 hidden"
+										data-lucide="volume-x"
+										id="volume-muted-icon"
+									></i>
+								</div>
+							</div>
+
+							<div class="nav-item" id="color-theme-switch">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Sun" id="theme-light-icon"></i>
+									<i
+										class="w-8 h-8 hidden"
+										data-lucide="Moon"
+										id="theme-dark-icon"
+									></i>
+								</div>
+							</div>
+
+							<div class="nav-item" id="give-up">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Flag"></i>
+								</div>
+							</div>
+
+							<div class="nav-item block md:hidden" id="menu-open">
+								<div class="__text">
+									<i class="w-8 h-8" data-lucide="Menu"></i>
+								</div>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+
+			<aside
+				class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:translate-x-0 md:static md:max-w-[350px] w-full h-screen bg-white dark:bg-[#111] shadow-2xl dark:shadow-none"
+				id="chat-sidebar"
+			>
+				<div class="md:hidden flex justify-end">
+					<button id="close-sidebar" class="text-xl font-bold p-[15px]">
+						<i class="w-8 h-8 text-black dark:text-white" data-lucide="Menu"></i>
+					</button>
+				</div>
+
+				<div
+					id="chat"
+					class="w-full h-[calc(100%-160px)] md:h-[calc(100%-100px)] overflow-y-auto flex flex-col justify-end p-4 space-y-2"
+				>
+					<div class="chat-message flex py-5 pb-2 gap-4 items-start">
+						<img
+							class="w-12 h-12 rounded-full flex-shrink-0"
+							src="/assets/heizenberg-DwhpS9tw.png"
+							alt="pfp"
+						/>
+
+						<div class="flex flex-col">
+							<div class="__nickname text-purple-500 font-bold tracking-tighter">
+								Heizenberg
+							</div>
+
+							<div class="__message tracking-wide font-[roboto] italic">
+								Каждое поле — как химическая реакция
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="w-full h-[100px] px-2 pb-2 mt-auto">
+					<div class="flex flex-row h-full">
+						<div class="score-item inactive-score-item mr-1" id="score-cross-player">
+							<div class="__player text-xl">Крестики</div>
+							<div class="__text text-3xl" id="score-cross-label">0</div>
+						</div>
+
+						<div class="score-item active-score-item" id="score-zero-player">
+							<div class="__player text-xl">Нолики</div>
+							<div class="__text text-3xl" id="score-zero-label">0</div>
+						</div>
+					</div>
+				</div>
+			</aside>
+		</div>
+
+		<div
+			id="modal"
+			class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-[100]"
+		>
+			<div
+				class="bg-white dark:bg-[#222] rounded-lg shadow-lg p-6 text-center w-full max-w-[600px]"
+			>
+				<div
+					class="font-roboto mb-4 text-purple-400 font-bold text-3xl uppercase tracking-widest"
+				>
+					<span id="modal-message"> </span>
+				</div>
+
+				<div
+					class="mini-board grid grid-cols-3 grid-rows-3 w-[70%] aspect-square mx-auto rounded-lg overflow-hidden"
+					id="mini-board"
+				>
+					<div class="cell">X</div>
+					<div class="cell">X</div>
+					<div class="cell cell-win">X</div>
+					<div class="cell">X</div>
+					<div class="cell">X</div>
+					<div class="cell cell-win">X</div>
+					<div class="cell">X</div>
+					<div class="cell">X</div>
+					<div class="cell cell-win">X</div>
+				</div>
+
+				<button
+					id="modal-btn"
+					class="bg-purple-400 px-4 py-5 rounded-lg hover:bg-purple-500 transition w-[70%] mt-5"
+				>
+					<div
+						class="__content text-4xl uppercase tracking-widest font-bold text-white pointer"
+					>
+						Заново
+					</div>
+				</button>
+			</div>
+		</div>
+
+	</body>
+</html>

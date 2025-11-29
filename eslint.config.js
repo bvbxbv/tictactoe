@@ -5,7 +5,7 @@ import pluginPrettier from "eslint-plugin-prettier";
 
 export default [
 	{
-		ignores: ["node_modules", "dist", ".husky"],
+		ignores: ["node_modules", "dist", "docs/", ".husky"],
 	},
 	{
 		languageOptions: {
