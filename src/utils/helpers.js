@@ -1,3 +1,4 @@
+import { images } from "@configs/images";
 import { log } from "@utils/consolawrapper";
 
 export function logAction(context, event, payload = null) {
@@ -58,7 +59,7 @@ export function createChatMessage(nickname, message, classNames = {}) {
 
 	const img = document.createElement("img");
 	img.className = "w-12 h-12 rounded-full flex-shrink-0";
-	img.src = `./src/assets/images/${nickname.toLowerCase()}.png`;
+	img.src = images[nickname.toLowerCase()];
 	img.alt = "pfp";
 
 	const info = document.createElement("div");
