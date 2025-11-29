@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "→ ESLint..."
+pnpm lint || exit 1
+
+echo "→ Prettier..."
+pnpm prettier:check || exit 1
+
+echo "→ Tests..."
+pnpm run test || exit 1
+
+echo "✔ Pre-commit passed"
