@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
 	plugins: [tailwindcss()],
 	define: {
-		__DEBUG__: true,
+		__DEBUG__: false,
 	},
 	resolve: {
 		alias: {
