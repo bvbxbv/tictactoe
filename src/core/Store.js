@@ -1,4 +1,6 @@
+import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
+import { getRandomItem } from "@utils/helpers";
 import { BoardUpdatedEvent } from "./events/BoardEvents";
 import { AppThemeChangedEvent, SoundStateChangedEvent } from "./events/ControlEvents";
 import {
@@ -60,7 +62,11 @@ export class Store {
 	}
 
 	saveAIPerson(e) {
-		this.#state.aiName = e.detail.nickname;
+		if (e.detail.nickname === "random") {
+			this.#state.aiName = getRandomItem(appConfigs.AI.nicknames);
+		} else {
+			this.#state.aiName = e.detail.nickname;
+		}
 		this.#updateStorage();
 	}
 

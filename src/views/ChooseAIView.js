@@ -24,6 +24,13 @@ export class ChooseAIView {
 				"description",
 			);
 		});
+
+		this.#chooseModalDOM.content.innerHTML += `	<button class="ai-card group cursor-pointer" data-ai="random">
+						<span class="text-5xl text-gray-800 dark:text-white">?</span>
+						<p class="mt-3 text-lg font-bold text-gray-800 dark:text-white">
+							Мне повезет!
+						</p>
+					</button>`;
 	}
 
 	#bindListeners() {

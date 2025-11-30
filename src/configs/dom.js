@@ -23,7 +23,7 @@ export const UI = {
 			content: this._byId("choose-ai-content"),
 			getOption: (image, name, description) => {
 				return `
-				<button class="ai-card group" data-ai="${name}">
+				<button class="ai-card group cursor-pointer" data-ai="${name}">
 						<img
 							src="${image}"
 							alt="${name}"

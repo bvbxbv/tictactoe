@@ -4,7 +4,7 @@ export class ChooseAIController {
 	#dispatcher;
 	#view;
 
-	constructor(gameManager, dispatcher, view, store) {
+	constructor(gameManager, dispatcher, view) {
 		this.#dispatcher = dispatcher;
 		this.#view = view;
 	}
