@@ -179,7 +179,7 @@
 			id="choose-ai-modal"
 		>
 			<div
-				class="bg-white dark:bg-[#222] rounded-lg shadow-lg p-6 text-center w-full max-w-[600px]"
+				class="bg-white dark:bg-[#222] rounded-lg shadow-lg p-6 text-center w-full max-w-[800px]"
 			>
 				<div
 					class="font-roboto mb-4 text-purple-400 font-bold text-3xl uppercase tracking-widest"
@@ -187,7 +187,10 @@
 					<span>С кем будешь играть?</span>
 				</div>
 
-				<div class="grid grid-cols-2 md:grid-cols-3 gap-6" id="choose-ai-content"></div>
+				<div
+					class="overflow-scroll h-[650px] md:overflow-hidden md:grid md:grid-cols-3 gap-6"
+					id="choose-ai-content"
+				></div>
 			</div>
 		</div>
 

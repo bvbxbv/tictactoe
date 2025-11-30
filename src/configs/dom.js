@@ -21,16 +21,16 @@ export const UI = {
 		return {
 			root: this._byId("choose-ai-modal"),
 			content: this._byId("choose-ai-content"),
-			getOption: (image, name, description) => {
+			getOption: (image, nickname, fullName, description) => {
 				return `
-				<button class="ai-card group cursor-pointer" data-ai="${name}">
+				<button class="ai-card group my-5 first:mt-0 md:my-0 cursor-pointer w-full h-[300px] md:h-full" data-ai="${nickname}">
 						<img
 							src="${image}"
-							alt="${name}"
-							class="w-full h-48 object-contain group-hover:scale-105 transition"
+							alt="${nickname}"
+							class="w-full h-48 object-contain md:object-cover rounded-xl group-hover:scale-105 transition"
 						/>
 						<p class="mt-3 text-lg font-bold text-gray-800 dark:text-white">
-							${name}
+							${fullName}
 						</p>
 						<p class="text-sm text-gray-600 dark:text-gray-400">${description}</p>
 					</button>`;
