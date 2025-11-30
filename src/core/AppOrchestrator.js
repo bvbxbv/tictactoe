@@ -15,10 +15,12 @@ import { GameStartEvent } from "./events/GameEvents";
 import { BoardFactory } from "./factories/BoardFactory";
 import { AIControllerFactory } from "./factories/controllers/AIControllerFactory";
 import { ChatControllerFactory } from "./factories/controllers/ChatControllerFactory";
+import { ChooseAIControllerFactory } from "./factories/controllers/ChooseAIControllerFactory";
 import { ControlsControllerFactory } from "./factories/controllers/ControlsControllerFactory";
 import { TimerControllerFactory } from "./factories/controllers/TimerControllerFactory";
 import { ScoreFactory } from "./factories/ScoreFactory";
 import { ChatViewFactory } from "./factories/views/ChatViewFactory";
+import { ChooseAIViewFactory } from "./factories/views/ChooseAIViewFactory";
 import { ControlsViewFactory } from "./factories/views/ControlsViewFactory";
 import { TimerViewFactory } from "./factories/views/TimerViewFactory";
 
@@ -52,6 +54,7 @@ export class AppOrchestrator {
 		this.#views.controls = this.#container.get(ControlsViewFactory, appConfigs.UI.gameControls);
 		this.#views.chat = this.#container.get(ChatViewFactory, appConfigs.UI.chat.chat);
 		this.#views.timer = this.#container.get(TimerViewFactory, appConfigs.UI.timer);
+		this.#views.choose = this.#container.get(ChooseAIViewFactory, appConfigs.UI.chooseModal);
 
 		this.#controllers.controls = this.#container.get(
 			ControlsControllerFactory,
@@ -74,7 +77,10 @@ export class AppOrchestrator {
 		this.#controllers.score = this.#container.get(ScoreControllerFactory, this.#views.score);
 		this.#controllers.modal = this.#container.get(ModalControllerFactory, this.#views.modal);
 		this.#controllers.timer = this.#container.get(TimerControllerFactory, this.#views.timer);
-
+		this.#controllers.choose = this.#container.get(
+			ChooseAIControllerFactory,
+			this.#views.choose,
+		);
 		this.#controllers.ai = this.#container.get(AIControllerFactory, null);
 		this.#bindViewsToControllers();
 	}
@@ -90,6 +96,10 @@ export class AppOrchestrator {
 
 		this.#views.modal.setOnClose(
 			this.#controllers.modal.handleModalClose.bind(this.#controllers.modal),
+		);
+
+		this.#views.controls.setOnOpenAIChooseButton(
+			this.#controllers.controls.onOpenAIChooseHandler.bind(this.#controllers.controls),
 		);
 
 		this.#views.controls.setOnToggleVolumeButtonClick(

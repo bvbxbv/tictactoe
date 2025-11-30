@@ -7,7 +7,7 @@ import {
 	GameSurrendEvent,
 	GameWinEvent,
 } from "./events/GameEvents";
-import { AIWantsToSpeakEvent, PlayerChangedEvent } from "./events/PlayerEvents";
+import { AIChangedEvent, AIWantsToSpeakEvent, PlayerChangedEvent } from "./events/PlayerEvents";
 import { ScoreChangedEvent } from "./events/ScoreEvents";
 
 export class Store {
@@ -46,6 +46,7 @@ export class Store {
 		this.#dispatcher.subscribe(SoundStateChangedEvent, this.saveSoundState.bind(this));
 		this.#dispatcher.subscribe(AppThemeChangedEvent, this.saveTheme.bind(this));
 		this.#dispatcher.subscribe(AIWantsToSpeakEvent, this.saveChat.bind(this));
+		this.#dispatcher.subscribe(AIChangedEvent, this.saveAIPerson.bind(this));
 		this.#dispatcher.subscribe(PlayerChangedEvent, this.saveActivePlayerMark.bind(this));
 		this.#dispatcher.subscribe(GameWinEvent, this.saveWinner.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.resetWinner.bind(this));
@@ -55,6 +56,11 @@ export class Store {
 
 	resetChat() {
 		this.#state.chat = [];
+		this.#updateStorage();
+	}
+
+	saveAIPerson(e) {
+		this.#state.aiName = e.detail.nickname;
 		this.#updateStorage();
 	}
 

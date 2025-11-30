@@ -23,3 +23,9 @@ export class AIWantsToSpeakEvent extends GameEvent {
 		super("ai@speak", { nickname, speach, className, chance });
 	}
 }
+
+export class AIChangedEvent extends GameEvent {
+	constructor(nickname) {
+		super("ai@changed", { nickname });
+	}
+}

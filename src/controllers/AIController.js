@@ -1,13 +1,7 @@
 import { appConfigs } from "@configs/appConfigs";
 import { CellState, PlayerMark } from "@configs/enums";
 import { BoardUpdatedEvent } from "@core/events/BoardEvents";
-import {
-	GameDrawEvent,
-	GameEndEvent,
-	GameResetEvent,
-	GameStartEvent,
-	GameWinEvent,
-} from "@core/events/GameEvents";
+import { GameDrawEvent, GameStartEvent, GameWinEvent } from "@core/events/GameEvents";
 import { AIMovedEvent, AIWantsToSpeakEvent, PlayerMovedEvent } from "@core/events/PlayerEvents";
 import { Pipeline } from "@core/pipeline/Pipeline";
 import { Game } from "@models/Game";
@@ -37,8 +31,6 @@ export class AIController {
 		this.#dispatcher.subscribe(GameWinEvent, this.gameWinHandler.bind(this));
 		this.#dispatcher.subscribe(GameDrawEvent, this.gameDrawHandler.bind(this));
 		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
-		this.#dispatcher.subscribe(GameResetEvent, this.setNewName.bind(this));
-		this.#dispatcher.subscribe(GameEndEvent, this.setNewName.bind(this));
 	}
 
 	onGameStartHandler() {

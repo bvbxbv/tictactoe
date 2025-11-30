@@ -78,6 +78,10 @@ export class ControlsController {
 		});
 	}
 
+	onOpenAIChooseHandler() {
+		this.#view.openAIChooseModal();
+	}
+
 	onGiveUpHandler() {
 		if (this.#gameManager.board.serialize().cells.every((c) => c === CellState.Empty)) {
 			this.#dispatcher.dispatch(

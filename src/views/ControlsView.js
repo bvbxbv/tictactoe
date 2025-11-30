@@ -8,11 +8,16 @@ export class ControlsView {
 		switchColorThemeButton: null,
 		giveUpButton: null,
 		openMenuButton: null,
+		openAIChooseButton: null,
 	};
 
 	constructor({ controlsDOM }) {
 		this.#controlsDOM = controlsDOM;
 		this.#bindListeners();
+	}
+
+	openAIChooseModal() {
+		appConfigs.UI.chooseModal.root.classList.toggle("hidden");
 	}
 
 	changeVolumeIconFrom({ isMuted }) {
@@ -63,6 +68,10 @@ export class ControlsView {
 
 	setOnOpenMenuButtonClick(handler) {
 		this.#handlers.openMenuButton = handler;
+	}
+
+	setOnOpenAIChooseButton(handler) {
+		this.#handlers.openAIChooseButton = handler;
 	}
 
 	#bindListeners() {

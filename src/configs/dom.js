@@ -17,6 +17,27 @@ export const UI = {
 		return document.documentElement;
 	},
 
+	get chooseModal() {
+		return {
+			root: this._byId("choose-ai-modal"),
+			content: this._byId("choose-ai-content"),
+			getOption: (image, name, description) => {
+				return `
+				<button class="ai-card group" data-ai="${name}">
+						<img
+							src="${image}"
+							alt="${name}"
+							class="w-full h-48 object-contain group-hover:scale-105 transition"
+						/>
+						<p class="mt-3 text-lg font-bold text-gray-800 dark:text-white">
+							${name}
+						</p>
+						<p class="text-sm text-gray-600 dark:text-gray-400">${description}</p>
+					</button>`;
+			},
+		};
+	},
+
 	get gameControls() {
 		return {
 			root: this._byId("controls"),
@@ -25,6 +46,7 @@ export const UI = {
 			switchColorThemeButton: this._byId("color-theme-switch"),
 			giveUpButton: this._byId("give-up"),
 			openMenuButton: this._byId("menu-open"),
+			openAIChooseButton: this._byId("choose-ai"),
 			icons: {
 				unmutedIcon: this._byId("volume-unmuted-icon"),
 				mutedIcon: this._byId("volume-muted-icon"),
