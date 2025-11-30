@@ -1,5 +1,4 @@
 import { appConfigs } from "@configs/appConfigs";
-import { createChatMessage } from "@utils/helpers";
 import JSConfetti from "js-confetti";
 
 export class EffectsView {
@@ -14,11 +13,6 @@ export class EffectsView {
 	showWinScreen({ confetti, audioUrl }) {
 		this.#jsConfetti.addConfetti(confetti);
 		this.playSound(audioUrl);
-	}
-
-	showMessageInChat(text, className) {
-		const msg = createChatMessage("SayMyName", text, { msg: className });
-		appConfigs.UI.chat.chat.appendChild(msg);
 	}
 
 	playSound(sound) {

@@ -23,6 +23,8 @@ export class ChooseAIView {
 				nickname.toLowerCase(),
 				appConfigs.AI.meta[nickname].fullName,
 				appConfigs.AI.meta[nickname].description,
+				appConfigs.AI.meta[nickname].color,
+				appConfigs.AI.meta[nickname].adult,
 			);
 			this.#chooseModalDOM.content.appendChild(item);
 		});

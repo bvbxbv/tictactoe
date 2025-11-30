@@ -1,5 +1,4 @@
 import { appConfigs } from "@configs/appConfigs";
-import { createChatMessage } from "@utils/helpers";
 
 export class ChatView {
 	#chatDOM;
@@ -27,7 +26,10 @@ export class ChatView {
 	}
 
 	#appendMessageElement(phrase) {
-		const msg = createChatMessage(phrase.nickname, phrase.message, { msg: phrase.className });
+		const msg = appConfigs.UI.chat.message(phrase.nickname, phrase.message, {
+			nick: appConfigs.AI.meta[phrase.nickname].color,
+			msg: phrase.className,
+		});
 		this.#chatDOM.appendChild(msg);
 	}
 }

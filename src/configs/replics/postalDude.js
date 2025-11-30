@@ -4,6 +4,7 @@ import { Style } from "./style";
 export const PostalDude = {
 	win: [
 		phrase("Чел, ты хоть раз компьютер вообще включал?", Style.Default, 100),
+		phrase("Кис-кис-кис-кис-кис", Style.Sarcasm, 100),
 		phrase("Выкуси", Style.Default, 100),
 		phrase("Я не вижу причин сомневаться в себе… сегодня", Style.Default, 100),
 		phrase(

@@ -1,6 +1,7 @@
 import { log } from "@utils/consolawrapper";
+import { images } from "./images";
 
-function createAIOption(image, nickname, fullName, description) {
+function createAIOption(image, nickname, fullName, description, textColor, adult) {
 	const button = document.createElement("button");
 	button.className =
 		"ai-card group my-5 first:mt-0 md:my-0 cursor-pointer w-full h-[300px] md:h-full";
@@ -13,7 +14,7 @@ function createAIOption(image, nickname, fullName, description) {
 		"w-full h-48 object-contain md:object-cover rounded-xl group-hover:scale-105 transition";
 
 	const title = document.createElement("p");
-	title.textContent = fullName;
+	title.innerHTML = `<span class="${textColor}">${fullName}</span>${adult ? ' | <span class="text-red-500">18+</span>' : ""}`;
 	title.className = "mt-3 text-lg font-bold text-gray-800 dark:text-white";
 
 	const desc = document.createElement("p");
@@ -62,6 +63,34 @@ function chatSeparator(nickname) {
 	return wrapper;
 }
 
+function createChatMessage(nickname, message, classNames = {}) {
+	const { wrap = "", nick = "", msg = "" } = classNames;
+
+	const wrapper = document.createElement("div");
+	wrapper.className = `chat-message flex py-5 pb-2 gap-4 items-start ${wrap}`.trim();
+
+	const img = document.createElement("img");
+	img.className = "w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0";
+	img.src = images[nickname.toLowerCase()];
+	img.alt = "pfp";
+
+	const info = document.createElement("div");
+	info.className = "flex flex-col";
+
+	const nickEl = document.createElement("div");
+	nickEl.className = `__nickname ${classNames?.nick} font-bold tracking-tighter ${nick}`.trim();
+	nickEl.textContent = nickname;
+
+	const msgEl = document.createElement("div");
+	msgEl.className = `__message tracking-wide font-[roboto] ${msg}`.trim();
+	msgEl.textContent = message;
+
+	info.append(nickEl, msgEl);
+	wrapper.append(img, info);
+
+	return wrapper;
+}
+
 export const UI = {
 	_byId(id) {
 		const element = document.getElementById(id);
@@ -83,8 +112,8 @@ export const UI = {
 		return {
 			root: this._byId("choose-ai-modal"),
 			content: this._byId("choose-ai-content"),
-			getOption: (image, nickname, fullName, description) =>
-				createAIOption(image, nickname, fullName, description),
+			getOption: (image, nickname, fullName, description, textColor, adult) =>
+				createAIOption(image, nickname, fullName, description, textColor, adult),
 			emptyOption: createEmptyOption(),
 		};
 	},
@@ -126,6 +155,8 @@ export const UI = {
 			openButton: this._byId("menu-open"),
 			closeButton: this._byId("close-sidebar"),
 			separator: (nickname) => chatSeparator(nickname),
+			message: (nickname, message, classNames = {}) =>
+				createChatMessage(nickname, message, classNames),
 		};
 	},
 

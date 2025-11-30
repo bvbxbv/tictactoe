@@ -51,32 +51,4 @@ export function gotLucky(chance) {
 	return Math.random() <= chance;
 }
 
-export function createChatMessage(nickname, message, classNames = {}) {
-	const { wrap = "", nick = "", msg = "" } = classNames;
-
-	const wrapper = document.createElement("div");
-	wrapper.className = `chat-message flex py-5 pb-2 gap-4 items-start ${wrap}`.trim();
-
-	const img = document.createElement("img");
-	img.className = "w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0";
-	img.src = images[nickname.toLowerCase()];
-	img.alt = "pfp";
-
-	const info = document.createElement("div");
-	info.className = "flex flex-col";
-
-	const nickEl = document.createElement("div");
-	nickEl.className = `__nickname text-purple-500 font-bold tracking-tighter ${nick}`.trim();
-	nickEl.textContent = nickname;
-
-	const msgEl = document.createElement("div");
-	msgEl.className = `__message tracking-wide font-[roboto] ${msg}`.trim();
-	msgEl.textContent = message;
-
-	info.append(nickEl, msgEl);
-	wrapper.append(img, info);
-
-	return wrapper;
-}
-
 export const phrase = (message, className, chance) => ({ message, className, chance });

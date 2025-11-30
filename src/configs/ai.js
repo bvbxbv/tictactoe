@@ -22,7 +22,7 @@ export const ai = Object.freeze({
 			fullName: "Чувак из Postal",
 			description: "Подпиши чёртову петицию",
 			adult: true,
-			color: "text-red-600",
+			color: "text-red-500",
 		},
 
 		heizenberg: {
@@ -36,21 +36,21 @@ export const ai = Object.freeze({
 			fullName: "Доктор Ганнибал Лектер",
 			description: "Приятного аппетита",
 			adult: false,
-			color: "text-amber-700",
+			color: "text-amber-500",
 		},
 
 		tylerdurden: {
 			fullName: "Тайлер Дёрден",
 			description: "Ударь меня",
-			adult: false,
-			color: "text-orange-600",
+			adult: true,
+			color: "text-red-500",
 		},
 
 		tywinlanister: {
 			fullName: "Тайвин Ланнистер",
 			description: "Ланнистеры всегда платят свои долги",
 			adult: false,
-			color: "text-yellow-600",
+			color: "text-yellow-400",
 		},
 	},
 	messages: messages,
