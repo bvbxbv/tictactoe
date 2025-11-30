@@ -18,20 +18,16 @@ export class ChooseAIView {
 
 	#fillDom() {
 		appConfigs.AI.nicknames.forEach((nickname) => {
-			this.#chooseModalDOM.content.innerHTML += appConfigs.UI.chooseModal.getOption(
+			const item = appConfigs.UI.chooseModal.getOption(
 				images[nickname.toLowerCase()],
 				nickname.toLowerCase(),
 				appConfigs.AI.meta[nickname].fullName,
 				appConfigs.AI.meta[nickname].description,
 			);
+			this.#chooseModalDOM.content.appendChild(item);
 		});
 
-		this.#chooseModalDOM.content.innerHTML += `	<button class="ai-card group cursor-pointer w-full h-[300px]" data-ai="random">
-						<span class="text-5xl text-gray-800 dark:text-white flex items-center justify-center h-[250px]">?</span>
-						<p class="mt-3 text-lg font-bold text-gray-800 dark:text-white">
-							Мне повезет!
-						</p>
-					</button>`;
+		this.#chooseModalDOM.content.appendChild(appConfigs.UI.chooseModal.emptyOption);
 	}
 
 	#bindListeners() {

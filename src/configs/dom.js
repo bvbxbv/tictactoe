@@ -1,5 +1,49 @@
 import { log } from "@utils/consolawrapper";
 
+function createAIOption(image, nickname, fullName, description) {
+	const button = document.createElement("button");
+	button.className =
+		"ai-card group my-5 first:mt-0 md:my-0 cursor-pointer w-full h-[300px] md:h-full";
+	button.dataset.ai = nickname;
+
+	const img = document.createElement("img");
+	img.src = image;
+	img.alt = nickname;
+	img.className =
+		"w-full h-48 object-contain md:object-cover rounded-xl group-hover:scale-105 transition";
+
+	const title = document.createElement("p");
+	title.textContent = fullName;
+	title.className = "mt-3 text-lg font-bold text-gray-800 dark:text-white";
+
+	const desc = document.createElement("p");
+	desc.textContent = description;
+	desc.className = "text-sm text-gray-600 dark:text-gray-400";
+
+	button.appendChild(img);
+	button.appendChild(title);
+	button.appendChild(desc);
+
+	return button;
+}
+
+function createEmptyOption() {
+	const button = document.createElement("button");
+	button.className = "ai-card group cursor-pointer w-full h-[300px] md:h-full";
+	button.dataset.ai = "random";
+	const span = document.createElement("span");
+	span.className =
+		"text-5xl text-gray-800 dark:text-white flex items-center justify-center h-[250px]";
+	span.textContent = "?";
+
+	const title = document.createElement("p");
+	title.className = "mt-3 text-lg font-bold text-gray-800 dark:text-white";
+	title.textContent = "Мне повезет!";
+
+	button.append(span, title);
+	return button;
+}
+
 export const UI = {
 	_byId(id) {
 		const element = document.getElementById(id);
@@ -21,20 +65,9 @@ export const UI = {
 		return {
 			root: this._byId("choose-ai-modal"),
 			content: this._byId("choose-ai-content"),
-			getOption: (image, nickname, fullName, description) => {
-				return `
-				<button class="ai-card group my-5 first:mt-0 md:my-0 cursor-pointer w-full h-[300px] md:h-full" data-ai="${nickname}">
-						<img
-							src="${image}"
-							alt="${nickname}"
-							class="w-full h-48 object-contain md:object-cover rounded-xl group-hover:scale-105 transition"
-						/>
-						<p class="mt-3 text-lg font-bold text-gray-800 dark:text-white">
-							${fullName}
-						</p>
-						<p class="text-sm text-gray-600 dark:text-gray-400">${description}</p>
-					</button>`;
-			},
+			getOption: (image, nickname, fullName, description) =>
+				createAIOption(image, nickname, fullName, description),
+			emptyOption: createEmptyOption(),
 		};
 	},
 
