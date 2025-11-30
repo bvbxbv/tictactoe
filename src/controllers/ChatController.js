@@ -1,6 +1,6 @@
 import { appConfigs } from "@configs/appConfigs";
 import { GameRestartEvent, GameStartEvent, GameWinEvent } from "@core/events/GameEvents";
-import { AIWantsToSpeakEvent } from "@core/events/PlayerEvents";
+import { AIChangedEvent, AIWantsToSpeakEvent } from "@core/events/PlayerEvents";
 import { getRandomItem } from "@utils/helpers";
 
 export class ChatController {
@@ -25,10 +25,15 @@ export class ChatController {
 		this.#dispatcher.subscribe(GameWinEvent, this.onGameWinHandler.bind(this));
 		this.#dispatcher.subscribe(AIWantsToSpeakEvent, this.appendMessage.bind(this));
 		this.#dispatcher.subscribe(GameRestartEvent, this.resetChat.bind(this));
+		this.#dispatcher.subscribe(AIChangedEvent, this.onAIChanged.bind(this));
 	}
 
 	resetChat() {
 		this.#view.renderChat([]);
+	}
+
+	onAIChanged(e) {
+		this.#view.createSeparator(e.detail.nickname);
 	}
 
 	onGameWinHandler() {

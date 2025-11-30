@@ -5,19 +5,19 @@ import { TylerDurden } from "./tylerDurden";
 import { TywinLanister } from "./tywinLannister";
 
 export const messages = {
-	get Hannibal() {
+	get hannibal() {
 		return Hannibal;
 	},
-	get Heizenberg() {
+	get heizenberg() {
 		return Heizenberg;
 	},
-	get PostalDude() {
+	get postaldude() {
 		return PostalDude;
 	},
-	get TylerDurden() {
+	get tylerdurden() {
 		return TylerDurden;
 	},
-	get TywinLanister() {
+	get tywinlanister() {
 		return TywinLanister;
 	},
 };

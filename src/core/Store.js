@@ -6,6 +6,7 @@ import { AppThemeChangedEvent, SoundStateChangedEvent } from "./events/ControlEv
 import {
 	GameDrawEvent,
 	GameRestartEvent,
+	GameStartEvent,
 	GameSurrendEvent,
 	GameWinEvent,
 } from "./events/GameEvents";
@@ -54,6 +55,14 @@ export class Store {
 		this.#dispatcher.subscribe(GameDrawEvent, this.resetWinner.bind(this));
 		this.#dispatcher.subscribe(GameSurrendEvent, this.resetWinner.bind(this));
 		this.#dispatcher.subscribe(GameRestartEvent, this.resetChat.bind(this));
+		this.#dispatcher.subscribe(GameStartEvent, this.onGameStartHandler.bind(this));
+	}
+
+	onGameStartHandler() {
+		if (this.#state.aiName === "random") {
+			this.#state.aiName = getRandomItem(appConfigs.AI.nicknames);
+			this.#updateStorage();
+		}
 	}
 
 	resetChat() {

@@ -16,37 +16,37 @@ export const ai = Object.freeze({
 			max: toMs(1),
 		},
 	},
-	nicknames: ["PostalDude", "Heizenberg", "Hannibal", "TylerDurden", "TywinLanister"],
+	nicknames: ["postaldude", "heizenberg", "hannibal", "tylerdurden", "tywinlanister"],
 	meta: {
-		PostalDude: {
+		postaldude: {
 			fullName: "Чувак из Postal",
 			description: "Подпиши чёртову петицию",
 			adult: true,
 			color: "text-red-600",
 		},
 
-		Heizenberg: {
+		heizenberg: {
 			fullName: "Хайзенберг",
 			description: "Я не в опасности. Я и есть опасность.",
 			adult: false,
 			color: "text-cyan-500",
 		},
 
-		Hannibal: {
+		hannibal: {
 			fullName: "Доктор Ганнибал Лектер",
 			description: "Приятного аппетита",
 			adult: false,
 			color: "text-amber-700",
 		},
 
-		TylerDurden: {
+		tylerdurden: {
 			fullName: "Тайлер Дёрден",
 			description: "Ударь меня",
 			adult: false,
 			color: "text-orange-600",
 		},
 
-		TywinLanister: {
+		tywinlanister: {
 			fullName: "Тайвин Ланнистер",
 			description: "Ланнистеры всегда платят свои долги",
 			adult: false,

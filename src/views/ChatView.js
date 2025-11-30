@@ -1,3 +1,4 @@
+import { appConfigs } from "@configs/appConfigs";
 import { createChatMessage } from "@utils/helpers";
 
 export class ChatView {
@@ -15,6 +16,10 @@ export class ChatView {
 		chat.forEach((phrase) => {
 			this.#appendMessageElement(phrase);
 		});
+	}
+
+	createSeparator(nickname) {
+		this.#chatDOM.appendChild(appConfigs.UI.chat.separator(nickname));
 	}
 
 	appendMessage(phrase) {

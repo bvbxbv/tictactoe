@@ -44,6 +44,24 @@ function createEmptyOption() {
 	return button;
 }
 
+function chatSeparator(nickname) {
+	const wrapper = document.createElement("div");
+	wrapper.className = "flex items-center my-4";
+
+	const left = document.createElement("div");
+	left.className = "flex-1 border-t border-gray-400";
+
+	const center = document.createElement("span");
+	center.className = "mx-4 font-bold text-gray-800 dark:text-gray-400 text-sm";
+	center.textContent = `New challenger appears: ${nickname}`;
+
+	const right = document.createElement("div");
+	right.className = "flex-1 border-t border-gray-400";
+
+	wrapper.append(left, center, right);
+	return wrapper;
+}
+
 export const UI = {
 	_byId(id) {
 		const element = document.getElementById(id);
@@ -107,6 +125,7 @@ export const UI = {
 			root: this._byId("chat-sidebar"),
 			openButton: this._byId("menu-open"),
 			closeButton: this._byId("close-sidebar"),
+			separator: (nickname) => chatSeparator(nickname),
 		};
 	},
 
