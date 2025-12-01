@@ -13,7 +13,7 @@ export default defineConfig({
 	},
 	plugins: [tailwindcss()],
 	define: {
-		__DEBUG__: true,
+		__DEBUG__: false,
 	},
 	resolve: {
 		alias: {
