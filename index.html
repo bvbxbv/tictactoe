@@ -4,8 +4,8 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>tictactoe</title>
-		<script type="module" crossorigin src="/tictactoe/assets/index-C8N-Ye17.js"></script>
-		<link rel="stylesheet" crossorigin href="/tictactoe/assets/index-CAY9eV7O.css">
+		<script type="module" crossorigin src="/tictactoe/assets/index-D_HkxEXk.js"></script>
+		<link rel="stylesheet" crossorigin href="/tictactoe/assets/index-CbaR1nmP.css">
 	</head>
 	<body class="bg-[#edeef0] dark:bg-[#222] transition-all">
 		<div class="flex" id="app-container">
@@ -104,16 +104,28 @@
 				class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:translate-x-0 md:static md:max-w-[350px] w-full h-screen bg-white dark:bg-[#111] shadow-2xl dark:shadow-none"
 				id="chat-sidebar"
 			>
-				<div class="md:hidden flex justify-end">
-					<button id="close-sidebar" class="text-xl font-bold p-[15px]">
+				<div class="flex justify-end">
+					<button id="choose-ai" class="text-xl font-bold p-[15px] cursor-pointer">
+						<i class="w-8 h-8 text-black dark:text-white" data-lucide="Settings"></i>
+					</button>
+
+					<button id="close-sidebar" class="md:hidden text-xl font-bold p-[15px]">
 						<i class="w-8 h-8 text-black dark:text-white" data-lucide="Menu"></i>
 					</button>
 				</div>
 
 				<div
 					id="chat"
-					class="w-full h-[calc(100%-160px)] md:h-[calc(100%-100px)] overflow-y-auto flex flex-col justify-end p-4 space-y-2"
-				></div>
+					class="w-full h-[calc(100%-162px)] overflow-y-auto flex flex-col justify-end p-4 space-y-2"
+				>
+					<div class="flex items-center my-4">
+						<div class="flex-1 border-t border-gray-400"></div>
+						<span class="mx-4 font-bold text-gray-800 dark:text-gray-400 text-sm">
+							New challenger appears: PostalDude
+						</span>
+						<div class="flex-1 border-t border-gray-400"></div>
+					</div>
+				</div>
 
 				<div class="w-full h-[100px] px-2 pb-2 mt-auto">
 					<div class="flex flex-row h-full">
@@ -169,6 +181,26 @@
 						Заново
 					</div>
 				</button>
+			</div>
+		</div>
+
+		<div
+			class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-100"
+			id="choose-ai-modal"
+		>
+			<div
+				class="bg-white dark:bg-[#222] rounded-lg shadow-lg p-6 text-center w-full max-w-[800px]"
+			>
+				<div
+					class="font-roboto mb-4 text-purple-400 font-bold text-3xl uppercase tracking-widest"
+				>
+					<span>С кем будешь играть?</span>
+				</div>
+
+				<div
+					class="overflow-scroll h-[650px] md:overflow-hidden md:grid md:grid-cols-3 gap-6"
+					id="choose-ai-content"
+				></div>
 			</div>
 		</div>
 
